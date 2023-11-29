@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useLocation } from "react-router-dom";
-import Signup from "./userSignUp";
+
 
 function OtpPage() {
   const [otp, setOtp] = useState("");
@@ -14,6 +14,7 @@ function OtpPage() {
 
   const otpverification = async (e) => {  
     e.preventDefault(); // Prevent the default form submission behavior
+
     console.log("hhhhhhhhhhhhhhhhhh");
     console.log("formdata,anotherData", formData1);
     console.log(
@@ -22,6 +23,8 @@ function OtpPage() {
       "ppppppppppppppppppppp",
       formData1.otp
     );
+
+    
     if (otp === formData1.otp) {
       try {
         console.log("fffffffffffffffffffffffff", formData1.itsuser);

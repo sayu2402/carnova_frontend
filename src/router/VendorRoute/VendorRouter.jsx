@@ -1,16 +1,15 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
-import VendorDashboard from '../../containers/vendorPage/VendorDashboard'
 
-import VendorPublic from './VendorPublic'
 import VendorPrivate from './VendorPrivate'
-import SignupPartner from '../../containers/vendorPage/VendorSignup'
+import VendorDashboardPage from '../../pages/vendorPages/VendorDashboardPage'
+import VendorSignUpPage from '../../pages/vendorPages/VendorSignUpPage'
 
 function VendorRouter() {
   return (
     <Routes>
-        <Route path='/dashboard' element={<VendorPrivate><VendorDashboard/></VendorPrivate>} />
-        <Route path='/signup' element={<VendorPublic><SignupPartner/></VendorPublic>}/>
+        <Route path='/dashboard' element={<VendorPrivate><VendorDashboardPage/></VendorPrivate>} />
+        <Route path='/signup' element={<VendorSignUpPage/>}/>
     </Routes>
   )
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import OtpPage from "../userPage/OtpPage";
+import OtpPage from "../user/OtpPage";
 import { Link } from "react-router-dom";
 
 function SignupPartner() {

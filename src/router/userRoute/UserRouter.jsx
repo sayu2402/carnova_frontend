@@ -1,20 +1,20 @@
-import React from 'react'
-import { Route, Routes } from 'react-router-dom'
+import React from "react";
+import { Route, Routes } from "react-router-dom";
 
-import Login from '../../containers/userPage/userLogin'
-import OtpPage from '../../containers/userPage/OtpPage'
-import Home from '../../containers/userPage/userHome'
-import Signup from '../../containers/userPage/userSignUp'
+import ShowingOtp from "../../pages/userPages/ShowingOtp";
+import HomePage from "../../pages/userPages/HomePage";
+import LoginPage from "../../pages/userPages/LoginPage";
+import UserSignUpPage from "../../pages/userPages/UserSignUpPage";
 
 function UserRouter() {
   return (
     <Routes>
-        <Route path='/otp' element={<OtpPage/>}/>
-        <Route path='/login' element={<Login/>}/>
-        <Route path='/' element={<Home/>}/>
-        <Route path='/signup' element={<Signup/>}/>
+      <Route path="/otp" element={<ShowingOtp />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/" element={<HomePage />} />
+      <Route path="/signup" element={<UserSignUpPage />} />
     </Routes>
-  )
+  );
 }
 
-export default UserRouter
+export default UserRouter;

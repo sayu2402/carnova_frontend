@@ -1,6 +1,6 @@
 import React from 'react'
 
-function AdminSidebar() {
+function AdminDashboard() {
   return (
     <div>
       
@@ -8,4 +8,4 @@ function AdminSidebar() {
   )
 }
 
-export default AdminSidebar
+export default AdminDashboard

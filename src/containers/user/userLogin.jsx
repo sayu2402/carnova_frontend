@@ -68,7 +68,7 @@ function Login() {
               Don't have an account?
             </span>{" "}
             {itspartner === "True" ? ( 
-              <Link to="/signuppartner">Sign Up Here</Link>
+              <Link to="/vendor/signup">Sign Up Here</Link>
             ) : (
               <Link to="/Signup">Sign Up Here</Link>
             )}

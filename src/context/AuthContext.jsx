@@ -1,6 +1,6 @@
 import React from "react";
 import { createContext, useEffect, useState } from "react";
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -8,8 +8,10 @@ const AuthContext = createContext();
 
 export default AuthContext;
 
+// Authprovider
 export const AuthProvider = ({ children }) => {
-  const[userdetails,setUserdetails]=useState()
+  const [userdetails, setUserdetails] = useState();
+  
   const [partner, SetPartner] = useState(() =>
     localStorage.getItem("authTokens")
       ? jwtDecode(localStorage.getItem("authTokens"))
@@ -17,17 +19,18 @@ export const AuthProvider = ({ children }) => {
   );
 
   let navigate = useNavigate();
+
   let [authToken, setAuthToken] = useState(() =>
     localStorage.getItem("authTokens")
       ? JSON.parse(localStorage.getItem("authTokens"))
       : null
   );
+
   let [user, setUser] = useState(() =>
     localStorage.getItem("authTokens")
       ? jwtDecode(localStorage.getItem("authTokens"))
       : null
   );
-//   console.log("AuthProvider - Initial user:", user);
 
   let [is_superuser, setIsSuperuser] = useState(false);
   const [itspartner, setItspartner] = useState("False");
@@ -36,15 +39,16 @@ export const AuthProvider = ({ children }) => {
   const handlePartnerLogin = () => {
     console.log("handlepartnerlogin");
     setItspartner("True");
-
   };
 
+  console.log("authToken in AuthProvider:", authToken);
+
+  // login user function
   let loginUser = async (e) => {
     e.preventDefault();
     const email1 = e.target.email.value;
     const password1 = e.target.password.value;
     let url;
-
 
     if (superuser === "True") {
       // If superuser is 'True', use this URL
@@ -57,27 +61,24 @@ export const AuthProvider = ({ children }) => {
           : "http://127.0.0.1:8000/api/partnerlogin/";
     }
 
-
-    
-
     try {
-        const response = await axios.post(url, {
-            email: email1,
-            password: password1,
-          });
-      
-          let data = response.data;      
+      const response = await axios.post(url, {
+        email: email1,
+        password: password1,
+      });
 
-      if (response.status === 400 ) {
+      let data = response.data;
+
+      if (response.status === 400) {
         Swal.fire({
-            title: "Login Failed",
-            text: "Invalid email or password. Please check your credentials and try again.",
-            icon: "error",
-            confirmButtonText: "OK",
-          });          
+          title: "Login Failed",
+          text: "Invalid email or password. Please check your credentials and try again.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
       }
-      
-      if (response.status === 404 ) {
+
+      if (response.status === 404) {
         Swal.fire({
           title: "Login Failed",
           text: "Your account has been blocked. Please contact support for assistance.",
@@ -87,8 +88,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       if (response.status === 200) {
-       
-        setUserdetails(response.data)
+        setUserdetails(response.data);
         const decodedToken = jwtDecode(data.access);
         setIsSuperuser(decodedToken.is_superuser);
 
@@ -99,7 +99,7 @@ export const AuthProvider = ({ children }) => {
           // The user is not a superuser
           console.log("User is not a superuser");
         }
-        
+
         setAuthToken(data);
         setUser(jwtDecode(data.access));
 
@@ -109,18 +109,14 @@ export const AuthProvider = ({ children }) => {
         );
         localStorage.setItem("authTokens", JSON.stringify(data));
 
-
         if (itspartner === "True") {
-          navigate("/partnerdashboard");
+          navigate("/vendor/dashboard");
           // navigate("/vendor/dashboard");
-
         } else if (superuser === "True") {
-            navigate("/admindashboard");
-
+          navigate("/admin/dashboard");
         } else {
           navigate("/");
         }
-
       } else {
         Swal.fire({
           title: "Invalid Credentials",
@@ -137,8 +133,9 @@ export const AuthProvider = ({ children }) => {
         confirmButtonText: "OK",
       });
     }
-   
   };
+
+  // logout function
   let logoutUser = () => {
     setAuthToken(null);
     setUser(null);
@@ -158,11 +155,11 @@ export const AuthProvider = ({ children }) => {
     itspartner: itspartner,
     superuser: superuser,
     setSuperuser: setSuperuser,
-    setUser:setUser,
-    userdetails:userdetails,
+    setUser: setUser,
+    userdetails: userdetails,
   };
 
-//   console.log("AuthProvider - Context Data:", contextData);
+  //   console.log("AuthProvider - Context Data:", contextData);
   return (
     <AuthContext.Provider value={contextData}>{children}</AuthContext.Provider>
   );
