@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
+import AuthContext from "../../context/AuthContext";
+import { Link } from "react-router-dom";
 
 function AdminNavBar() {
+  const {logoutUser} = useContext(AuthContext)
   return (
     <div className="navbar bg-white-100">
       <div className="flex-1">
@@ -38,7 +41,9 @@ function AdminNavBar() {
               <a>Settings</a>
             </li>
             <li>
-              <a>Logout</a>
+            <Link to="/admin/login" onClick={logoutUser}>
+              Logout
+            </Link>
             </li>
           </ul>
         </div>
