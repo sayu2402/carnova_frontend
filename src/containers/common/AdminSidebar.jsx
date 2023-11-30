@@ -1,71 +1,50 @@
+"use client";
+
+import { Sidebar } from "flowbite-react";
+import { useContext } from "react";
 import {
-  Card,
-  Typography,
-  List,
-  ListItem,
-  ListItemPrefix,
-  ListItemSuffix,
-  Chip,
-} from "@material-tailwind/react";
-import {
-  PresentationChartBarIcon,
-  ShoppingBagIcon,
-  UserCircleIcon,
-  Cog6ToothIcon,
-  InboxIcon,
-  PowerIcon,
-} from "@heroicons/react/24/solid";
+  HiChartPie,
+  HiInbox,
+  HiShoppingBag,
+  HiTable,
+  HiUser,
+  HiTruck,
+  HiOutlineTruck
+} from "react-icons/hi";
 import { Link } from "react-router-dom";
- 
-export function AdminSidebar() {
+import AuthContext from "../../context/AuthContext";
+
+function AdminSidebar() {
+  const {logoutUser} = useContext(AuthContext)
   return (
-    <Card className="h-[calc(100vh-2rem)] w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
-      <div className="mb-2 p-4">
-        <Typography variant="h5" color="blue-gray">
-          Sidebar
-        </Typography>
-      </div>
-      <List>
-        <ListItem>
-          <ListItemPrefix>
-            <PresentationChartBarIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Dashboard
-        </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <ShoppingBagIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          E-Commerce
-        </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <InboxIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Inbox
-          <ListItemSuffix>
-            <Chip value="14" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
-          </ListItemSuffix>
-        </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <UserCircleIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          <Link to="/admin/vendor-list">Vendor List</Link>
-        </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <Cog6ToothIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Settings
-        </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <PowerIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Log Out
-        </ListItem>
-      </List>
-    </Card>
+    <Sidebar aria-label="Default sidebar example">
+      <Sidebar.Items>
+        <Sidebar.ItemGroup>
+          <Sidebar.Item  icon={HiChartPie}>
+            <Link to="/admin/dashboard">Dashboard</Link>
+          </Sidebar.Item>
+          <Sidebar.Item  icon={HiOutlineTruck}>
+            Cars
+          </Sidebar.Item>
+          <Sidebar.Item  icon={HiInbox}>
+            Inbox
+          </Sidebar.Item>
+          <Sidebar.Item  icon={HiUser}>
+            <Link to="/admin/user-list">Users List</Link>
+          </Sidebar.Item>
+          <Sidebar.Item  icon={HiUser}>
+            <Link to="/admin/vendor-list">Vendor List</Link>
+          </Sidebar.Item>
+          <Sidebar.Item  icon={HiShoppingBag}>
+            Bookings
+          </Sidebar.Item>
+          <Sidebar.Item  icon={HiTable}>
+            <Link to="/admin/login" onClick={logoutUser}>Logout</Link>
+          </Sidebar.Item>
+        </Sidebar.ItemGroup>
+      </Sidebar.Items>
+    </Sidebar>
   );
 }
+
+export default AdminSidebar;

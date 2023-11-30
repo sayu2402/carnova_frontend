@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
 
 function NavBar() {
-  const { user, logoutUser, handlePartnerLogin, itspartner } =
+  const { user, logoutUser, handlePartnerLogin, handleUserLogin, itspartner } =
     useContext(AuthContext);
   // console.log("user:", user);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -93,10 +93,10 @@ function NavBar() {
                 <ul className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
                   {" "}
                   <li>
-                    <Link to="/login">User Login</Link>
+                    <Link to="/login" onClick={handleUserLogin} >User Login</Link>
                   </li>
                   <li>
-                    <Link to="/login" onClick={handlePartnerLogin}>
+                    <Link to="/vendor/login" onClick={handlePartnerLogin}>
                       Vendor Login
                     </Link>
                   </li>

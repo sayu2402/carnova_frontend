@@ -41,6 +41,11 @@ export const AuthProvider = ({ children }) => {
     setItspartner("True");
   };
 
+  const handleUserLogin = () => {
+    console.log("handlepartnerlogin");
+    setItspartner("False");
+  };
+
   console.log("authToken in AuthProvider:", authToken);
 
   // login user function
@@ -152,6 +157,7 @@ export const AuthProvider = ({ children }) => {
     partner: partner,
     logoutUser: logoutUser,
     handlePartnerLogin: handlePartnerLogin,
+    handleUserLogin,
     itspartner: itspartner,
     superuser: superuser,
     setSuperuser: setSuperuser,

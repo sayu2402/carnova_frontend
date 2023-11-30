@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
 
-function Login() {
+function VendorLogin() {
     let { user, loginUser,itspartner } = useContext(AuthContext);
   return (
     <div
@@ -66,7 +66,7 @@ function Login() {
           <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
             Not registered?{" "}
             <Link
-              to="/signup"
+              to="/vendor/signup"
               className="text-blue-700 hover:underline dark:text-blue-500"
             >
               Create account
@@ -78,4 +78,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default VendorLogin;
