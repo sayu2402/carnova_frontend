@@ -213,7 +213,7 @@ function SignupPartner() {
               Already have an account?
             </span>{" "}
             <Link
-              to="/login"
+              to="/vendor/login"
               className="text-blue-500 hover:underline font-medium"
             >
               Log In

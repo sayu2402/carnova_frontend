@@ -93,7 +93,7 @@ function NavBar() {
                 <ul className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
                   {" "}
                   <li>
-                    <Link to="/login" onClick={handleUserLogin} >User Login</Link>
+                    <Link to="/login" onClick={handleUserLogin}>User Login</Link>
                   </li>
                   <li>
                     <Link to="/vendor/login" onClick={handlePartnerLogin}>
