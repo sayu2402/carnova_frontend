@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import React, { useContext, useState } from "react";
 import AuthContext from "../../context/AuthContext";
-import { Link } from "react-router-dom";
 
 function Adminlogin() {
   const { loginUser, superuser, setSuperuser } = useContext(AuthContext);
@@ -22,56 +21,58 @@ function Adminlogin() {
 
   return (
     <div
-      className="flex items-center justify-center min-h-screen bg-cover bg-no-repeat bg-center"
+      className="flex items-center justify-center h-screen bg-cover bg-no-repeat bg-center"
       style={{
         backgroundImage:
           "url('https://images.pexels.com/photos/919073/pexels-photo-919073.jpeg')",
       }}
     >
-      <form
-        className="bg-Black dark:bg-gray-800 bg-opacity-20 p-8 rounded-md shadow-md max-w-xl w-full"
-        onSubmit={handleLoginAdmin}
-      >
-        <h1 className="text-2xl font-semibold mb-4 text-center text-gray-800 dark:text-white">
-          Login Here
-        </h1>
-        <div className="mb-6">
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Your email
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            className="input-field h-10 input-field w-full text-base px-4"
-            placeholder="Enter Your Email"
-            required
-          />
-        </div>
-        <div className="mb-6">
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-800 dark:text-white"
-          >
-            Your password
-          </label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            className="input-field h-10 w-full placeholder-opacity-50 text-base px-4"
-            placeholder="Enter Your Password"
-            required
-          />
-        </div>
+      <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+        <form className="space-y-6" onSubmit={handleLoginAdmin}>
+          <h5 className="text-xl font-medium text-gray-900 dark:text-white">
+            Log in to our platform
+          </h5>
+          <div>
+            <label
+              htmlFor="email"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Your email
+            </label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              placeholder="name@company.com"
+              required
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="password"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Your password
+            </label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="••••••••"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              required
+            />
+          </div>
 
-        <button type="submit" className="submit-button">
-          Submit
-        </button>
-      </form>
+          <button
+            type="submit"
+            className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Login to your account
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

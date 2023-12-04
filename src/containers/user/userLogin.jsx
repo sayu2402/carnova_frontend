@@ -3,7 +3,17 @@ import { Link } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
 
 function Login() {
-    let { user, loginUser,itspartner } = useContext(AuthContext);
+  let { loginUser} = useContext(AuthContext);
+
+  // const reachGoogle = () => {
+  //   const clientID =
+  //     "819854252013-t5t6kqc8or1kiop8bd5dsqumc4upq1q2.apps.googleusercontent.com";
+  //   const callBackURI = "http://localhost:3000";
+  //   window.location.replace(
+  //     `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=${callBackURI}&prompt=consent&response_type=code&client_id=${clientID}&scope=openid%20email%20profile&access_type=offline`
+  //   );
+  // };
+
   return (
     <div
       className="flex items-center justify-center h-screen bg-cover bg-no-repeat bg-center"
@@ -63,6 +73,14 @@ function Login() {
           >
             Login to your account
           </button>
+
+          {/* <button
+            onClick={reachGoogle}
+            className="w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+          >
+            Login with Google
+          </button> */}
+          
           <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
             Not registered?{" "}
             <Link

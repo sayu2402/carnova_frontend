@@ -66,24 +66,26 @@ function Signup() {
       });
     }
 
-    if (isNaN(formphno) || formphno.toString().trim() === '') {
+    if (isNaN(formphno) || formphno.toString().trim() === "") {
       return Swal.fire({
-        title: 'Error',
-        text: isNaN(formphno) ? 'Enter a valid Mobile no!' : 'Enter a Mobile no!',
-        icon: 'error',
-        confirmButtonText: 'OK',
+        title: "Error",
+        text: isNaN(formphno)
+          ? "Enter a valid Mobile no!"
+          : "Enter a Mobile no!",
+        icon: "error",
+        confirmButtonText: "OK",
       });
     }
 
     if (formpassword1.length < 6) {
       return Swal.fire({
-        title: 'Error',
-        text: 'Password must be at least 6 characters long!',
-        icon: 'error',
-        confirmButtonText: 'OK',
+        title: "Error",
+        text: "Password must be at least 6 characters long!",
+        icon: "error",
+        confirmButtonText: "OK",
       });
     }
-    
+
     if (formpassword1 !== formpassword2) {
       return Swal.fire({
         title: "Error",
@@ -127,118 +129,134 @@ function Signup() {
 
   return (
     <div
-      className="flex items-center justify-center min-h-screen bg-cover bg-no-repeat bg-center"
+      className="flex items-center justify-center h-screen bg-cover bg-no-repeat bg-center"
       style={{
-        backgroundImage: "url('https://images.pexels.com/photos/919073/pexels-photo-919073.jpeg')",
+        backgroundImage:
+          "url('https://images.pexels.com/photos/919073/pexels-photo-919073.jpeg')",
       }}
     >
-      <form className="bg-white dark:bg-gray-800 p-8 rounded-md shadow-md max-w-xl w-full">
-        <h1 className="text-2xl font-semibold mb-4 text-center text-gray-800 dark:text-white">
-          Sign Up
-        </h1>
-        <div className="mb-6">
-          <label
-            htmlFor="first_name"
-            className="block text-sm font-medium text-gray-900 dark:text-white text-base px-4"
-          >
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            onChange={handleChange}
-            className="input-field h-10 input-field w-full text-base px-4"
-            placeholder="Enter First Name"
-            required
-          />
-        </div>
+      <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+        <form className="space-y-2">
+          <h5 className="text-xl font-medium text-gray-900 dark:text-white">
+            Sign in to our platform
+          </h5>
 
-        <div className="mb-6">
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            onChange={handleChange}
-            className="input-field h-10 input-field w-full text-base px-4"
-            placeholder="Enter Email"
-            required
-          />
-        </div>
-        <div className="mb-6">
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Phone Number
-          </label>
-          <input
-            type="tel"
-            id="number"
-            name="number"
-            onChange={handleChange}
-            className="input-field h-10 input-field w-full text-base px-4"
-            placeholder="Enter Phone Number"
-            required
-          />
-        </div>
-        <div className="mb-6">
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-800 dark:text-white"
-          >
-            Password
-          </label>
-          <input
-            type="password"
-            id="password1"
-            name="password1"
-            onChange={handleChange}
-            className="input-field h-10 w-full placeholder-opacity-50 text-base px-4"
-            placeholder="Enter Password"
-            required
-          />
-        </div>
-        <div className="mb-6">
-          <label
-            htmlFor="password2"
-            className="block text-sm font-medium text-gray-800 dark:text-white"
-          >
-            Confirm Password
-          </label>
-          <input
-            type="password"
-            id="password2"
-            name="password2"
-            onChange={handleChange}
-            className="input-field h-10 w-full placeholder-opacity-50 text-base px-4"
-            placeholder="Confirm Password"
-            required
-          />
-        </div>
-        <div className="flex justify-between items-center mb-6">
           <div>
-            <span className="text-sm text-gray-600 dark:text-gray-300">
-              Already have an account?
-            </span>{" "}
+            <label
+              htmlFor="name"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Username
+            </label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              onChange={handleChange}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              placeholder="eg: sayooj"
+              required
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="email"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Your email
+            </label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              onChange={handleChange}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              placeholder="name@company.com"
+              required
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="number"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Phone Number
+            </label>
+            <input
+              type="tel"
+              name="number"
+              id="number"
+              onChange={handleChange}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              placeholder="eg: 1234567890"
+              required
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="password1"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              password
+            </label>
+            <input
+              type="password"
+              name="password1"
+              id="password1"
+              onChange={handleChange}
+              placeholder="••••••••"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              required
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="password2"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              Confirm password
+            </label>
+            <input
+              type="password"
+              name="password2"
+              id="password2"
+              onChange={handleChange}
+              placeholder="••••••••"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            onClick={handleSubmit}
+          >
+            Login to your account
+          </button>
+
+          {/* <button
+            onClick={handleGoogleLogin}
+            className="w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+          >
+            Login with Google
+          </button> */}
+
+          <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
+            Have Account?{" "}
             <Link
               to="/login"
-              className="text-blue-500 hover:underline font-medium"
+              className="text-blue-700 hover:underline dark:text-blue-500"
             >
-              Log In
+              Login Here
             </Link>
           </div>
-        </div>
-        <button type="submit" className="submit-button" onClick={handleSubmit}>
-          Sign Up
-        </button>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }

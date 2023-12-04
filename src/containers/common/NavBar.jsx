@@ -47,9 +47,6 @@ function NavBar() {
             <li>
               <Link>Contact US</Link>
             </li>
-            <li>
-              <Link>Dashboard</Link>
-            </li>
           </ul>
         </div>
         <Link to="/" className="btn btn-ghost text-xl">
@@ -68,15 +65,19 @@ function NavBar() {
           <li>
             <Link>Contact US</Link>
           </li>
-          <li>
-            <Link>Dashboard</Link>
-          </li>
         </ul>
       </div>
       <div className="navbar-end flex items-center space-x-4 ml-1">
-        {user && <p className="mr-4">{user.username}</p>}
+        {user && (
+          <Link to={`/dashboard/${user.username}`} className="mr-4">
+            {user.username}
+          </Link>
+        )}
+
         {itspartner && user && user.partnername && (
-          <p className="mr-4">{user.partnername}</p>
+          <Link to={`/vendor/profile/${user.partnername}`} className="mr-4">
+            {user.partnername}
+          </Link>
         )}
 
         {user ? (
@@ -87,13 +88,20 @@ function NavBar() {
           </p>
         ) : (
           <>
-            <div className="dropdown dropdown-bottom dropdown-end" onClick={toggleDropdown}>
-            <div tabIndex={0} role="button" className="btn m-1">Login</div>
+            <div
+              className="dropdown dropdown-bottom dropdown-end"
+              onClick={toggleDropdown}
+            >
+              <div tabIndex={0} role="button" className="btn m-1">
+                Login
+              </div>
               {showDropdown && (
                 <ul className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
                   {" "}
                   <li>
-                    <Link to="/login" onClick={handleUserLogin}>User Login</Link>
+                    <Link to="/login" onClick={handleUserLogin}>
+                      User Login
+                    </Link>
                   </li>
                   <li>
                     <Link to="/vendor/login" onClick={handlePartnerLogin}>

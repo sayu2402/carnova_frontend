@@ -4,7 +4,7 @@ function VendorPrivate(props){
     if(localStorage.getItem('authTokens')){
         return props.children;
     }else{
-        return <Navigate to='/vendor/dashboard' />
+        return <Navigate to='/vendor/login' />
     }
 }
 

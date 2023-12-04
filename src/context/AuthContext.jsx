@@ -48,6 +48,8 @@ export const AuthProvider = ({ children }) => {
 
   console.log("authToken in AuthProvider:", authToken);
 
+
+
   // login user function
   let loginUser = async (e) => {
     e.preventDefault();
@@ -115,7 +117,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("authTokens", JSON.stringify(data));
 
         if (itspartner === "True") {
-          navigate("/vendor/dashboard");
+          navigate("/vendor/dashboard/");
           // navigate("/vendor/dashboard");
         } else if (superuser === "True") {
           navigate("/admin/dashboard");
@@ -140,6 +142,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+
   // logout function
   let logoutUser = () => {
     setAuthToken(null);
@@ -157,7 +160,7 @@ export const AuthProvider = ({ children }) => {
     partner: partner,
     logoutUser: logoutUser,
     handlePartnerLogin: handlePartnerLogin,
-    handleUserLogin,
+    handleUserLogin:handleUserLogin,
     itspartner: itspartner,
     superuser: superuser,
     setSuperuser: setSuperuser,

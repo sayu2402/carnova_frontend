@@ -4,7 +4,7 @@ function UserPrivate(props){
     if(localStorage.getItem('authTokens')){
         return props.children;
     }else{
-        return <Navigate to='/user/dashboard' />
+        return <Navigate to='/login' />
     }
 }
 
