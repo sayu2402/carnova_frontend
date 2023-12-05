@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 function Signup() {
   const navigate = useNavigate();
-  const [itsuser, setUser] = useState("True");
+  const [itsuser] = useState("True");
   const [formname, setFormname] = useState("");
   const [formpassword1, setFormpassword1] = useState("");
   const [formpassword2, setFormpassword2] = useState("");

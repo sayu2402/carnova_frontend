@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 import { Link } from "react-router-dom";
-import { IconButton } from "@material-tailwind/react";
 
 function UserDashboard() {
   const { user } = useContext(AuthContext);
@@ -10,6 +9,7 @@ function UserDashboard() {
   const [isChangePasswordModalOpen, setChangePasswordModalOpen] =
     useState(false);
 
+  // state for controlling password change modal
   const openChangePasswordModal = () => {
     setChangePasswordModalOpen(true);
   };
@@ -18,6 +18,7 @@ function UserDashboard() {
     setChangePasswordModalOpen(false);
   };
 
+  // state for controlling edit profile modal
   const openModal = () => {
     setModalOpen(true);
   };
@@ -36,8 +37,8 @@ function UserDashboard() {
         }}
       >
         <div className="text-white text-6xl font-bold p-20">
-          <div>Welcome</div>
-          <div>{user.username}</div>
+          <div className="font-serif text-stone-50">MY ACCOUNT</div>
+          <div className="text-red-50">{user.username}</div>
           <div>
             <Link
               to="/"
@@ -94,7 +95,8 @@ function UserDashboard() {
         </div>
       </div>
 
-      {/* Main Modal For Edit Profile*/}
+      {/* --------------------------------------------Edit Profile Modal Start------------------------------------------- */}
+
       {isModalOpen && (
         <div className="fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center bg-black bg-opacity-75">
           <div className="bg-white p-8 sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl rounded-lg">
@@ -169,8 +171,9 @@ function UserDashboard() {
         </div>
       )}
 
-      {/* ---------------------------------------------------------------------------------------------------------------- */}
-      {/* ---------------------------------------------------------------------------------------------------------- */}
+      {/* ------------------------------------------Edit Profile Modal End ----------------------------------------------- */}
+
+      {/* -----------------------------------------Reset Password Modal Start-------------------------------------------- */}
 
       {/* Change Password Modal */}
       {isChangePasswordModalOpen && (
@@ -245,6 +248,7 @@ function UserDashboard() {
           </div>
         </div>
       )}
+      {/* ---------------------------------------Reset Password Modal End----------------------------------------------- */}
     </>
   );
 }

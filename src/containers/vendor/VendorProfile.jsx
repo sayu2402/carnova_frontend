@@ -2,8 +2,7 @@ import React, { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 
 function VendorProfile() {
-    const {user} = useContext(AuthContext)
-    console.log("username___________: ", user.partnername)
+  const { user } = useContext(AuthContext);
   return (
     <div
       className="bg-cover h-screen flex items-center"

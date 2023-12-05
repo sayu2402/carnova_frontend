@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import OtpPage from "../user/OtpPage";
 import { Link } from "react-router-dom";
 
 function SignupPartner() {
   const navigate = useNavigate();
-  const [partner, setpartner] = useState("True");
   const [formname, setFormname] = useState("");
   const [formpassword1, setFormpassword1] = useState("");
   const [formpassword2, setFormpassword2] = useState("");
   const [formphno, setFormphno] = useState("");
   const [formemail, Setformemail] = useState("");
-  const [itsuser, setItsuser] = useState("False");
+  const [itsuser ] = useState("False");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
