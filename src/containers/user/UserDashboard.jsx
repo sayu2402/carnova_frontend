@@ -1,15 +1,86 @@
 import React, { useContext, useState } from "react";
 import AuthContext from "../../context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function UserDashboard() {
-  const { user } = useContext(AuthContext);
-
+  const [formname, setFormname] = useState("");
+  const [formphno, setFormphno] = useState("");
+  const [formmail, setFormEmail] = useState("");
   const [isModalOpen, setModalOpen] = useState(false);
   const [isChangePasswordModalOpen, setChangePasswordModalOpen] =
     useState(false);
 
-  // state for controlling password change modal
+  const { user } = useContext(AuthContext);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "name") {
+      setFormname(value);
+    } else if (name === "contact") {
+      setFormphno(value);
+    } else if (name === "email") {
+      setFormEmail(value);
+    }
+  };
+
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    console.log("Form Values:", formname, formmail, formphno);
+
+
+    const formData = new FormData();
+  
+    if (formname.trim() === "") {
+      formData.append("username", formname);
+    }
+  
+    if (formmail.trim() !== "") {
+      formData.append("email", formmail);
+    }
+  
+    if (formphno.trim() !== "") {
+      formData.append("phone_no", formphno);
+    }
+
+    console.log("FormData:", formData);
+  
+    let response = await fetch(
+      `http://127.0.0.1:8000/api/user/user-edit/${user.user_id}/`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+
+
+    console.log("API Response:", response);
+  
+    if (response.ok) {
+      return Swal.fire({
+        title: "Success",
+        text: "Account updated successfully!",
+        icon: "success",
+        confirmButtonText: "OK",
+      }).then(() => {
+        // Handle success, if needed
+      });
+    } else {
+      // Handle error
+      const errorData = await response.json();
+      return Swal.fire({
+        title: "Error",
+        text: errorData.message || "Something went wrong!",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
+  };
+  
+
   const openChangePasswordModal = () => {
     setChangePasswordModalOpen(true);
   };
@@ -18,7 +89,6 @@ function UserDashboard() {
     setChangePasswordModalOpen(false);
   };
 
-  // state for controlling edit profile modal
   const openModal = () => {
     setModalOpen(true);
   };
@@ -33,7 +103,7 @@ function UserDashboard() {
         className="bg-cover h-screen flex items-center"
         style={{
           backgroundImage:
-            'url("https://images.pexels.com/photos/10987310/pexels-photo-10987310.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")',
+            'url("https://images.pexels.com/photos/360399/pexels-photo-360399.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")',
         }}
       >
         <div className="text-white text-6xl font-bold p-20">
@@ -58,7 +128,7 @@ function UserDashboard() {
       </div>
 
       <div className="bg-slate-200 flex items-center flex-col pt-12">
-        <p className="font-serif text-6xl text-black text-center font-bold mb-2">
+        <p className="font-sans text-6xl text-black text-center font-bold mb-2">
           {" "}
           {user.username.toUpperCase()}{" "}
         </p>
@@ -68,13 +138,13 @@ function UserDashboard() {
         </p>
       </div>
 
-      <div className="bg-slate-200 flex items-center justify-end pt-px">
+      <div className="bg-slate-200 flex items-center justify-end py-5">
         <div className="py-0">
           <button
             type="button"
             className="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
           >
-            Wishlist
+            Order History
           </button>
 
           <button
@@ -102,7 +172,7 @@ function UserDashboard() {
           <div className="bg-white p-8 sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl rounded-lg">
             <h2 className="text-2xl font-bold mb-4">Edit Profile</h2>
             <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-5 dark:bg-gray-800 dark:border-gray-700">
-              <form className="space-y-4">
+              <form className="space-y-4" onSubmit={handleSubmit}>
                 <div>
                   <label
                     htmlFor="name"
@@ -111,12 +181,13 @@ function UserDashboard() {
                     Change Username
                   </label>
                   <input
+                    onChange={handleChange}
                     type="text"
                     name="name"
                     id="name"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                     placeholder="eg : sayooj"
-                    required
+                    // required
                   />
                 </div>
                 <div>
@@ -127,12 +198,13 @@ function UserDashboard() {
                     Change Email
                   </label>
                   <input
+                    onChange={handleChange}
                     type="email"
                     name="email"
                     id="email"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                     placeholder="name@company.com"
-                    required
+                    // required
                   />
                 </div>
 
@@ -144,12 +216,13 @@ function UserDashboard() {
                     Change Phone
                   </label>
                   <input
+                    onChange={handleChange}
                     type="tel"
-                    name="phone"
+                    name="contact"
                     id="phone"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                     placeholder="1234567890"
-                    required
+                    // required
                   />
                 </div>
 

@@ -5,7 +5,7 @@ import ShowingOtp from "../../pages/userPages/ShowingOtp";
 import HomePage from "../../pages/userPages/HomePage";
 import LoginPage from "../../pages/userPages/LoginPage";
 import UserSignUpPage from "../../pages/userPages/UserSignUpPage";
-import UserDashboardPage from "../../pages/userPages/UserDashboardPage";
+import UserProfilePage from "../../pages/userPages/UserProfilePage";
 
 function UserRouter() {
   return (
@@ -14,7 +14,7 @@ function UserRouter() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/" element={<HomePage />} />
       <Route path="/signup" element={<UserSignUpPage />} />
-      <Route path="/dashboard/:username" element={<UserDashboardPage/>} />
+      <Route path="/dashboard/:username" element={<UserProfilePage/>} />
     </Routes>
   );
 }

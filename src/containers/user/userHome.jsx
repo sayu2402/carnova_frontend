@@ -3,7 +3,7 @@ import AuthContext from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 function Home() {
-  const { user, loginUser, itspartner } = useContext(AuthContext);
+  const { user, itspartner } = useContext(AuthContext);
   const navigate = useNavigate();
 
   // prevent loged in user from going back
@@ -15,7 +15,7 @@ function Home() {
 
 
   return (
-    <div>
+    <div className='bg-slate-200'>
       Home
     </div>
   )
