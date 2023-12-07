@@ -1,7 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import AuthContext from "../../context/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import axiosInstance from "../../axios/axios";
 
 function UserDashboard() {
   const [formname, setFormname] = useState("");
@@ -10,8 +11,9 @@ function UserDashboard() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isChangePasswordModalOpen, setChangePasswordModalOpen] =
     useState(false);
+  const [userProfile, setUserProfile] = useState("");
 
-  const { user } = useContext(AuthContext);
+  const { user, userProfilee } = useContext(AuthContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,60 +28,69 @@ function UserDashboard() {
   };
 
   
+
+  // for handling the submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     console.log("Form Values:", formname, formmail, formphno);
 
-
     const formData = new FormData();
-  
-    if (formname.trim() === "") {
+
+    if (formname.trim() !== "") {
       formData.append("username", formname);
     }
-  
+
     if (formmail.trim() !== "") {
       formData.append("email", formmail);
     }
-  
+
     if (formphno.trim() !== "") {
       formData.append("phone_no", formphno);
     }
 
     console.log("FormData:", formData);
-  
-    let response = await fetch(
-      `http://127.0.0.1:8000/api/user/user-edit/${user.user_id}/`,
-      {
-        method: "POST",
-        body: formData,
+
+    try {
+      let response = await fetch(
+        `http://127.0.0.1:8000/api/user/user-edit/${user.user_id}/`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (response.ok) {
+        // Update the state only if the API call is successful
+        setUserProfile((prevProfile) => ({
+          ...prevProfile,
+          username: formname.trim() !== "" ? formname : prevProfile.username,
+          email: formmail.trim() !== "" ? formmail : prevProfile.email,
+          phone_no: formphno.trim() !== "" ? formphno : prevProfile.phone_no,
+        }));
+
+        Swal.fire({
+          title: "Success",
+          text: "Account updated successfully!",
+          icon: "success",
+          confirmButtonText: "OK",
+        }).then(() => {
+          closeModal();
+        });
+      } else {
+        // Handle error
+        const errorData = await response.json();
+        Swal.fire({
+          title: "Error",
+          text: errorData.message || "Something went wrong!",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
       }
-    );
-
-
-    console.log("API Response:", response);
-  
-    if (response.ok) {
-      return Swal.fire({
-        title: "Success",
-        text: "Account updated successfully!",
-        icon: "success",
-        confirmButtonText: "OK",
-      }).then(() => {
-        // Handle success, if needed
-      });
-    } else {
-      // Handle error
-      const errorData = await response.json();
-      return Swal.fire({
-        title: "Error",
-        text: errorData.message || "Something went wrong!",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
+    } catch (error) {
+      console.error("Error updating user profile:", error);
     }
   };
-  
 
   const openChangePasswordModal = () => {
     setChangePasswordModalOpen(true);
@@ -108,7 +119,7 @@ function UserDashboard() {
       >
         <div className="text-white text-6xl font-bold p-20">
           <div className="font-serif text-stone-50">MY ACCOUNT</div>
-          <div className="text-red-50">{user.username}</div>
+          <div className="text-red-50">{userProfilee.username}</div>
           <div>
             <Link
               to="/"
@@ -130,11 +141,11 @@ function UserDashboard() {
       <div className="bg-slate-200 flex items-center flex-col pt-12">
         <p className="font-sans text-6xl text-black text-center font-bold mb-2">
           {" "}
-          {user.username.toUpperCase()}{" "}
+          {userProfilee.username?.toUpperCase()}{" "}
         </p>
         <p className="text-center">
-          Mail: {user.email} <span className="mr-4"></span> Phone:{" "}
-          {user.phone_no}
+          Mail: {userProfilee.email} <span className="mr-4"></span> Phone:{" "}
+          {userProfilee.phone_no}
         </p>
       </div>
 

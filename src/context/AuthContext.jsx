@@ -4,13 +4,17 @@ import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import axiosInstance from "../axios/axios";
 const AuthContext = createContext();
+
 
 export default AuthContext;
 
 // Authprovider
 export const AuthProvider = ({ children }) => {
   const [userdetails, setUserdetails] = useState();
+  const [userProfile, setUserProfile] = useState("");
+
   
   const [partner, SetPartner] = useState(() =>
     localStorage.getItem("authTokens")
@@ -50,6 +54,21 @@ export const AuthProvider = ({ children }) => {
 
 
 
+  // for get the details from userprofile
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axiosInstance.get(`/api/user/userprofile/${user.user_id}`);
+        setUserProfile(response.data);
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+      }
+    };
+
+    fetchUserProfile();
+  }, [userProfile]);
+
+  
   // login user function
   let loginUser = async (e) => {
     e.preventDefault();
@@ -166,6 +185,7 @@ export const AuthProvider = ({ children }) => {
     setSuperuser: setSuperuser,
     setUser: setUser,
     userdetails: userdetails,
+    userProfilee: userProfile,
   };
 
   //   console.log("AuthProvider - Context Data:", contextData);

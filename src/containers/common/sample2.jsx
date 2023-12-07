@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import AuthContext from "../context/AuthContext";
 
-
 function ProfileUpdateModel() {
   const navigate = useNavigate();
   const [formname, setFormname] = useState("");
@@ -34,8 +33,7 @@ function ProfileUpdateModel() {
     }
   };
 
-
-const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (formname.trim() === "") {

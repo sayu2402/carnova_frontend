@@ -48,9 +48,7 @@ function Profileview() {
   }, []);
 
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+
 
   const splitfile = () => {
     if (user1 && user1.email) {
@@ -59,6 +57,10 @@ function Profileview() {
     }
     return "";
   };
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   //   const splitfiles = () => {
   //     if (user1 ) {

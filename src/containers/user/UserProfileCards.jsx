@@ -1,8 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../../context/AuthContext";
+import axiosInstance from "../../axios/axios";
+
 
 function UserProfileCards() {
-  const { user } = useContext(AuthContext);
+  const { userProfilee } = useContext(AuthContext);
+
   return (
     <>
       <div className="flex flex-col lg:flex-row bg-slate-200">
@@ -19,13 +22,13 @@ function UserProfileCards() {
                 Hi..
               </h5>
               <p className="text-lime-500 dark:text-lime-200 mb-2">
-                Name: {user.username}
+                Name: {userProfilee.username}
               </p>
               <p className="text-lime-500 dark:text-lime-200 mb-2">
-                Email: {user.email}
+                Email: {userProfilee.email}
               </p>
               <p className="text-lime-500 dark:text-lime-200 mb-2">
-                Phone: {user.phone_no}
+                Phone: {userProfilee.phone_no}
               </p>
             </div>
           </div>

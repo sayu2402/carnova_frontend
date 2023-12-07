@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
 
 function NavBar() {
-  const { user, logoutUser, handlePartnerLogin, handleUserLogin, itspartner } =
+  const { user, logoutUser, handlePartnerLogin, handleUserLogin, itspartner, userProfilee } =
     useContext(AuthContext);
   // console.log("user:", user);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -70,7 +70,7 @@ function NavBar() {
       <div className="navbar-end flex items-center space-x-4 ml-1">
         {user && (
           <Link to={`/dashboard/${user.username}`} className="mr-4">
-            {user.username}
+            {userProfilee.username}
           </Link>
         )}
 
