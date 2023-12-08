@@ -50,24 +50,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   console.log("authToken in AuthProvider:", authToken);
-
-
-
-  // for get the details from userprofile
-  // useEffect(() => {
-  //   const fetchUserProfile = async () => {
-  //     try {
-  //       const response = await axiosInstance.get(`/api/user/userprofile/${user.user_id}`);
-  //       setUserProfile(response.data);
-        
-  //     } catch (error) {
-  //       console.error("Error fetching user profile:", error);
-  //     }
-  //   };
-
-  //   fetchUserProfile();
-  // }, [userProfile]);
-
+  
   
   // login user function
   let loginUser = async (e) => {
