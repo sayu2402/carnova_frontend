@@ -82,7 +82,7 @@ function NavBar() {
 
         {user ? (
           <p>
-            <Link to="/login" onClick={logoutUser}>
+            <Link to="#" onClick={logoutUser}>
               Logout
             </Link>
           </p>

@@ -3,8 +3,9 @@ import { createContext, useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Swal from "sweetalert2";
-import axiosInstance from "../axios/axios";
 const AuthContext = createContext();
 
 
@@ -58,7 +59,7 @@ export const AuthProvider = ({ children }) => {
     const email1 = e.target.email.value;
     const password1 = e.target.password.value;
     let url;
-
+  
     if (superuser === "True") {
       // If superuser is 'True', use this URL
       url = "http://127.0.0.1:8000/api/adminlogin/";
@@ -69,38 +70,28 @@ export const AuthProvider = ({ children }) => {
           ? "http://127.0.0.1:8000/api/token/"
           : "http://127.0.0.1:8000/api/partnerlogin/";
     }
-
+  
     try {
       const response = await axios.post(url, {
         email: email1,
         password: password1,
       });
-
+  
       let data = response.data;
-
+  
       if (response.status === 400) {
-        Swal.fire({
-          title: "Login Failed",
-          text: "Invalid email or password. Please check your credentials and try again.",
-          icon: "error",
-          confirmButtonText: "OK",
-        });
+        toast.error("Invalid email or password. Please check your credentials and try again.");
       }
-
+  
       if (response.status === 404) {
-        Swal.fire({
-          title: "Login Failed",
-          text: "Your account has been blocked. Please contact support for assistance.",
-          icon: "error",
-          confirmButtonText: "OK",
-        });
+        toast.error("Your account has been blocked. Please contact support for assistance.");
       }
-
+  
       if (response.status === 200) {
         setUserdetails(response.data);
         const decodedToken = jwtDecode(data.access);
         setIsSuperuser(decodedToken.is_superuser);
-
+  
         if (decodedToken.is_superuser) {
           // The user is a superuser
           console.log("User is a superuser");
@@ -108,16 +99,18 @@ export const AuthProvider = ({ children }) => {
           // The user is not a superuser
           console.log("User is not a superuser");
         }
-
+  
         setAuthToken(data);
         setUser(jwtDecode(data.access));
-
+  
         console.log(
           "data:.....username......partnername..",
           jwtDecode(data.access)
         );
         localStorage.setItem("authTokens", JSON.stringify(data));
 
+        toast.success("Login successful!");
+  
         if (itspartner === "True") {
           navigate("/vendor/dashboard/");
           // navigate("/vendor/dashboard");
@@ -127,34 +120,55 @@ export const AuthProvider = ({ children }) => {
           navigate("/");
         }
       } else {
-        Swal.fire({
-          title: "Invalid Credentials",
-          text: "Your account has been blocked or Not a member . Please contact support for assistance.",
-          icon: "error",
-          confirmButtonText: "OK",
-        });
+        toast.error("Your account has been blocked or Not a member. Please contact support for assistance.");
       }
     } catch (error) {
-      Swal.fire({
-        title: "Invalid Credentials",
-        text: error.message,
-        icon: "error",
-        confirmButtonText: "OK",
-      });
+      toast.error("Invalid Credentials. Please try again.");
+      console.error("Error during login:", error);
     }
   };
 
 
   // logout function
   let logoutUser = () => {
-    setAuthToken(null);
-    setUser(null);
-    localStorage.removeItem("authTokens");
-    setItspartner("False");
-    setSuperuser("False");
-    navigate("/");
+    // Display a confirmation dialog using SweetAlert
+    Swal.fire({
+      title: 'Logout Confirmation',
+      text: 'Are you sure you want to logout?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, logout!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // User confirmed logout
+        setAuthToken(null);
+        setUser(null);
+        localStorage.removeItem("authTokens");
+        setItspartner("False");
+        setSuperuser("False");
+        navigate("/login");
+  
+        // Show success message on successful logout
+        Swal.fire({
+          title: 'Logout Successful',
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } else {
+        // User canceled logout
+        Swal.fire({
+          title: 'Logout Canceled',
+          icon: 'info',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    });
   };
-
+  
 
   let contextData = {
     loginUser: loginUser,
