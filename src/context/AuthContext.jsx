@@ -13,8 +13,7 @@ export default AuthContext;
 // Authprovider
 export const AuthProvider = ({ children }) => {
   const [userdetails, setUserdetails] = useState();
-  const [userProfile, setUserProfile] = useState("");
-
+  // const [userProfile, setUserProfile] = useState("");
   
   const [partner, SetPartner] = useState(() =>
     localStorage.getItem("authTokens")
@@ -55,18 +54,19 @@ export const AuthProvider = ({ children }) => {
 
 
   // for get the details from userprofile
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const response = await axiosInstance.get(`/api/user/userprofile/${user.user_id}`);
-        setUserProfile(response.data);
-      } catch (error) {
-        console.error("Error fetching user profile:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchUserProfile = async () => {
+  //     try {
+  //       const response = await axiosInstance.get(`/api/user/userprofile/${user.user_id}`);
+  //       setUserProfile(response.data);
+        
+  //     } catch (error) {
+  //       console.error("Error fetching user profile:", error);
+  //     }
+  //   };
 
-    fetchUserProfile();
-  }, [userProfile]);
+  //   fetchUserProfile();
+  // }, [userProfile]);
 
   
   // login user function
@@ -185,10 +185,9 @@ export const AuthProvider = ({ children }) => {
     setSuperuser: setSuperuser,
     setUser: setUser,
     userdetails: userdetails,
-    userProfilee: userProfile,
+    // userProfilee: userProfile,
   };
 
-  //   console.log("AuthProvider - Context Data:", contextData);
   return (
     <AuthContext.Provider value={contextData}>{children}</AuthContext.Provider>
   );

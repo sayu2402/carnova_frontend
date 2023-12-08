@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext} from "react";
 import AuthContext from "../../context/AuthContext";
-import axiosInstance from "../../axios/axios";
 
 
 function UserProfileCards() {
-  const { userProfilee } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   return (
     <>
@@ -22,13 +21,13 @@ function UserProfileCards() {
                 Hi..
               </h5>
               <p className="text-lime-500 dark:text-lime-200 mb-2">
-                Name: {userProfilee.username}
+                Name: {user.username}
               </p>
               <p className="text-lime-500 dark:text-lime-200 mb-2">
-                Email: {userProfilee.email}
+                Email: {user.email}
               </p>
               <p className="text-lime-500 dark:text-lime-200 mb-2">
-                Phone: {userProfilee.phone_no}
+                Phone: {user.phone_no}
               </p>
             </div>
           </div>

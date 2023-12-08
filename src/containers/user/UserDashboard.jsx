@@ -13,7 +13,7 @@ function UserDashboard() {
     useState(false);
   const [userProfile, setUserProfile] = useState("");
 
-  const { user, userProfilee } = useContext(AuthContext);
+  const { user , setUser} = useContext(AuthContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,6 +28,21 @@ function UserDashboard() {
   };
 
   
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axiosInstance.get(
+          `/api/user/userprofile/${user.user_id}`
+        );
+        setUserProfile(response.data);
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
+
 
   // for handling the submit
   const handleSubmit = async (e) => {
@@ -69,6 +84,14 @@ function UserDashboard() {
           phone_no: formphno.trim() !== "" ? formphno : prevProfile.phone_no,
         }));
 
+        // Update the user object in AuthContext
+        setUser((prevUser) => ({
+          ...prevUser,
+          username: formname.trim() !== "" ? formname : prevUser.username,
+          email: formmail.trim() !== "" ? formmail : prevUser.email,
+          phone_no: formphno.trim() !== "" ? formphno : prevUser.phone_no,
+        }));
+        
         Swal.fire({
           title: "Success",
           text: "Account updated successfully!",
@@ -119,7 +142,7 @@ function UserDashboard() {
       >
         <div className="text-white text-6xl font-bold p-20">
           <div className="font-serif text-stone-50">MY ACCOUNT</div>
-          <div className="text-red-50">{userProfilee.username}</div>
+          <div className="text-red-50">{userProfile.username}</div>
           <div>
             <Link
               to="/"
@@ -141,11 +164,11 @@ function UserDashboard() {
       <div className="bg-slate-200 flex items-center flex-col pt-12">
         <p className="font-sans text-6xl text-black text-center font-bold mb-2">
           {" "}
-          {userProfilee.username?.toUpperCase()}{" "}
+          {userProfile.username?.toUpperCase()}{" "}
         </p>
         <p className="text-center">
-          Mail: {userProfilee.email} <span className="mr-4"></span> Phone:{" "}
-          {userProfilee.phone_no}
+          Mail: {userProfile.email} <span className="mr-4"></span> Phone:{" "}
+          {userProfile.phone_no}
         </p>
       </div>
 
@@ -175,6 +198,8 @@ function UserDashboard() {
           </button>
         </div>
       </div>
+
+
 
       {/* --------------------------------------------Edit Profile Modal Start------------------------------------------- */}
 
