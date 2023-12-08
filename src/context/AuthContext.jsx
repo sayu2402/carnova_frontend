@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   console.log("authToken in AuthProvider:", authToken);
-  
+
   
   // login user function
   let loginUser = async (e) => {
@@ -168,7 +168,6 @@ export const AuthProvider = ({ children }) => {
     setSuperuser: setSuperuser,
     setUser: setUser,
     userdetails: userdetails,
-    // userProfilee: userProfile,
   };
 
   return (

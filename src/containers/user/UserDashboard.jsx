@@ -3,6 +3,8 @@ import AuthContext from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import axiosInstance from "../../axios/axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function UserDashboard() {
   const [formname, setFormname] = useState("");
@@ -13,7 +15,7 @@ function UserDashboard() {
     useState(false);
   const [userProfile, setUserProfile] = useState("");
 
-  const { user , setUser} = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,7 +29,6 @@ function UserDashboard() {
     }
   };
 
-  
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
@@ -43,6 +44,63 @@ function UserDashboard() {
     fetchUserProfile();
   }, []);
 
+  const handlePasswordChange = async (e) => {
+    console.log("Handle password change function started.");
+    e.preventDefault();
+
+    const currentPassword = e.target.elements.currentPassword.value;
+    const newPassword = e.target.elements.newPassword.value;
+    const newPassword2 = e.target.elements.newPassword2.value;
+
+    const formData = {
+      current_password: currentPassword,
+      new_password: newPassword,
+      confirm_password: newPassword2,
+    };
+
+    if (newPassword !== newPassword2) {
+      Swal.fire({
+        title: "Error",
+        text: "New passwords do not match",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
+
+    try {
+      console.log("Before API call");
+      // Call your API endpoint for changing the password
+      const response = await axiosInstance.post(
+        `/api/user/change-password/${user.user_id}/`,
+        formData,
+        {
+          current_password: currentPassword,
+          new_password: newPassword,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status >= 200 && response.status < 300) {
+        toast.success("Password changed successfully!");
+        closeChangePasswordModal();
+      } else {
+        if (response.status <= 400) {
+          toast.error("Current password is incorrect.");
+        } else {
+          toast.error(response.data.error || "Something went wrong!");
+        }
+      }
+    } catch (error) {
+      const serverMessage = error.response.data.message;
+
+      toast.error(serverMessage || "Current password is incorrect.");
+    }
+  };
 
   // for handling the submit
   const handleSubmit = async (e) => {
@@ -91,24 +149,13 @@ function UserDashboard() {
           email: formmail.trim() !== "" ? formmail : prevUser.email,
           phone_no: formphno.trim() !== "" ? formphno : prevUser.phone_no,
         }));
-        
-        Swal.fire({
-          title: "Success",
-          text: "Account updated successfully!",
-          icon: "success",
-          confirmButtonText: "OK",
-        }).then(() => {
-          closeModal();
-        });
+
+        toast.success("Account Updated successfully!");
+        closeModal();
       } else {
         // Handle error
         const errorData = await response.json();
-        Swal.fire({
-          title: "Error",
-          text: errorData.message || "Something went wrong!",
-          icon: "error",
-          confirmButtonText: "OK",
-        });
+        toast.error(errorData.message || "Something went wrong!");
       }
     } catch (error) {
       console.error("Error updating user profile:", error);
@@ -199,8 +246,6 @@ function UserDashboard() {
         </div>
       </div>
 
-
-
       {/* --------------------------------------------Edit Profile Modal Start------------------------------------------- */}
 
       {isModalOpen && (
@@ -290,7 +335,7 @@ function UserDashboard() {
           <div className="bg-white p-8 sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl rounded-lg">
             <h2 className="text-2xl font-bold mb-4">Change Password</h2>
             <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-5 dark:bg-gray-800 dark:border-gray-700">
-              <form className="space-y-4">
+              <form className="space-y-4" onSubmit={handlePasswordChange}>
                 <div>
                   <label
                     htmlFor="currentPassword"
@@ -334,7 +379,7 @@ function UserDashboard() {
                   <input
                     type="password"
                     name="newPassword2"
-                    id="newPassword"
+                    id="newPassword2"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                     placeholder="Confirm Password"
                     required
