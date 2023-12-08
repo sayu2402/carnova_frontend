@@ -15,7 +15,10 @@ function UserDashboard() {
     useState(false);
   const [userProfile, setUserProfile] = useState("");
 
-  const { user, setUser } = useContext(AuthContext);
+  const { user, setUser, setItspartner } = useContext(AuthContext);
+
+  console.log("user", user);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,6 +47,7 @@ function UserDashboard() {
     fetchUserProfile();
   }, []);
 
+  // function for change the password
   const handlePasswordChange = async (e) => {
     console.log("Handle password change function started.");
     e.preventDefault();
@@ -70,7 +74,7 @@ function UserDashboard() {
 
     try {
       console.log("Before API call");
-      // Call your API endpoint for changing the password
+      // API endpoint for changing the password
       const response = await axiosInstance.post(
         `/api/user/change-password/${user.user_id}/`,
         formData,
@@ -102,7 +106,8 @@ function UserDashboard() {
     }
   };
 
-  // for handling the submit
+
+  // for handling the submit for edit profile
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -149,6 +154,7 @@ function UserDashboard() {
           email: formmail.trim() !== "" ? formmail : prevUser.email,
           phone_no: formphno.trim() !== "" ? formphno : prevUser.phone_no,
         }));
+
 
         toast.success("Account Updated successfully!");
         closeModal();

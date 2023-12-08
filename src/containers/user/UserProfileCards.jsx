@@ -7,7 +7,7 @@ function UserProfileCards() {
 
   return (
     <>
-      <div className="flex flex-col lg:flex-row bg-slate-200">
+      <div className="pb-20 flex flex-col lg:flex-row bg-slate-200">
         {/* Left Card */}
         <div className="lg:w-1/2 lg:pl-60">
           <div className="w-full max-w-sm border border-pink-900 rounded-lg shadow dark:bg-pink-900 dark:border-pink-900 p-8">

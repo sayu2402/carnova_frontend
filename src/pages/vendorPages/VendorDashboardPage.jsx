@@ -1,7 +1,7 @@
 import React from 'react'
 import VendorDashboard from '../../containers/vendor/VendorDashboard'
-import NavBar from '../../containers/common/NavBar'
 import Footer from '../../containers/common/Footer'
+import NavBar from '../../containers/common/NavBar'
 
 function VendorDashboardPage() {
   return (

@@ -1,13 +1,12 @@
 import React from "react";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 const AuthContext = createContext();
-
 
 export default AuthContext;
 
@@ -15,12 +14,20 @@ export default AuthContext;
 export const AuthProvider = ({ children }) => {
   const [userdetails, setUserdetails] = useState();
   // const [userProfile, setUserProfile] = useState("");
-  
+
   const [partner, SetPartner] = useState(() =>
     localStorage.getItem("authTokens")
       ? jwtDecode(localStorage.getItem("authTokens"))
       : null
   );
+
+  // Function to update user.partnername
+  const updateUserPartnername = (newPartnername) => {
+    setUser((prevUser) => ({
+      ...prevUser,
+      partnername: newPartnername,
+    }));
+  };
 
   let navigate = useNavigate();
 
@@ -52,14 +59,13 @@ export const AuthProvider = ({ children }) => {
 
   console.log("authToken in AuthProvider:", authToken);
 
-  
   // login user function
   let loginUser = async (e) => {
     e.preventDefault();
     const email1 = e.target.email.value;
     const password1 = e.target.password.value;
     let url;
-  
+
     if (superuser === "True") {
       // If superuser is 'True', use this URL
       url = "http://127.0.0.1:8000/api/adminlogin/";
@@ -70,28 +76,32 @@ export const AuthProvider = ({ children }) => {
           ? "http://127.0.0.1:8000/api/token/"
           : "http://127.0.0.1:8000/api/partnerlogin/";
     }
-  
+
     try {
       const response = await axios.post(url, {
         email: email1,
         password: password1,
       });
-  
+
       let data = response.data;
-  
+
       if (response.status === 400) {
-        toast.error("Invalid email or password. Please check your credentials and try again.");
+        toast.error(
+          "Invalid email or password. Please check your credentials and try again."
+        );
       }
-  
+
       if (response.status === 404) {
-        toast.error("Your account has been blocked. Please contact support for assistance.");
+        toast.error(
+          "Your account has been blocked. Please contact support for assistance."
+        );
       }
-  
+
       if (response.status === 200) {
         setUserdetails(response.data);
         const decodedToken = jwtDecode(data.access);
         setIsSuperuser(decodedToken.is_superuser);
-  
+
         if (decodedToken.is_superuser) {
           // The user is a superuser
           console.log("User is a superuser");
@@ -99,10 +109,10 @@ export const AuthProvider = ({ children }) => {
           // The user is not a superuser
           console.log("User is not a superuser");
         }
-  
+
         setAuthToken(data);
         setUser(jwtDecode(data.access));
-  
+
         console.log(
           "data:.....username......partnername..",
           jwtDecode(data.access)
@@ -110,7 +120,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("authTokens", JSON.stringify(data));
 
         toast.success("Login successful!");
-  
+
         if (itspartner === "True") {
           navigate("/vendor/dashboard/");
           // navigate("/vendor/dashboard");
@@ -120,7 +130,9 @@ export const AuthProvider = ({ children }) => {
           navigate("/");
         }
       } else {
-        toast.error("Your account has been blocked or Not a member. Please contact support for assistance.");
+        toast.error(
+          "Your account has been blocked or Not a member. Please contact support for assistance."
+        );
       }
     } catch (error) {
       toast.error("Invalid Credentials. Please try again.");
@@ -128,18 +140,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-
   // logout function
   let logoutUser = () => {
     // Display a confirmation dialog using SweetAlert
     Swal.fire({
-      title: 'Logout Confirmation',
-      text: 'Are you sure you want to logout?',
-      icon: 'question',
+      title: "Logout Confirmation",
+      text: "Are you sure you want to logout?",
+      icon: "question",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, logout!',
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, logout!",
     }).then((result) => {
       if (result.isConfirmed) {
         // User confirmed logout
@@ -149,26 +160,23 @@ export const AuthProvider = ({ children }) => {
         setItspartner("False");
         setSuperuser("False");
         navigate("/login");
-  
-        // Show success message on successful logout
         Swal.fire({
-          title: 'Logout Successful',
-          icon: 'success',
+          title: "Logout Successful",
+          icon: "success",
           showConfirmButton: false,
           timer: 1500,
         });
       } else {
         // User canceled logout
         Swal.fire({
-          title: 'Logout Canceled',
-          icon: 'info',
+          title: "Logout Canceled",
+          icon: "info",
           showConfirmButton: false,
           timer: 1500,
         });
       }
     });
   };
-  
 
   let contextData = {
     loginUser: loginUser,
@@ -176,12 +184,15 @@ export const AuthProvider = ({ children }) => {
     partner: partner,
     logoutUser: logoutUser,
     handlePartnerLogin: handlePartnerLogin,
-    handleUserLogin:handleUserLogin,
+    handleUserLogin: handleUserLogin,
     itspartner: itspartner,
     superuser: superuser,
     setSuperuser: setSuperuser,
     setUser: setUser,
+    setPartner: SetPartner,
+    setItspartner:setItspartner,
     userdetails: userdetails,
+    updateUserPartnername:updateUserPartnername,
   };
 
   return (
