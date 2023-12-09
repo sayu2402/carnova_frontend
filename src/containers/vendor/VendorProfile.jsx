@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 import axiosInstance from "../../axios/axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -13,7 +14,8 @@ function VendorProfile() {
   const [isChangePasswordModalOpen, setChangePasswordModalOpen] =
     useState(false);
   const [vendorProfile, setVendorProfile] = useState("");
-  const { user, setUser, setItspartner, updateUserPartnername  } = useContext(AuthContext);
+  const { user, setUser, setItspartner, updateUserPartnername } =
+    useContext(AuthContext);
 
   console.log("user:", user);
 
@@ -29,6 +31,66 @@ function VendorProfile() {
     }
   };
 
+  // function for change the password
+  const handlePasswordChange = async (e) => {
+    console.log("Handle password change function started.");
+    e.preventDefault();
+
+    const currentPassword = e.target.elements.currentPassword.value;
+    const newPassword = e.target.elements.newPassword.value;
+    const newPassword2 = e.target.elements.newPassword2.value;
+
+    const formData = {
+      current_password: currentPassword,
+      new_password: newPassword,
+      confirm_password: newPassword2,
+    };
+
+    if (newPassword !== newPassword2) {
+      Swal.fire({
+        title: "Error",
+        text: "New passwords do not match",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
+
+    try {
+      console.log("Before API call");
+      // API endpoint for changing the password
+      const response = await axiosInstance.post(
+        `/api/vendor/change-password/${user.user_id}/`,
+        formData,
+        {
+          current_password: currentPassword,
+          new_password: newPassword,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status >= 200 && response.status < 300) {
+        toast.success("Password changed successfully!");
+        closeChangePasswordModal();
+      } else {
+        if (response.status <= 400) {
+          toast.error("Current password is incorrect.");
+        } else {
+          toast.error(response.data.error || "Something went wrong!");
+        }
+      }
+    } catch (error) {
+      const serverMessage = error.response.data.message;
+
+      toast.error(serverMessage || "Current password is incorrect.");
+    }
+  };
+
+  // for updating data of vendor
   useEffect(() => {
     const fetchVendorProfile = async () => {
       try {
@@ -95,7 +157,6 @@ function VendorProfile() {
           updateUserPartnername(formname.trim());
         }
 
-
         toast.success("Account Updated successfully!");
         closeModal();
       } else {
@@ -125,6 +186,7 @@ function VendorProfile() {
   };
 
   console.log("user", user);
+
   return (
     <>
       <div
@@ -303,7 +365,7 @@ function VendorProfile() {
             <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-5 dark:bg-gray-800 dark:border-gray-700">
               <form
                 className="space-y-4"
-                // onSubmit={handlePasswordChange}>
+                onSubmit={handlePasswordChange}
               >
                 <div>
                   <label

@@ -6,7 +6,6 @@ import VendorDashboardPage from '../../pages/vendorPages/VendorDashboardPage'
 import VendorSignUpPage from '../../pages/vendorPages/VendorSignUpPage'
 import VendorLoginPage from '../../pages/vendorPages/VendorLoginPage'
 import VendorOtpPage from '../../pages/vendorPages/VendorOtpPage'
-import VendorProfilePage from '../../pages/vendorPages/VendorProfilePage'
 
 function VendorRouter() {
   return (
@@ -15,7 +14,7 @@ function VendorRouter() {
         <Route path='/signup' element={<VendorSignUpPage/>}/>
         <Route path='/login' element={<VendorLoginPage/>}/>
         <Route path='/otp' element={<VendorOtpPage/>}/>
-        <Route path='/profile/:partnername' element={<VendorProfilePage/>}/>
+        <Route path='/profile/:partnername' element={<VendorDashboardPage/>}/>
     </Routes>
   )
 }
