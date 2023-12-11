@@ -39,7 +39,7 @@ function AdminSidebar() {
             Bookings
           </Sidebar.Item>
           <Sidebar.Item  icon={HiTable}>
-            <Link to="/admin/login" onClick={logoutUser}>Logout</Link>
+            <Link to="#" onClick={logoutUser}>Logout</Link>
           </Sidebar.Item>
         </Sidebar.ItemGroup>
       </Sidebar.Items>

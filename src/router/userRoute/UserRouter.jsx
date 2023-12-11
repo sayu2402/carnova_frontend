@@ -6,6 +6,7 @@ import HomePage from "../../pages/userPages/HomePage";
 import LoginPage from "../../pages/userPages/LoginPage";
 import UserSignUpPage from "../../pages/userPages/UserSignUpPage";
 import UserProfilePage from "../../pages/userPages/UserProfilePage";
+import UserBookingDetailsPage from "../../pages/userPages/UserBookingDetailsPage";
 
 function UserRouter() {
   return (
@@ -15,6 +16,7 @@ function UserRouter() {
       <Route path="/" element={<HomePage />} />
       <Route path="/signup" element={<UserSignUpPage />} />
       <Route path="/dashboard/:username" element={<UserProfilePage/>} />
+      <Route path="/dashboard/:username/booking-details" element={<UserBookingDetailsPage/>}/>
     </Routes>
   );
 }
