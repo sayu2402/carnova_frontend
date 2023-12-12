@@ -24,7 +24,7 @@ function AdminSidebar() {
             <Link to="/admin/dashboard">Dashboard</Link>
           </Sidebar.Item>
           <Sidebar.Item  icon={HiOutlineTruck}>
-            Cars
+          <Link to="/admin/car-list">Cars</Link>
           </Sidebar.Item>
           <Sidebar.Item  icon={HiInbox}>
             Inbox

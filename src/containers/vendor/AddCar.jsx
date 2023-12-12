@@ -164,7 +164,7 @@ function AddCar() {
                 >
                   <option selected="">Select transmission</option>
                   <option value="Automatic">Automatic</option>
-                  <option value="Gear">Gear</option>
+                  <option value="Manual">Manual</option>
                 </select>
               </div>
               <div>
