@@ -8,6 +8,8 @@ import VendorLoginPage from '../../pages/vendorPages/VendorLoginPage'
 import VendorOtpPage from '../../pages/vendorPages/VendorOtpPage'
 import AddCarPage from '../../pages/vendorPages/AddCarPage'
 import VendorProfilePage from '../../pages/vendorPages/VendorProfilePage'
+import VendorCarDeatilPage from '../../pages/vendorPages/VendorCarDeatilPage'
+import VendorCarEditPage from '../../pages/vendorPages/VendorCarEditPage'
 
 function VendorRouter() {
   return (
@@ -18,6 +20,8 @@ function VendorRouter() {
         <Route path='/otp' element={<VendorOtpPage/>}/>
         <Route path='/profile/:partnername' element={<VendorDashboardPage/>}/>
         <Route path='/profile/:partnername/add-car' element={<AddCarPage/> } />
+        <Route path='/profile/:partnername/car-details' element={<VendorCarDeatilPage/> } />
+        <Route path='/profile/:partnername/car-edit' element={<VendorCarEditPage/> } />
     </Routes>
   )
 }

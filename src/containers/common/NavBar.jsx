@@ -56,7 +56,7 @@ function NavBar() {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <Link>Browse</Link>
+            <Link to="/browse-cars">Browse</Link>
           </li>
 
           <li>

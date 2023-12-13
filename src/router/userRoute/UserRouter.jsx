@@ -7,6 +7,8 @@ import LoginPage from "../../pages/userPages/LoginPage";
 import UserSignUpPage from "../../pages/userPages/UserSignUpPage";
 import UserProfilePage from "../../pages/userPages/UserProfilePage";
 import UserBookingDetailsPage from "../../pages/userPages/UserBookingDetailsPage";
+import BrowseCarsPage from "../../pages/userPages/BrowseCarsPage";
+import UserCarDetailPage from "../../pages/userPages/UserCarDetailPage";
 
 function UserRouter() {
   return (
@@ -17,6 +19,8 @@ function UserRouter() {
       <Route path="/signup" element={<UserSignUpPage />} />
       <Route path="/dashboard/:username" element={<UserProfilePage/>} />
       <Route path="/dashboard/:username/booking-details" element={<UserBookingDetailsPage/>}/>
+      <Route path="/browse-cars" element={<BrowseCarsPage/>}/>
+      <Route path="/browse-car/:carId" element={<UserCarDetailPage/>}/>
     </Routes>
   );
 }

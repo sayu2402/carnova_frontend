@@ -195,7 +195,6 @@ function UserDashboard() {
       >
         <div className="text-white text-6xl font-bold p-20">
           <div className="font-serif text-stone-50">MY ACCOUNT</div>
-          <div className="text-red-50">{userProfile.username}</div>
           <div>
             <Link
               to="/"
