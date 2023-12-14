@@ -44,6 +44,7 @@ function AddCar() {
   };
 
   async function onSubmit() {
+    
     console.log("onSubmit called");
 
     const formData = new FormData();

@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import AuthContext from "../../context/AuthContext";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axiosInstance from "../../axios/axios";
 import { toast } from "react-toastify";
@@ -18,7 +18,7 @@ const VendorProfile = React.memo(() => {
     useState(false);
   const [vendorProfile, setVendorProfile] = useState("");
   const [loading, setLoading] = useState(true);
-  const { user, setUser, setItspartner, updateUserPartnername } =
+  const { user, setUser, updateUserPartnername } =
     useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -36,11 +36,7 @@ const VendorProfile = React.memo(() => {
     }
   };
 
-  const handleAddCarClick = useCallback(() => {
-    navigate(`/vendor/profile/${user.partnername}/add-car`);
-    console.log("Add Car button clicked!");
-  }, [navigate, user.partnername]);
-
+  
   const openChangePasswordModal = () => {
     setChangePasswordModalOpen(true);
   };
@@ -134,7 +130,8 @@ const VendorProfile = React.memo(() => {
       }
     };
     fetchVendorProfile();
-  }, [user.user_id]);
+  }, []);
+
 
   const handleSubmit = useCallback(
     async (e) => {
