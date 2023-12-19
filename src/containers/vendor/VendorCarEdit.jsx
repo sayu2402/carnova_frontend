@@ -11,7 +11,7 @@ function EditCar() {
   const { carId } = useParams();
   const [originalValues, setOriginalValues] = useState({});
 
-  console.log("Cardid:_________",carId)
+  console.log("Cardid:_________", carId);
   // Fetch car data based on carId and set initial form values
   useEffect(() => {
     async function fetchCarData() {
@@ -55,7 +55,7 @@ function EditCar() {
     getFieldProps,
     setFieldValue,
     handleSubmit,
-    formik
+    formik,
   } = useFormik({
     initialValues: {
       car_name: originalValues.car_name || "",
@@ -86,7 +86,7 @@ function EditCar() {
   async function onSubmit() {
     try {
       const formData = new FormData();
-  
+
       Object.keys(values).forEach((key) => {
         if (values[key] !== null && values[key] !== "") {
           if (key === "document" || key === "car_photo") {
@@ -96,9 +96,9 @@ function EditCar() {
           }
         }
       });
-  
+
       formData.append("is_available", String(values.is_available));
-  
+
       const response = await axiosInstance.patch(
         `/api/vendor/edit-car/${carId}/`,
         formData,
@@ -108,7 +108,7 @@ function EditCar() {
           },
         }
       );
-  
+
       if (response.status === 200) {
         toast.success("Car details updated successfully", { theme: "dark" });
         navigate(`/vendor/profile/${user.partnername}/car-details`);
@@ -121,7 +121,6 @@ function EditCar() {
       toast.error("An error occurred", { theme: "dark" });
     }
   }
-  
 
   return (
     <>
@@ -144,7 +143,7 @@ function EditCar() {
                   name="car_name"
                   id="name"
                   {...getFieldProps("car_name")}
-                  value={values.car_name || originalValues.car_name || ''}
+                  value={values.car_name || originalValues.car_name || ""}
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Type product name"
                   required=""
@@ -165,7 +164,7 @@ function EditCar() {
                   name="brand"
                   id="brand"
                   {...getFieldProps("brand")}
-                  value={values.brand || originalValues.brand || ''}
+                  value={values.brand || originalValues.brand || ""}
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Car brand"
                   required=""
@@ -186,7 +185,7 @@ function EditCar() {
                   name="price"
                   id="price"
                   {...getFieldProps("price")}
-                  value={values.price || originalValues.price || ''}
+                  value={values.price || originalValues.price || ""}
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="₹2999"
                   required=""
@@ -205,7 +204,9 @@ function EditCar() {
                 <select
                   id="transmission"
                   {...getFieldProps("transmission")}
-                  value={values.transmission || originalValues.transmission || ''}
+                  value={
+                    values.transmission || originalValues.transmission || ""
+                  }
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
                   <option selected="">Select transmission</option>
@@ -223,7 +224,7 @@ function EditCar() {
                 <select
                   id="fuel"
                   {...getFieldProps("fuel_type")}
-                  value={values.fuel_type || originalValues.fuel_type || ''}
+                  value={values.fuel_type || originalValues.fuel_type || ""}
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
                   <option selected="">Select Fuel Type</option>
@@ -244,7 +245,7 @@ function EditCar() {
                   name="location"
                   id="location"
                   {...getFieldProps("location")}
-                  value={values.location || originalValues.location || ''}
+                  value={values.location || originalValues.location || ""}
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Search Loaction"
                   required=""
@@ -263,7 +264,7 @@ function EditCar() {
                 <select
                   id="model"
                   {...getFieldProps("model")}
-                  value={values.model || originalValues.model || ''}
+                  value={values.model || originalValues.model || ""}
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
                   <option selected="">Select Model</option>
