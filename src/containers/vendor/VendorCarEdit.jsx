@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../axios/axios";
 import { useFormik } from "formik";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 import { toast } from "react-toastify";
 
@@ -9,6 +9,7 @@ function EditCar() {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const { carId } = useParams();
+  const [originalValues, setOriginalValues] = useState({});
 
   console.log("Cardid:_________",carId)
   // Fetch car data based on carId and set initial form values
@@ -18,6 +19,8 @@ function EditCar() {
         const response = await axiosInstance.get(
           `/api/vendor/edit-car/${carId}/`
         );
+
+        setOriginalValues(response.data);
 
         // Set initial form values with fetched car data
         const initialFormValues = {
@@ -55,14 +58,14 @@ function EditCar() {
     formik
   } = useFormik({
     initialValues: {
-      car_name: "",
-      location: "",
-      brand: "",
-      price: "",
-      fuel_type: "",
-      transmission: "",
-      model: "",
-      description: "",
+      car_name: originalValues.car_name || "",
+      location: originalValues.location || "",
+      brand: originalValues.brand || "",
+      price: originalValues.price || "",
+      fuel_type: originalValues.fuel_type || "",
+      transmission: originalValues.transmission || "",
+      model: originalValues.model || "",
+      description: originalValues.description || "",
       car_photo: null,
       document: null,
       is_available: false,
@@ -141,6 +144,7 @@ function EditCar() {
                   name="car_name"
                   id="name"
                   {...getFieldProps("car_name")}
+                  value={values.car_name || originalValues.car_name || ''}
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Type product name"
                   required=""
@@ -161,6 +165,7 @@ function EditCar() {
                   name="brand"
                   id="brand"
                   {...getFieldProps("brand")}
+                  value={values.brand || originalValues.brand || ''}
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Car brand"
                   required=""
@@ -181,6 +186,7 @@ function EditCar() {
                   name="price"
                   id="price"
                   {...getFieldProps("price")}
+                  value={values.price || originalValues.price || ''}
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="₹2999"
                   required=""
@@ -199,6 +205,7 @@ function EditCar() {
                 <select
                   id="transmission"
                   {...getFieldProps("transmission")}
+                  value={values.transmission || originalValues.transmission || ''}
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
                   <option selected="">Select transmission</option>
@@ -216,6 +223,7 @@ function EditCar() {
                 <select
                   id="fuel"
                   {...getFieldProps("fuel_type")}
+                  value={values.fuel_type || originalValues.fuel_type || ''}
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
                   <option selected="">Select Fuel Type</option>
@@ -236,6 +244,7 @@ function EditCar() {
                   name="location"
                   id="location"
                   {...getFieldProps("location")}
+                  value={values.location || originalValues.location || ''}
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Search Loaction"
                   required=""
@@ -254,6 +263,7 @@ function EditCar() {
                 <select
                   id="model"
                   {...getFieldProps("model")}
+                  value={values.model || originalValues.model || ''}
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
                   <option selected="">Select Model</option>
