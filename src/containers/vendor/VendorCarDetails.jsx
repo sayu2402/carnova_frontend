@@ -30,7 +30,7 @@ const VendorCarDetails = () => {
   }
 
   const handleEdit = (carId) => {
-    navigate(`/vendor/profile/${user.username}/car-edit`);
+    navigate(`/vendor/profile/${user.username}/car-edit/${carId}`);
     console.log(`Edit car with ID: ${carId}`);
   };
 

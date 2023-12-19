@@ -8,7 +8,7 @@ import AuthContext from "../../context/AuthContext";
 
 function AddCar() {
   const navigate = useNavigate();
-  const {user} = useContext(AuthContext)
+  const { user } = useContext(AuthContext);
   const {
     values,
     errors,
@@ -28,6 +28,7 @@ function AddCar() {
       description: "",
       car_photo: null,
       document: null,
+      is_available: false,
     },
     validationSchema: CarValidation,
     onSubmit,
@@ -44,7 +45,6 @@ function AddCar() {
   };
 
   async function onSubmit() {
-    
     console.log("onSubmit called");
 
     const formData = new FormData();
@@ -58,6 +58,8 @@ function AddCar() {
     });
 
     console.log("formData:", formData);
+
+    formData.append("is_available", String(values.is_available));
 
     try {
       const response = await axiosInstance.post(
@@ -264,6 +266,40 @@ function AddCar() {
                   <p className="text-red-600">{errors.document}</p>
                 )}
               </div>
+
+              <div>
+                <label
+                  htmlFor="isAvailable"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Is Available
+                </label>
+                <div className="flex items-center space-x-4">
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      id="is-availableYes"
+                      name="is_available"
+                      onChange={() => setFieldValue("is_available", true)}
+                      checked={values.is_available === true}
+                      className="form-radio text-primary-600"
+                    />
+                    <span className="ml-2">Yes</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      id="isAvailableNo"
+                      name="is_available"
+                      onChange={() => setFieldValue("is_available", false)}
+                      checked={values.is_available === false}
+                      className="form-radio text-primary-600"
+                    />
+                    <span className="ml-2">No</span>
+                  </label>
+                </div>
+              </div>
+
               <div class="sm:col-span-2">
                 <label
                   for="description"

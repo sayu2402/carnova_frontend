@@ -21,7 +21,7 @@ function VendorRouter() {
         <Route path='/profile/:partnername' element={<VendorDashboardPage/>}/>
         <Route path='/profile/:partnername/add-car' element={<AddCarPage/> } />
         <Route path='/profile/:partnername/car-details' element={<VendorCarDeatilPage/> } />
-        <Route path='/profile/:partnername/car-edit' element={<VendorCarEditPage/> } />
+        <Route path='/profile/:partnername/car-edit/:carId' element={<VendorCarEditPage/> } />
     </Routes>
   )
 }
