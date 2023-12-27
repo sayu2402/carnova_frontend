@@ -4,12 +4,18 @@ import { useFormik } from "formik";
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "../../context/AuthContext";
 import { toast } from "react-toastify";
+import { Autocomplete } from "@react-google-maps/api";
+import useGoogleMapApi from "../../CustomeHook/useGoogleMapAPI";
+
 
 function EditCar() {
+  const { isLoaded } = useGoogleMapApi();
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const { carId } = useParams();
   const [originalValues, setOriginalValues] = useState({});
+  const [location, setLocation] = useState("");
+  const [errorLocation, setErrorLocation] = useState("");
 
   console.log("Cardid:_________", carId);
   // Fetch car data based on carId and set initial form values
@@ -99,6 +105,8 @@ function EditCar() {
 
       formData.append("is_available", String(values.is_available));
 
+      formData.append("verification_status", "Pending");
+
       const response = await axiosInstance.patch(
         `/api/vendor/edit-car/${carId}/`,
         formData,
@@ -122,12 +130,41 @@ function EditCar() {
     }
   }
 
+  const handlePlaceSelect = () => {
+    const autocomplete = new window.google.maps.places.Autocomplete(
+      document.getElementById("location"),
+      {
+        componentRestrictions: { country: "IN" },
+        types: ["(cities)"],
+      }
+    );
+  
+    autocomplete.addListener("place_changed", () => {
+      const place = autocomplete.getPlace();
+      if (place && place.formatted_address) {
+        setLocation(place.formatted_address);
+        setErrorLocation("");
+        // Set other form values if needed
+        setFieldValue("location", place.formatted_address);
+      } else {
+        setErrorLocation("Invalid location");
+      }
+    });
+  };
+  
+  // In your render or useEffect
+  useEffect(() => {
+    if (isLoaded) {
+      handlePlaceSelect();
+    }
+  }, [isLoaded]);
+
   return (
     <>
       <section class="bg-slate-200 dark:bg-gray-900">
         <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
           <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
-            Add a new Car
+            Edit Car Details
           </h2>
           <form onSubmit={handleSubmit}>
             <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
@@ -240,16 +277,20 @@ function EditCar() {
                 >
                   Location
                 </label>
-                <input
-                  type="text"
-                  name="location"
-                  id="location"
-                  {...getFieldProps("location")}
-                  value={values.location || originalValues.location || ""}
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Search Loaction"
-                  required=""
-                />
+                {isLoaded && (
+                  <Autocomplete onLoad={handlePlaceSelect} >
+                    <input
+                      type="text"
+                      name="location"
+                      id="location"
+                      value={location}
+                      {...getFieldProps("location")}
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      placeholder="Search Location"
+                      required=""
+                    />
+                  </Autocomplete>
+                )}
                 {errors.location && touched.location && (
                   <p className="text-red-600">{errors.location}</p>
                 )}

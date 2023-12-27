@@ -1,13 +1,18 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import CarValidation from "./CarValidation";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axiosInstance from "../../axios/axios";
 import AuthContext from "../../context/AuthContext";
+import { Autocomplete } from "@react-google-maps/api";
+import useGoogleMapApi from "../../CustomeHook/useGoogleMapAPI";
 
 function AddCar() {
+  const { isLoaded } = useGoogleMapApi();
   const navigate = useNavigate();
+  const [location, setLocation] = useState("");
+  const [errorLocation, setErrorLocation] = useState("");
   const { user } = useContext(AuthContext);
   const {
     values,
@@ -29,6 +34,7 @@ function AddCar() {
       car_photo: null,
       document: null,
       is_available: false,
+      verification_status: "Pending",
     },
     validationSchema: CarValidation,
     onSubmit,
@@ -50,7 +56,7 @@ function AddCar() {
     const formData = new FormData();
 
     Object.keys(values).forEach((key) => {
-      if (key === "document" || key === "car_photo") {
+      if (key === "document" || key === "car_photo" || key === "verification_status") {
         formData.append(key, values[key]);
       } else {
         formData.append(key, values[key]);
@@ -83,6 +89,35 @@ function AddCar() {
       toast.error("An error occurred", { theme: "dark" });
     }
   }
+
+  const handlePlaceSelect = () => {
+    const autocomplete = new window.google.maps.places.Autocomplete(
+      document.getElementById("location"),
+      {
+        componentRestrictions: { country: "IN" },
+        types: ["(cities)"],
+      }
+    );
+  
+    autocomplete.addListener("place_changed", () => {
+      const place = autocomplete.getPlace();
+      if (place && place.formatted_address) {
+        setLocation(place.formatted_address);
+        setErrorLocation("");
+        // Set other form values if needed
+        setFieldValue("location", place.formatted_address);
+      } else {
+        setErrorLocation("Invalid location");
+      }
+    });
+  };
+  
+  // In your render or useEffect
+  useEffect(() => {
+    if (isLoaded) {
+      handlePlaceSelect();
+    }
+  }, [isLoaded]);
 
   return (
     <>
@@ -195,15 +230,20 @@ function AddCar() {
                 >
                   Location
                 </label>
-                <input
-                  type="text"
-                  name="location"
-                  id="location"
-                  {...getFieldProps("location")}
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Search Loaction"
-                  required=""
-                />
+                {isLoaded && (
+                  <Autocomplete onLoad={handlePlaceSelect}>
+                    <input
+                      type="text"
+                      name="location"
+                      id="location"
+                      value={values.location}
+                      {...getFieldProps("location")}
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      placeholder="Search Loaction"
+                      required=""
+                    />
+                  </Autocomplete>
+                )}
                 {errors.location && touched.location && (
                   <p className="text-red-600">{errors.location}</p>
                 )}
