@@ -35,7 +35,7 @@ function BookingModal({ onClose }) {
         const data = response.data;
         if (data.message === "Car available for booking") {
           // Car is available, navigate to checkout page
-          navigate('/checkout');
+          navigate(`/checkout/${carId}`, { state : {pickupDate: pickupdate, returnDate: returndate} });;
         } else {
           toast.error("Car is not available for the selected dates.");
         }
