@@ -1,11 +1,54 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate, useParams } from "react-router-dom";
+import axiosInstance from "../../axios/axios";
 
-function BookingModal({ onClose, carId }) {
+
+function BookingModal({ onClose }) {
+  const { carId } = useParams();
   const [pickupdate, setPickupDate] = useState("");
   const [returndate, setReturnDate] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleBookingSubmit = async () => {
+    try {
+      setLoading(true);
+
+      // Date validations
+      const today = new Date().toISOString().split("T")[0];
+
+      if (pickupdate < today) {
+        toast.error("Pickup date should be today or a future date.");
+        return;
+      }
+
+      if (returndate <= pickupdate) {
+        toast.error("Return date should be greater than the pickup date.");
+        return;
+      }
+
+      const response = await axiosInstance.post(`/api/user/car-availability/${carId}/${pickupdate}/${returndate}/`);
+
+      if (response.status === 200) {
+        const data = response.data;
+        if (data.message === "Car available for booking") {
+          // Car is available, navigate to checkout page
+          navigate('/checkout');
+        } else {
+          toast.error("Car is not available for the selected dates.");
+        }
+      } else {
+        toast.error("Error checking availability");
+      }
+    } catch (error) {
+      console.error("Error checking availability:", error.message);
+      toast.error("Ooops..!! Car is not available for the selected dates.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-75 flex items-center justify-center">
@@ -35,7 +78,7 @@ function BookingModal({ onClose, carId }) {
         </div>
         <div className="flex mt-4">
           <button
-            // onClick={handleBookingSubmit}
+            onClick={handleBookingSubmit}
             className={`flex-1 bg-black text-white px-4 py-2 rounded-md mr-2 ${
               loading ? "opacity-50 cursor-not-allowed" : ""
             }`}
