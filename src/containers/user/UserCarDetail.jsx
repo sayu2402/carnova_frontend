@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../axios/axios";
+import BookingModal from "./BookingModal";
 
 const UserCarDetail = () => {
   const { carId } = useParams();
   const [car, setCar] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [single, setSingle] = useState(null);
+  
+
 
   useEffect(() => {
     const fetchCar = async () => {
@@ -22,6 +27,16 @@ const UserCarDetail = () => {
 
     fetchCar();
   }, [carId]);
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
 
   if (!car) {
     return <div>Loading...</div>;
@@ -68,11 +83,17 @@ const UserCarDetail = () => {
 
             <div className="flex">
               <span className="title-font font-medium text-2xl text-gray-900">{`$${car.price}`} / Day</span>
-              <button className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">
+              <button onClick={openModal} className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">
                 Reserve Now
               </button>
             </div>
+
           </div>
+
+          {/* Modal */}
+
+          {showModal && <BookingModal onClose={closeModal} carId={single} />}
+          
         </div>
       </div>
     </section>

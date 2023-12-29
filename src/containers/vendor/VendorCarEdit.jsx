@@ -144,7 +144,6 @@ function EditCar() {
       if (place && place.formatted_address) {
         setLocation(place.formatted_address);
         setErrorLocation("");
-        // Set other form values if needed
         setFieldValue("location", place.formatted_address);
       } else {
         setErrorLocation("Invalid location");
@@ -152,7 +151,6 @@ function EditCar() {
     });
   };
   
-  // In your render or useEffect
   useEffect(() => {
     if (isLoaded) {
       handlePlaceSelect();
