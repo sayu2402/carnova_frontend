@@ -34,6 +34,18 @@ const Checkout = () => {
     return <div>Loading...</div>;
   }
 
+  const no_of_days = () => {
+    const pickupDates = pickupDate.split("-");
+    const returnDates = returnDate.split("-");
+    const days = returnDates[2] - pickupDates[2];
+    return days + 1;
+  };
+
+  const calculateTotalAmount = () => {
+    const days = no_of_days();
+    return days * car.price;
+  };
+
   const complete_payment = (payment_id, order_id, signature) => {
     axiosInstance
       .post(
@@ -54,11 +66,13 @@ const Checkout = () => {
   };
 
   const razorpayPayment = () => {
+    const totalAmount = calculateTotalAmount();
+
     axiosInstance
       .post(
         `api/razorpay/car/order/${carId}/${pickupDate}/${returnDate}/${user.user_id}/`,
         {
-          amount: amount,
+          amount: totalAmount * 100,
           currency: "INR",
         }
       )
@@ -111,18 +125,6 @@ const Checkout = () => {
         console.error(error);
         // Additional error handling if needed
       });
-  };
-
-  const no_of_days = () => {
-    const pickupDates = pickupDate.split("-");
-    const returnDates = returnDate.split("-");
-    const days = returnDates[2] - pickupDates[2];
-    return days + 1;
-  };
-
-  const calculateTotalAmount = () => {
-    const days = no_of_days();
-    return days * car.price;
   };
 
   return (

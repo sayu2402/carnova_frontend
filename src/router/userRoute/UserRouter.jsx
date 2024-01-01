@@ -20,10 +20,10 @@ function UserRouter() {
       <Route path="/" element={<HomePage />} />
       <Route path="/signup" element={<UserSignUpPage />} />
       <Route path="/dashboard/:username" element={<UserPrivate><UserProfilePage/></UserPrivate>} />
-      <Route path="/dashboard/:username/booking-details" element={<UserBookingDetailsPage/>}/>
+      <Route path="/dashboard/:username/booking-details" element={<UserPrivate><UserBookingDetailsPage/></UserPrivate>}/>
       <Route path="/browse-cars" element={<UserPrivate><BrowseCarsPage/></UserPrivate>}/>
-      <Route path="/browse-car/:carId" element={<UserCarDetailPage/>}/>
-      <Route path="/checkout/:carId" element={<CheckoutPage/> } />
+      <Route path="/browse-car/:carId" element={<UserPrivate><UserCarDetailPage/></UserPrivate>}/>
+      <Route path="/checkout/:carId" element={<UserPrivate><CheckoutPage/></UserPrivate> } />
     </Routes>
   );
 }

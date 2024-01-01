@@ -7,7 +7,6 @@ import VendorSignUpPage from '../../pages/vendorPages/VendorSignUpPage'
 import VendorLoginPage from '../../pages/vendorPages/VendorLoginPage'
 import VendorOtpPage from '../../pages/vendorPages/VendorOtpPage'
 import AddCarPage from '../../pages/vendorPages/AddCarPage'
-import VendorProfilePage from '../../pages/vendorPages/VendorProfilePage'
 import VendorCarDeatilPage from '../../pages/vendorPages/VendorCarDeatilPage'
 import VendorCarEditPage from '../../pages/vendorPages/VendorCarEditPage'
 
@@ -18,10 +17,10 @@ function VendorRouter() {
         <Route path='/signup' element={<VendorSignUpPage/>}/>
         <Route path='/login' element={<VendorLoginPage/>}/>
         <Route path='/otp' element={<VendorOtpPage/>}/>
-        <Route path='/profile/:partnername' element={<VendorDashboardPage/>}/>
-        <Route path='/profile/:partnername/add-car' element={<AddCarPage/> } />
-        <Route path='/profile/:partnername/car-details' element={<VendorCarDeatilPage/> } />
-        <Route path='/profile/:partnername/car-edit/:carId' element={<VendorCarEditPage/> } />
+        <Route path='/profile/:partnername' element={<VendorPrivate><VendorDashboardPage/></VendorPrivate>}/>
+        <Route path='/profile/:partnername/add-car' element={<VendorPrivate><AddCarPage/></VendorPrivate> } />
+        <Route path='/profile/:partnername/car-details' element={<VendorPrivate><VendorCarDeatilPage/></VendorPrivate> } />
+        <Route path='/profile/:partnername/car-edit/:carId' element={<VendorPrivate><VendorCarEditPage/></VendorPrivate> } />
     </Routes>
   )
 }
