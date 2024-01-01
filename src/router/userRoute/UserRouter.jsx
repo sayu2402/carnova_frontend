@@ -10,6 +10,7 @@ import UserBookingDetailsPage from "../../pages/userPages/UserBookingDetailsPage
 import BrowseCarsPage from "../../pages/userPages/BrowseCarsPage";
 import UserCarDetailPage from "../../pages/userPages/UserCarDetailPage";
 import CheckoutPage from "../../pages/userPages/CheckoutPage";
+import UserPrivate from "./UserPrivate";
 
 function UserRouter() {
   return (
@@ -18,9 +19,9 @@ function UserRouter() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/" element={<HomePage />} />
       <Route path="/signup" element={<UserSignUpPage />} />
-      <Route path="/dashboard/:username" element={<UserProfilePage/>} />
+      <Route path="/dashboard/:username" element={<UserPrivate><UserProfilePage/></UserPrivate>} />
       <Route path="/dashboard/:username/booking-details" element={<UserBookingDetailsPage/>}/>
-      <Route path="/browse-cars" element={<BrowseCarsPage/>}/>
+      <Route path="/browse-cars" element={<UserPrivate><BrowseCarsPage/></UserPrivate>}/>
       <Route path="/browse-car/:carId" element={<UserCarDetailPage/>}/>
       <Route path="/checkout/:carId" element={<CheckoutPage/> } />
     </Routes>

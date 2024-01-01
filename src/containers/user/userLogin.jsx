@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
+import Google from "./GoogleLogin";
 
 function Login() {
   let { loginUser} = useContext(AuthContext);
@@ -80,6 +81,8 @@ function Login() {
           >
             Login with Google
           </button> */}
+
+          <Google/>
           
           <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
             Not registered?{" "}

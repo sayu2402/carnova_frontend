@@ -6,6 +6,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
+import axiosInstance from "../axios/axios";
+
 const AuthContext = createContext();
 
 export default AuthContext;
@@ -58,6 +60,48 @@ export const AuthProvider = ({ children }) => {
   };
 
   console.log("authToken in AuthProvider:", authToken);
+
+  const loginWithGoogle = async (googleResponse) => {
+  console.log("Google Response:", googleResponse);
+  try {
+    const user = jwtDecode(googleResponse.credential);
+    console.log("Decoded User:", user.email);
+
+    const axiosRes = await axiosInstance.post("/api/user/google-login/", {
+      email: user.email,
+    });
+
+    console.log("Backend Response:", axiosRes);
+
+    if (axiosRes.status === 201) {
+
+      console.log("only:___",axiosRes?.data )
+      console.log("only:___",axiosRes?.data.access )
+      // Update authToken state
+      setAuthToken(axiosRes?.data);
+
+      // Update user state with the decoded user from the Google response
+      setUser(jwtDecode(axiosRes?.data?.access));
+
+
+      console.log("stringfy:__", "authToken",JSON.stringify(axiosRes?.data))
+      // Store auth token in localStorage
+      localStorage.setItem("authToken", JSON.stringify(axiosRes?.data));
+
+      toast.success(`Welcome ${axiosRes?.data?.username}`);
+      navigate("/");
+    } else {
+      console.error("Google login failed. Unexpected response:", axiosRes);
+      toast.error("Google login failed. Please try again.");
+    }
+  } catch (error) {
+    console.error("Error during Google login:", error);
+    toast.error("Google login failed. Please try again.");
+  }
+};
+
+
+
 
   // login user function
   let loginUser = async (e) => {
@@ -117,13 +161,13 @@ export const AuthProvider = ({ children }) => {
           "data:.....username......partnername..",
           jwtDecode(data.access)
         );
+        console.log("local:____", JSON.stringify(data))
         localStorage.setItem("authTokens", JSON.stringify(data));
 
         toast.success("Login successful!");
 
         if (itspartner === "True") {
           navigate("/vendor/dashboard/");
-          // navigate("/vendor/dashboard");
         } else if (superuser === "True") {
           navigate("/admin/dashboard");
         } else {
@@ -190,9 +234,10 @@ export const AuthProvider = ({ children }) => {
     setSuperuser: setSuperuser,
     setUser: setUser,
     setPartner: SetPartner,
-    setItspartner:setItspartner,
+    setItspartner: setItspartner,
     userdetails: userdetails,
-    updateUserPartnername:updateUserPartnername,
+    updateUserPartnername: updateUserPartnername,
+    loginWithGoogle: loginWithGoogle,
   };
 
   return (
