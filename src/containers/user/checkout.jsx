@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../axios/axios";
 import AuthContext from "../../context/AuthContext";
 import useRazorpay from "react-razorpay";
@@ -11,6 +11,8 @@ const Checkout = () => {
   const [amount, setAmount] = useState(500);
   const { user } = useContext(AuthContext);
   const [Razorpay] = useRazorpay();
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const navigate = useNavigate()
 
   const pickupDate = location.state.pickupDate;
   const returnDate = location.state.returnDate;
@@ -29,6 +31,15 @@ const Checkout = () => {
 
     fetchCar();
   }, [carId]);
+
+  const displayConfirmation = () => {
+    setShowConfirmation(true);
+  };
+
+  const closeConfirmation = () => {
+    setShowConfirmation(false);
+    navigate("/dashboard/:username/booking-details")
+  };
 
   if (!car) {
     return <div>Loading...</div>;
@@ -91,6 +102,7 @@ const Checkout = () => {
               response.razorpay_order_id,
               response.razorpay_signature
             );
+            displayConfirmation();
           },
           prefill: {
             name: "Piyush Garg",
@@ -188,6 +200,52 @@ const Checkout = () => {
           </div>
         </div>
       </div>
+
+      {/* Confirmation Modal */}
+      {showConfirmation && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-8 rounded shadow-md text-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="text-green-600 w-28 h-28 mx-auto mb-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="1"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <h1 className="text-4xl font-bold mb-2">Thank You!</h1>
+            <p className="mb-4">
+              Thank you for Booking! Check your email for The Booking Details
+            </p>
+            <button
+              onClick={closeConfirmation}
+              className="inline-flex items-center px-4 py-2 text-white bg-indigo-600 border border-indigo-600 rounded-full hover:bg-indigo-700 focus:outline-none focus:ring"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-3 h-3 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M7 16l-4-4m0 0l4-4m-4 4h18"
+                />
+              </svg>
+              <span className="text-sm font-medium">Booking Details</span>
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

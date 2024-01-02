@@ -1,27 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import axiosInstance from '../../axios/axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import axiosInstance from "../../axios/axios";
+import { useNavigate } from "react-router-dom";
 
 const CarList = () => {
   const [carList, setCarList] = useState([]);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch car data
-    axiosInstance.get('api/admin/cars-list')
-      .then(response => setCarList(response.data))
-      .catch(error => console.error('Error fetching car data:', error));
+    axiosInstance
+      .get("api/admin/cars-list")
+      .then((response) => setCarList(response.data))
+      .catch((error) => console.error("Error fetching car data:", error));
   }, []);
 
   const handleVerification = (carId, newStatus) => {
-    console.log("car______id", carId)
     // Update verification status
-    axiosInstance.patch(`api/admin/verify-car/${carId}/`, { verification_status: newStatus })
-      .then(response => {
-        // Update local state with the updated data
-        setCarList(prevList => prevList.map(car => (car.id === carId ? response.data : car)));
+    axiosInstance
+      .patch(`api/admin/verify-car/${carId}/`, {
+        verification_status: newStatus,
       })
-      .catch(error => console.error('Error updating verification status:', error));
+      .then((response) => {
+        // Update local state with the updated data
+        setCarList((prevList) =>
+          prevList.map((car) => (car.id === carId ? response.data : car))
+        );
+      })
+      .catch((error) =>
+        console.error("Error updating verification status:", error)
+      );
   };
 
   const checkAvailability = (isAvailable) => {
@@ -39,37 +46,70 @@ const CarList = () => {
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
               Sl.No
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
               Car Name
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
               Vendor Name
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
               Brand
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
               Location
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
               Availability
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
               Price
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
               Car Photo
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
               Status
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
               Action
             </th>
-            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
               Details
             </th>
           </tr>
@@ -89,7 +129,7 @@ const CarList = () => {
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="text-sm font-medium text-gray-900">
-                {car.vendor_name}
+                  {car.vendor_name}
                 </div>
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
@@ -103,7 +143,9 @@ const CarList = () => {
                 </div>
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-gray-500">{checkAvailability(car.is_available)}</div>
+                <div className="text-sm text-gray-500">
+                  {checkAvailability(car.is_available)}
+                </div>
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="text-sm font-medium text-gray-900">
@@ -111,23 +153,44 @@ const CarList = () => {
                 </div>
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
-              <img
+                <img
                   src={car.car_photo}
                   alt={`Car ${car.id} Photo`}
                   className="w-16 h-16 object-cover"
                 />
               </td>
+
               <td className="px-6 py-4 whitespace-nowrap">
-                <div className="text-sm text-gray-500">{car.verification_status}</div>
+                <span
+                  className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                    car.verification_status === "Approved"
+                      ? "bg-green-100 text-green-800"
+                      : "bg-red-100 text-red-800"
+                  }`}
+                >
+                  {car.verification_status}
+                </span>
               </td>
+
               <td className="px-6 py-4 whitespace-nowrap">
                 <button
                   className={`text-xs text-white ${
-                    car.verification_status === 'Approved' ? "bg-green-500" : "bg-red-500"
+                    car.verification_status === "Approved"
+                      ? "bg-green-500"
+                      : "bg-red-500"
                   } px-2 py-1`}
-                  onClick={() => handleVerification(car.id, car.verification_status === 'Approved' ? 'Rejected' : 'Approved')}
+                  onClick={() =>
+                    handleVerification(
+                      car.id,
+                      car.verification_status === "Approved"
+                        ? "Rejected"
+                        : "Approved"
+                    )
+                  }
                 >
-                  {car.verification_status === 'Approved' ? 'Reject' : 'Approve'}
+                  {car.verification_status === "Approved"
+                    ? "Reject"
+                    : "Approve"}
                 </button>
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
