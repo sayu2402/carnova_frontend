@@ -5,7 +5,7 @@ import AuthContext from "../../context/AuthContext";
 
 const BookingList = () => {
   const [bookings, setBookings] = useState([]);
-  const { partner, user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [updatedBookings, setUpdatedBookings] = useState(() => {
     const storedBookings = localStorage.getItem("updatedBookings");
     return storedBookings ? JSON.parse(storedBookings) : [];
@@ -15,7 +15,7 @@ const BookingList = () => {
     try {
       const storedStatus = localStorage.getItem("bookingStatus") || "Approved";
       const response = await axiosInstance.get(
-        `/api/vendor/bookings/${partner.user_id}`,
+        `/api/vendor/bookings/${user.user_id}`,
         {
           params: { verification_status: storedStatus },
         }
@@ -52,10 +52,10 @@ const BookingList = () => {
 
   useEffect(() => {
     fetchBookings();
-  }, [partner.user_id]);
+  }, [user.user_id]);
 
   return (
-    <div className="flex flex-col px-8 bg-slate-200">
+    <div className="flex flex-col px-8 bg-slate-200 pb-8">
       <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -139,14 +139,14 @@ const BookingList = () => {
                           >
                             Approve
                           </button>
-                          <button
+                          {/* <button
                             onClick={() =>
                               updateBookingStatus(booking.id, "Rejected")
                             }
                             className="text-white bg-red-500 hover:bg-red-700 px-4 py-2 rounded"
                           >
                             Reject
-                          </button>
+                          </button> */}
                         </>
                       ) : (
                         <span>Status updated</span>

@@ -7,6 +7,7 @@ import VendorListPage from "../../pages/adminPages/VendorListPage";
 import UserListPage from "../../pages/adminPages/UserListPage";
 import CarsListPage from "../../pages/adminPages/CarsListPage";
 import CarDetailPageAdmin from "../../pages/adminPages/CarDetailPageAdmin";
+import AdminBookingListPage from "../../pages/adminPages/AdminBookingListPage";
 
 
 function AdminRouter() {
@@ -18,7 +19,7 @@ function AdminRouter() {
       <Route path="/vendor-list" element={<AdminPrivate> <VendorListPage /></AdminPrivate>} />
       <Route path="/car-list" element={<AdminPrivate><CarsListPage/></AdminPrivate> }/>
       <Route path="/car-list/car-details/:id" element={<AdminPrivate><CarDetailPageAdmin/></AdminPrivate> }/>
-
+      <Route path="/bookings-list" element={<AdminPrivate><AdminBookingListPage/></AdminPrivate> }/>
     </Routes>
   );
 }

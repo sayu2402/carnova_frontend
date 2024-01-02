@@ -202,6 +202,7 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
         localStorage.removeItem("authTokens");
         setItspartner("False");
+        // SetPartner("False")
         setSuperuser("False");
         navigate("/login");
         Swal.fire({

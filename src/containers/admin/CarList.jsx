@@ -7,12 +7,15 @@ const CarList = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch car data
     axiosInstance
       .get("api/admin/cars-list")
-      .then((response) => setCarList(response.data))
+      .then((response) => {
+        console.log(response.data); // Log the response
+        setCarList(response.data);
+      })
       .catch((error) => console.error("Error fetching car data:", error));
   }, []);
+  
 
   const handleVerification = (carId, newStatus) => {
     // Update verification status

@@ -36,7 +36,7 @@ function AdminSidebar() {
             <Link to="/admin/vendor-list">Vendor List</Link>
           </Sidebar.Item>
           <Sidebar.Item  icon={HiShoppingBag}>
-            Bookings
+          <Link to="/admin/bookings-list">Bookings</Link>
           </Sidebar.Item>
           <Sidebar.Item  icon={HiTable}>
             <Link to="#" onClick={logoutUser}>Logout</Link>
