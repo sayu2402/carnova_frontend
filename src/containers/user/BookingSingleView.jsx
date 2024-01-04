@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axiosInstance from "../../axios/axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import AuthContext from "../../context/AuthContext";
+import swal from "sweetalert2";
 
 const BookingSingleView = () => {
   const { bookingId } = useParams();
   const [booking, setBooking] = useState(null);
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   console.log("booking_id_______", bookingId);
 
@@ -23,6 +27,31 @@ const BookingSingleView = () => {
 
     fetchBookingDetails();
   }, [bookingId]);
+
+  const handleCancelBooking = async () => {
+    // Display confirmation dialog
+    const result = await swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, cancel it!",
+    });
+
+    // If the user clicks "Yes" in the confirmation dialog
+    if (result.isConfirmed) {
+      try {
+        await axiosInstance.post(
+          `/api/user/cancel-booking/${user.user_id}/${bookingId}/`
+        );
+        navigate(`/dashboard/${user.username}`);
+      } catch (error) {
+        console.error("Error cancelling booking:", error);
+      }
+    }
+  };
 
   if (!booking) {
     return <p>Loading...</p>;
@@ -97,20 +126,33 @@ const BookingSingleView = () => {
 
           <div className="lg:w-1/3 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0 flex flex-col justify-between">
             <div className="flex items-center space-x-4">
-              {/* Chat Icons (Adjust the icons and styling as needed) */}
               <span className="cursor-pointer">
-                <h1 className="pb-4">Stay Connect With Car Owner</h1>
-                <button className="bg-blue-500 text-white px-4 py-2 rounded mr-2">
-                  Chat
-                </button>
-                <button className="bg-red-500 text-white px-4 py-2 rounded">
-                  Cancel Booking
-                </button>
+                <h1 className="pb-4 text-lg font-bold">
+                  {booking.is_cancelled ? (
+                    <span className="text-red-500">
+                      Cancelled: Your Booking Amount is Credited to Your Wallet
+                    </span>
+                  ) : (
+                    "Stay Connect With Car Owner"
+                  )}
+                </h1>
+                {!booking.is_cancelled && (
+                  <div className="flex space-x-4 items-center">
+                    <button className="bg-blue-500 text-white px-4 py-2 rounded">
+                      Chat
+                    </button>
+                    <button
+                      className="bg-red-500 text-white px-4 py-2 rounded"
+                      onClick={handleCancelBooking}
+                    >
+                      Cancel Booking
+                    </button>
+                  </div>
+                )}
               </span>
             </div>
 
             <div className="flex items-center mt-6 mr-56">
-              {/* Report Vendor Button (Adjust the styling and functionality as needed) */}
               <button className="bg-red-500 text-white px-4 py-2 rounded ml-auto">
                 Report Owner
               </button>

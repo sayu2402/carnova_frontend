@@ -1,9 +1,26 @@
-import React, { useContext} from "react";
+import React, { useContext, useEffect, useState} from "react";
 import AuthContext from "../../context/AuthContext";
+import axiosInstance from "../../axios/axios";
 
 
 function UserProfileCards() {
   const { user } = useContext(AuthContext);
+  const [wallet, setWallet] = useState(null);
+
+  useEffect(() => {
+    const fetchWallet = async () => {
+      try {
+        const response = await axiosInstance.get(`/api/user/wallet/${user.user_id}/`);
+        setWallet(response.data);
+      } catch (error) {
+        console.error("Error fetching wallet information:", error);
+      }
+    };
+
+    if (user) {
+      fetchWallet();
+    }
+  }, [user]);
 
   return (
     <>
@@ -38,8 +55,20 @@ function UserProfileCards() {
           <div className="w-full max-w-sm border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-8">
             <div className="flex flex-col items-center pb-12">
               <h5 className="mb-2 text-xl font-medium text-gray-900 dark:text-white">
-                Wallet Will be here
+                Wallet Information
               </h5>
+              {wallet ? (
+                <>
+                  <p className="text-lime-500 dark:text-lime-200 mb-2">
+                    Balance: {wallet.balance}
+                  </p>
+                  {/* Add other wallet information as needed */}
+                </>
+              ) : (
+                <p className="text-lime-500 dark:text-lime-200 mb-2">
+                  Loading wallet information...
+                </p>
+              )}
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import axiosInstance from "../../axios/axios";
 import AuthContext from "../../context/AuthContext";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const UserBookingDetails = ({ user_id }) => {
   const [bookings, setBookings] = useState([]);
@@ -108,18 +108,26 @@ const UserBookingDetails = ({ user_id }) => {
                       {booking.return_date}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className="px-2 inline-flex text-xs leading-5
+                      {booking.is_cancelled ? (
+                        <span
+                          className="px-2 inline-flex text-xs leading-5
+                      font-semibold rounded-full bg-red-100 text-red-800"
+                        >
+                          Cancelled by You
+                        </span>
+                      ) : (
+                        <span
+                          className="px-2 inline-flex text-xs leading-5
                       font-semibold rounded-full bg-green-100 text-green-800"
-                      >
-                        {booking.verification_status}
-                      </span>
+                        >
+                          {booking.verification_status}
+                        </span>
+                      )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <Link
                         to={`/dashboard/${user.username}/booking-details/${booking.id}`}
                         state={{ bookingId: booking.id }}
-                        
                         className="text-indigo-600 hover:text-indigo-900"
                       >
                         View

@@ -190,7 +190,7 @@ function UserDashboard() {
         className="bg-cover h-screen flex items-center"
         style={{
           backgroundImage:
-            'url("https://images.pexels.com/photos/360399/pexels-photo-360399.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")',
+            'url("https://images.pexels.com/photos/248747/pexels-photo-248747.jpeg")',
         }}
       >
         <div className="text-white text-6xl font-bold p-20">

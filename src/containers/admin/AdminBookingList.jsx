@@ -30,7 +30,7 @@ const AdminBookingList = () => {
               <th className="py-2 px-4 border-b">Pickup Date</th>
               <th className="py-2 px-4 border-b">Return Date</th>
               <th className="py-2 px-4 border-b">Amount</th>
-              <th className="py-2 px-4 border-b">Cancelled</th>
+              <th className="py-2 px-4 border-b">Is Cancelled</th>
               <th className="py-2 px-4 border-b">Status</th>
             </tr>
           </thead>
@@ -52,7 +52,7 @@ const AdminBookingList = () => {
                 <td className="py-2 px-4 border-b">{booking.pickup_date}</td>
                 <td className="py-2 px-4 border-b">{booking.return_date}</td>
                 <td className="py-2 px-4 border-b">{booking.total_amount}</td>
-                <td className="py-2 px-4 border-b">{booking.is_cancelled ? 'Cancelled' : 'Booked'}</td>
+                <td className="py-2 px-4 border-b">{booking.is_cancelled ? 'Cancelled by user' : 'Booked'}</td>
                 <td className="py-2 px-4 border-b">{booking.verification_status}</td>
               </tr>
             ))}
