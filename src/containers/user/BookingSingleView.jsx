@@ -9,6 +9,7 @@ const BookingSingleView = () => {
   const [booking, setBooking] = useState(null);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [cancelling, setCancelling] = useState(false);
 
   console.log("booking_id_______", bookingId);
 
@@ -43,6 +44,9 @@ const BookingSingleView = () => {
     // If the user clicks "Yes" in the confirmation dialog
     if (result.isConfirmed) {
       try {
+
+        setCancelling(true);
+
         await axiosInstance.post(
           `/api/user/cancel-booking/${user.user_id}/${bookingId}/`
         );
@@ -130,7 +134,7 @@ const BookingSingleView = () => {
                 <h1 className="pb-4 text-lg font-bold">
                   {booking.is_cancelled ? (
                     <span className="text-red-500">
-                      Cancelled: Your Booking Amount is Credited to Your Wallet
+                      Booking Cancelled: Your Booking Amount is Credited to Your Wallet
                     </span>
                   ) : (
                     "Stay Connect With Car Owner"

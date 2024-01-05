@@ -82,7 +82,7 @@ function Login() {
             Login with Google
           </button> */}
 
-          <Google/>
+          {/* <Google/> */}
           
           <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
             Not registered?{" "}

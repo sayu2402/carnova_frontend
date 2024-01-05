@@ -118,18 +118,24 @@ const BookingList = () => {
                       {booking.return_date}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          booking.verification_status === "Approved"
-                            ? "bg-green-100 text-green-800"
-                            : "bg-red-100 text-red-800"
-                        }`}
-                      >
-                        {booking.verification_status}
-                      </span>
+                      {booking.is_cancelled ? (
+                        <span className="text-red-500">Cancelled by user</span>
+                      ) : (
+                        <span
+                          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                            booking.verification_status === "Approved"
+                              ? "bg-green-100 text-green-800"
+                              : "bg-gray-100 text-gray-800"
+                          }`}
+                        >
+                          {booking.verification_status}
+                        </span>
+                      )}
                     </td>
+
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      {!updatedBookings.includes(booking.id) ? (
+                      {!booking.is_cancelled &&
+                      !updatedBookings.includes(booking.id) ? (
                         <>
                           <button
                             onClick={() =>
@@ -140,16 +146,18 @@ const BookingList = () => {
                             Approve
                           </button>
                           {/* <button
-                            onClick={() =>
-                              updateBookingStatus(booking.id, "Rejected")
-                            }
+                            onClick={() => updateBookingStatus(booking.id, "Rejected")}
                             className="text-white bg-red-500 hover:bg-red-700 px-4 py-2 rounded"
                           >
                             Reject
                           </button> */}
                         </>
                       ) : (
-                        <span>Status updated</span>
+                        <span>
+                          {booking.is_cancelled
+                            ? "Booking cancelled"
+                            : "Status updated"}
+                        </span>
                       )}
                     </td>
 
