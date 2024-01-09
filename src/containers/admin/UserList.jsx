@@ -16,7 +16,6 @@ function UserList() {
   const totalResult = pagination.count;
   console.log("total_results:", totalResult);
 
-  
   useEffect(() => {
     fetchData(`${baseUrl}/api/userlist`);
   }, []);
