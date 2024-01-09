@@ -11,12 +11,11 @@ import axiosInstance from "../../axios/axios";
 import { Autocomplete } from "@react-google-maps/api";
 import useGoogleMapApi from "../../CustomeHook/useGoogleMapAPI";
 import { useFormik } from "formik";
-import AuthContext from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+const baseUrl = process.env.REACT_APP_BASE_URL
+
 
 const BrowseCar = () => {
   const { isLoaded } = useGoogleMapApi();
-  const navigate = useNavigate();
   const [location, setLocation] = useState("");
   const [errorLocation, setErrorLocation] = useState("");
   const {
@@ -32,7 +31,6 @@ const BrowseCar = () => {
     },
     // onSubmit,
   });
-  const baseUrl = "http://localhost:8000";
   const [cars, setCars] = useState([]);
   const [pagination, setPagination] = useState({
     count: 0,
@@ -40,6 +38,9 @@ const BrowseCar = () => {
     previous: null,
   });
   const [currentPage, setCurrentPage] = useState(1);
+
+
+  console.log("baseUrl:", baseUrl)
 
   useEffect(() => {
     fetchData(`${baseUrl}/api/user/browse-cars/`);

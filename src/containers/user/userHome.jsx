@@ -46,8 +46,6 @@ function Home() {
     });
   };
 
-  
-
   // prevent loged in user from going back
   useEffect(() => {
     if (user || itspartner) {
@@ -84,17 +82,19 @@ function Home() {
           <div class="p-8 rounded-md shadow-md pt-10 sm:pt-20 md:pt-40">
             <div class="flex flex-col items-center space-y-4">
               <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <Autocomplete onLoad={handlePlaceSelect}>
-                  <input
-                    type="text"
-                    name = "location"
-                    id = "location"
-                    placeholder="Search By Location..."
-                    value={values.location}
-                    className="bg-white text-gray-800 border px-4 py-4 rounded-md w-full sm:w-96 focus:outline-none focus:ring focus:border-blue-500"
-                    {...getFieldProps("location")}
-                  />
-                </Autocomplete>
+                {isLoaded && (
+                  <Autocomplete onLoad={handlePlaceSelect}>
+                    <input
+                      type="text"
+                      name="location"
+                      id="location"
+                      placeholder="Search By Location..."
+                      value={values.location}
+                      className="bg-white text-gray-800 border px-4 py-4 rounded-md w-full sm:w-96 focus:outline-none focus:ring focus:border-blue-500"
+                      {...getFieldProps("location")}
+                    />
+                  </Autocomplete>
+                )}
                 <input
                   type="date"
                   class="bg-white text-gray-800 border px-4 py-4 rounded-md focus:outṭline-none focus:ring focus:border-blue-500"

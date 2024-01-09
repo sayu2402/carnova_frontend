@@ -1,21 +1,71 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../axios/axios";
 import { useNavigate } from "react-router-dom";
+const baseUrl = process.env.REACT_APP_BASE_URL;
 
 const CarList = () => {
   const [carList, setCarList] = useState([]);
   const navigate = useNavigate();
+  const [pagination, setPagination] = useState({
+    count: 0,
+    next: null,
+    previous: null,
+  });
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalResult = pagination.count;
+  console.log("total_results:", totalResult);
+
+  // useEffect(() => {
+  //   axiosInstance
+  //     .get("api/admin/cars-list")
+  //     .then((response) => {
+  //       console.log(response.data); // Log the response
+  //       setCarList(response.data);
+  //     })
+  //     .catch((error) => console.error("Error fetching car data:", error));
+  // }, []);
 
   useEffect(() => {
-    axiosInstance
-      .get("api/admin/cars-list")
-      .then((response) => {
-        console.log(response.data); // Log the response
-        setCarList(response.data);
-      })
-      .catch((error) => console.error("Error fetching car data:", error));
+    fetchData(`${baseUrl}/api/admin/cars-list`);
   }, []);
-  
+
+  const fetchData = async (url) => {
+    try {
+      const response = await axiosInstance.get(url);
+      setCarList(response.data.results);
+      setPagination({
+        count: response.data.count,
+        next: response.data.next,
+        previous: response.data.previous,
+      });
+    } catch (error) {
+      console.log("error fetching car list:", error);
+    }
+  };
+
+  const handlePageChange = (url) => {
+    setCurrentPage((prevPage) => prevPage + 1);
+    fetchData(url);
+  };
+
+  const links = [];
+  for (let i = 1; i <= Math.ceil(totalResult / 6); i++) {
+    links.push(
+      <li key={i}>
+        <button
+          onClick={() =>
+            handlePageChange(`${baseUrl}/api/admin/cars-list/?page=${i}`)
+          }
+          className={`relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-white transition-all hover:bg-white-900/10 hover:text-white active:bg-white-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${
+            currentPage === i ? "font-bold" : ""
+          }`}
+        >
+          {i}
+        </button>
+      </li>
+    );
+  }
 
   const handleVerification = (carId, newStatus) => {
     // Update verification status
@@ -210,6 +260,46 @@ const CarList = () => {
           ))}
         </tbody>
       </table>
+      {/* Pagination Area Start*/}
+      <nav
+        aria-label="Page navigation example"
+        className="flex justify-center mt-4"
+      >
+        <ul className="flex items-center gap-4 list-none">
+          <li>
+            <button
+              onClick={() =>
+                pagination.previous && handlePageChange(pagination.previous)
+              }
+              disabled={!pagination.previous}
+              className={`relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-white transition-all ${
+                !pagination.previous ? "bg-gray-400" : "bg-blue-500"
+              } hover:bg-blue-600 active:bg-blue-700 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none`}
+            >
+              Prev
+            </button>
+          </li>
+          {links.map((link, index) => (
+            <li key={index} className="">
+              {link}
+            </li>
+          ))}
+          <li>
+            <button
+              onClick={() =>
+                pagination.next && handlePageChange(pagination.next)
+              }
+              disabled={!pagination.next}
+              className={`relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-white transition-all ${
+                !pagination.next ? "bg-gray-400" : "bg-blue-500"
+              } hover:bg-blue-600 active:bg-blue-700 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none`}
+            >
+              Next
+            </button>
+          </li>
+        </ul>
+      </nav>
+      {/* Pagination Area End */}
     </div>
   );
 };
