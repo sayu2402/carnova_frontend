@@ -136,28 +136,49 @@ const BrowseCar = () => {
             <div class="p-8 rounded-md shadow-md pt-10 sm:pt-20 md:pt-40">
               <div class="flex flex-col items-center space-y-4">
                 <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                  <Autocomplete onLoad={handlePlaceSelect}>
+                  <div>
+                    <label for="location" class="text-gray-600">
+                      Location:
+                    </label>
+                    {isLoaded && (
+                      <Autocomplete onLoad={handlePlaceSelect}>
+                        <input
+                          type="text"
+                          name="location"
+                          id="location"
+                          placeholder="Search By Location..."
+                          value={values.location}
+                          className="bg-white text-gray-800 border px-4 py-4 rounded-md w-full sm:w-96 focus:outline-none focus:ring focus:border-blue-500"
+                          {...getFieldProps("location")}
+                        />
+                      </Autocomplete>
+                    )}
+                  </div>
+                  <div>
+                    <label for="pickupDate" class="text-gray-600">
+                      Pickup Date:
+                    </label>
                     <input
-                      type="text"
-                      name="location"
-                      id="location"
-                      placeholder="Search By Location..."
-                      value={values.location}
-                      className="bg-white text-gray-800 border px-4 py-4 rounded-md w-full sm:w-96 focus:outline-none focus:ring focus:border-blue-500"
-                      {...getFieldProps("location")}
+                      type="date"
+                      id="pickupDate"
+                      class="bg-white text-gray-800 border px-4 py-4 rounded-md focus:outline-none focus:ring focus:border-blue-500"
                     />
-                  </Autocomplete>
-                  <input
-                    type="date"
-                    class="bg-white text-gray-800 border px-4 py-4 rounded-md focus:outline-none focus:ring focus:border-blue-500"
-                  />
-                  <input
-                    type="date"
-                    class="bg-white text-gray-800 border px-4 py-4 rounded-md focus:outline-none focus:ring focus:border-blue-500"
-                  />
-                  <button class="bg-blue-500 text-white px-4 py-4 rounded-md hover:bg-blue-600 transition duration-300">
+                  </div>
+                  <div>
+                    <label for="returnDate" class="text-gray-600">
+                      Return Date:
+                    </label>
+                    <input
+                      type="date"
+                      id="returnDate"
+                      class="bg-white text-gray-800 border px-4 py-4 rounded-md focus:outline-none focus:ring focus:border-blue-500"
+                    />
+                  </div>
+                  <div className="pt-5">
+                  <button class="bg-blue-500 text-white px-6 py-4 rounded-md hover:bg-blue-600 transition duration-300">
                     Search
                   </button>
+                  </div>
                 </div>
               </div>
             </div>
