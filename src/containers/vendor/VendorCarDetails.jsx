@@ -55,7 +55,7 @@ const VendorCarDetails = () => {
               `${baseUrl}/api/vendor/car-details/${vendorId}/?page=${i}`
             )
           }
-          className={`relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-white transition-all hover:bg-white-900/10 hover:text-white active:bg-white-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${
+          className={`relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-gray-900 transition-all hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${
             currentPage === i ? "font-bold" : ""
           }`}
         >
@@ -75,7 +75,7 @@ const VendorCarDetails = () => {
   };
 
   return (
-    <div className="px-12 bg-black p-4">
+    <div className="px-12 bg-slate-200 p-4">
       <h2 className="text-3xl font-semibold mb-4">Vendor Car Details</h2>
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">

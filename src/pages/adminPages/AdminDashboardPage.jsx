@@ -10,7 +10,7 @@ function AdminDashboardPage() {
       <AdminNavBar />
       <div className="flex">
         <AdminSidebar />
-        <div className="flex-grow ">
+        <div className="flex-grow min-h-screen bg-black ">
           <AdminDashboard />
         </div>
       </div>
