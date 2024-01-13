@@ -8,9 +8,9 @@ function AdminDashboardPage() {
   return (
     <>
       <AdminNavBar />
-      <div className="flex">
+      <div className="flex bg-black">
         <AdminSidebar />
-        <div className="flex-grow min-h-screen bg-black ">
+        <div className="flex-grow min-h-screen">
           <AdminDashboard />
         </div>
       </div>

@@ -12,6 +12,8 @@ import UserCarDetailPage from "../../pages/userPages/UserCarDetailPage";
 import CheckoutPage from "../../pages/userPages/CheckoutPage";
 import UserPrivate from "./UserPrivate";
 import BookingSinglePage from "../../pages/userPages/BookingSinglePage";
+import UserChatPage from "../../pages/userPages/UserChatPage";
+import ChattingInbox from "../../pages/userPages/ChattingInbox";
 
 function UserRouter() {
   return (
@@ -27,6 +29,8 @@ function UserRouter() {
       <Route path="/checkout/:carId" element={<UserPrivate><CheckoutPage/></UserPrivate> } />
       <Route path="/dashboard/:username/booking-details" element={<UserPrivate><UserBookingDetailsPage/></UserPrivate> } />
       <Route path="/dashboard/:username/booking-details/:bookingId" element={<UserPrivate><BookingSinglePage/></UserPrivate> } />
+      <Route path="/chat/inbox/:username" element={<UserPrivate><UserChatPage/></UserPrivate> } />
+      <Route path="/chatting/inbox" element={<ChattingInbox></ChattingInbox>} />
     </Routes>
   );
 }

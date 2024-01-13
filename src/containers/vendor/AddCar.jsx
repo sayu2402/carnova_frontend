@@ -56,7 +56,11 @@ function AddCar() {
     const formData = new FormData();
 
     Object.keys(values).forEach((key) => {
-      if (key === "document" || key === "car_photo" || key === "verification_status") {
+      if (
+        key === "document" ||
+        key === "car_photo" ||
+        key === "verification_status"
+      ) {
         formData.append(key, values[key]);
       } else {
         formData.append(key, values[key]);
@@ -73,7 +77,7 @@ function AddCar() {
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data", // Make sure to set the content type
+            "Content-Type": "multipart/form-data",
           },
         }
       );
@@ -98,7 +102,7 @@ function AddCar() {
         types: ["(cities)"],
       }
     );
-  
+
     autocomplete.addListener("place_changed", () => {
       const place = autocomplete.getPlace();
       if (place && place.formatted_address) {
@@ -111,8 +115,7 @@ function AddCar() {
       }
     });
   };
-  
-  // In your render or useEffect
+
   useEffect(() => {
     if (isLoaded) {
       handlePlaceSelect();

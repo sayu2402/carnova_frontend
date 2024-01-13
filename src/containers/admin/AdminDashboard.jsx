@@ -84,6 +84,8 @@ function AdminDashboard() {
           <p className="font-thin text-xs">Based on Your Local Time</p>
         </div>
       </div>
+
+      {/* chart side */}
       <div className="flex justify-center">
         <div className=" w-[700px] ">
           <MonthlyChart />
@@ -95,7 +97,7 @@ function AdminDashboard() {
 
       <div className="grid grid-cols-3 gap-4 mt-10">
         {/* Block 5 - New Users */}
-        <div className="bg-slate-300 p-4 rounded-md text-black flex flex-col items-start">
+        <div className="bg-slate-200 p-4 rounded-md text-black flex flex-col items-start">
           <p className="text-lg font-bold mb-4">New Users</p>
           {newUsersData.length > 0 ? (
             <>
@@ -125,7 +127,7 @@ function AdminDashboard() {
         </div>
 
         {/* Block 6 - New Vendors */}
-        <div className="bg-slate-300 p-4 rounded-md text-black flex flex-col items-start">
+        <div className="bg-slate-200 p-4 rounded-md text-black flex flex-col items-start">
           <p className="text-lg font-bold mb-4">New Vendors</p>
           {newVendorsData.length > 0 ? (
             <>
@@ -145,7 +147,6 @@ function AdminDashboard() {
                       {vendor.user.username}
                     </p>
                     <p className="font-thin text-xs">{vendor.user.email}</p>
-                    {/* Add other properties as needed */}
                   </div>
                 </div>
               ))}
@@ -156,7 +157,7 @@ function AdminDashboard() {
         </div>
 
         {/* Block 7 - New Bookings */}
-        <div className="bg-slate-300 p-4 rounded-md text-black flex flex-col items-start">
+        <div className="bg-slate-200 p-4 rounded-md text-black flex flex-col items-start">
           <p className="text-lg font-bold mb-4">New Bookings</p>
           {newBookingsData.length > 0 ? (
             <>

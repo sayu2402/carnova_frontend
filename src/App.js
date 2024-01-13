@@ -7,7 +7,7 @@ import { AuthProvider } from "./context/AuthContext";
 import UserRouter from "./router/userRoute/UserRouter";
 import AdminRouter from "./router/adminRoute/AdminRouter";
 import VendorRouter from "./router/VendorRoute/VendorRouter";
-
+import "./Chat.css";
 
 function App() {
   return (

@@ -18,7 +18,7 @@ function AdminSidebar() {
   const { logoutUser } = useContext(AuthContext);
   return (
     <div className="bg-black">
-      <Sidebar aria-label="Default sidebar example" className="min-h-screen">
+      <Sidebar aria-label="Default sidebar example" style={{ position: "sticky", top: 0, height: "100vh" }}>
         <Sidebar.Items>
           <Sidebar.ItemGroup>
             <Sidebar.Item icon={HiChartPie}>
@@ -27,7 +27,6 @@ function AdminSidebar() {
             <Sidebar.Item icon={HiOutlineTruck}>
               <Link to="/admin/car-list">Cars</Link>
             </Sidebar.Item>
-            <Sidebar.Item icon={HiInbox}>Inbox</Sidebar.Item>
             <Sidebar.Item icon={HiUser}>
               <Link to="/admin/user-list">Users List</Link>
             </Sidebar.Item>

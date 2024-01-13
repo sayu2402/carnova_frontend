@@ -44,7 +44,6 @@ const BookingSingleView = () => {
     // If the user clicks "Yes" in the confirmation dialog
     if (result.isConfirmed) {
       try {
-
         setCancelling(true);
 
         await axiosInstance.post(
@@ -55,6 +54,12 @@ const BookingSingleView = () => {
         console.error("Error cancelling booking:", error);
       }
     }
+  };
+  const handleChatClick = () => {
+    // Redirect to the chat page with the corresponding vendor details
+    navigate(`/chat/inbox/${booking.user.user.username}`, {
+      state: { vendorDetails: booking.vendor }, // Pass vendor details as state
+    });
   };
 
   if (!booking) {
@@ -134,7 +139,8 @@ const BookingSingleView = () => {
                 <h1 className="pb-4 text-lg font-bold">
                   {booking.is_cancelled ? (
                     <span className="text-red-500">
-                      Booking Cancelled: Your Booking Amount is Credited to Your Wallet
+                      Booking Cancelled: Your Booking Amount is Credited to Your
+                      Wallet
                     </span>
                   ) : (
                     "Stay Connect With Car Owner"
@@ -142,7 +148,10 @@ const BookingSingleView = () => {
                 </h1>
                 {!booking.is_cancelled && (
                   <div className="flex space-x-4 items-center">
-                    <button className="bg-blue-500 text-white px-4 py-2 rounded">
+                    <button
+                      className="bg-blue-500 text-white px-4 py-2 rounded"
+                      onClick={handleChatClick}
+                    >
                       Chat
                     </button>
                     <button
