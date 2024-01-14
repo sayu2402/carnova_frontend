@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import axiosInstance from "../../axios/axios";
 import AuthContext from "../../context/AuthContext";
 
 function ChatSidebar({ setSelectedVendor, selectedVendor }) {
   const [chattedVendors, setChattedVendors] = useState([]);
   const { user } = useContext(AuthContext);
+
 
   useEffect(() => {
     axiosInstance
@@ -17,7 +18,7 @@ function ChatSidebar({ setSelectedVendor, selectedVendor }) {
           ([vendorName, data]) => ({
             vendorName,
             receiver_id: data.receiver_id,
-            messages: data.messages,
+            messages: data.messages?.reverse() || [],
             avatar: avatarURL,
           })
         );
