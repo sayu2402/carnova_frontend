@@ -8,11 +8,9 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import axiosInstance from "../../axios/axios";
-import { Autocomplete } from "@react-google-maps/api";
 import useGoogleMapApi from "../../CustomeHook/useGoogleMapAPI";
 import { useFormik } from "formik";
-const baseUrl = process.env.REACT_APP_BASE_URL
-
+const baseUrl = process.env.REACT_APP_BASE_URL;
 
 const BrowseCar = () => {
   const { isLoaded } = useGoogleMapApi();
@@ -29,8 +27,9 @@ const BrowseCar = () => {
     initialValues: {
       location: "",
     },
-    // onSubmit,
   });
+
+
   const [cars, setCars] = useState([]);
   const [pagination, setPagination] = useState({
     count: 0,
@@ -39,8 +38,7 @@ const BrowseCar = () => {
   });
   const [currentPage, setCurrentPage] = useState(1);
 
-
-  console.log("baseUrl:", baseUrl)
+  console.log("baseUrl:", baseUrl);
 
   useEffect(() => {
     fetchData(`${baseUrl}/api/user/browse-cars/`);
@@ -85,108 +83,8 @@ const BrowseCar = () => {
     );
   }
 
-  const handlePlaceSelect = () => {
-    const autocomplete = new window.google.maps.places.Autocomplete(
-      document.getElementById("location"),
-      {
-        componentRestrictions: { country: "IN" },
-        types: ["(cities)"],
-      }
-    );
-
-    autocomplete.addListener("place_changed", () => {
-      const place = autocomplete.getPlace();
-      if (place && place.formatted_address) {
-        setLocation(place.formatted_address);
-        setErrorLocation("");
-        // Set other form values if needed
-        setFieldValue("location", place.formatted_address);
-      } else {
-        setErrorLocation("Invalid location");
-      }
-    });
-  };
-
   return (
     <div>
-      <div
-        className="hero min-h-screen"
-        style={{
-          backgroundImage: "url(https://wallpapercave.com/wp/wp8762917.jpg)",
-        }}
-      >
-        <div class="hero-overlay bg-opacity-60"></div>
-        <div class="hero-content text-center text-neutral-content">
-          <div class="max-w-md mx-auto mt-44">
-            <h1 class="mb-5 text-5xl font-bold">Browse Cars</h1>
-            <p class="mb-5">
-              Explore Your Ride: Find the Perfect Companion for Your Next
-              Adventure!
-            </p>
-            <div class="flex space-x-4 text-zinc-950">
-              <div class="flex rounded-md overflow-hidden w-full">
-                <input
-                  type="text"
-                  class="w-full bg-slate-200 rounded-md rounded-r-none px-4 py-2 focus:outline-none focus:ring focus:border-blue-500"
-                  placeholder="Search Car"
-                />
-                <button class="btn btn-primary">Search Car</button>
-              </div>
-            </div>
-
-            <div class="p-8 rounded-md shadow-md pt-10 sm:pt-20 md:pt-40">
-              <div class="flex flex-col items-center space-y-4">
-                <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                  <div>
-                    <label for="location" class="text-gray-600">
-                      Location:
-                    </label>
-                    {isLoaded && (
-                      <Autocomplete onLoad={handlePlaceSelect}>
-                        <input
-                          type="text"
-                          name="location"
-                          id="location"
-                          placeholder="Search By Location..."
-                          value={values.location}
-                          className="bg-white text-gray-800 border px-4 py-4 rounded-md w-full sm:w-96 focus:outline-none focus:ring focus:border-blue-500"
-                          {...getFieldProps("location")}
-                        />
-                      </Autocomplete>
-                    )}
-                  </div>
-                  <div>
-                    <label for="pickupDate" class="text-gray-600">
-                      Pickup Date:
-                    </label>
-                    <input
-                      type="date"
-                      id="pickupDate"
-                      class="bg-white text-gray-800 border px-4 py-4 rounded-md focus:outline-none focus:ring focus:border-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label for="returnDate" class="text-gray-600">
-                      Return Date:
-                    </label>
-                    <input
-                      type="date"
-                      id="returnDate"
-                      class="bg-white text-gray-800 border px-4 py-4 rounded-md focus:outline-none focus:ring focus:border-blue-500"
-                    />
-                  </div>
-                  <div className="pt-5">
-                  <button class="bg-blue-500 text-white px-6 py-4 rounded-md hover:bg-blue-600 transition duration-300">
-                    Search
-                  </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div className="bg-slate-200 py-20 pl-4">
         <h2 className="text-4xl font-bold text-black mb-4">Available Cars</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
