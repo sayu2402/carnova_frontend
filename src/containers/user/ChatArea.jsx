@@ -1,22 +1,20 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import Message from "./Message";
 import MessageInput from "./MessageInput";
 import AuthContext from "../../context/AuthContext";
 import { v4 as uuidv4 } from "uuid";
-import axiosInstance from "../../axios/axios"; // Import your axios instance
 
 function ChatArea({ selectedVendor }) {
   const [messages, setMessages] = useState([]);
   const { user } = useContext(AuthContext);
   const [socket, setSocket] = useState(null);
   const MemoizedMessageInput = React.memo(MessageInput);
+  const lastMessageRef = useRef(null);
 
   // Function to fetch messages from the API
   const fetchMessagesFromAPI = async (userId, receiverId) => {
     try {
-      const response = await axiosInstance.get(`/api/chat/messages/${userId}/${receiverId}/`);
-      const fetchedMessages = response.data.messages || [];
-      setMessages(fetchedMessages);
+      console.log("messages", messages);
     } catch (error) {
       console.error("Error fetching messages:", error);
     }
@@ -68,6 +66,11 @@ function ChatArea({ selectedVendor }) {
     setMessages(selectedVendor ? selectedVendor.messages : []);
   }, [selectedVendor]);
 
+  useEffect(() => {
+    // 👇️ scroll to bottom every time messages change
+    lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   const addMessage = (newMessageText) => {
     console.log(newMessageText, "nre jgfj");
     const newMessage = {
@@ -95,6 +98,7 @@ function ChatArea({ selectedVendor }) {
             timestamp={message.timestamp}
           />
         ))}
+        <div ref={lastMessageRef} />
       </div>
       {socket && (
         <MemoizedMessageInput onSendMessage={addMessage} socket={socket} />
