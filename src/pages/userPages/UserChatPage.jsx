@@ -7,24 +7,10 @@ import axiosInstance from "../../axios/axios";
 
 function UserChatPage() {
   const [selectedVendor, setSelectedVendor] = useState(null);
-  const [messages, setMessages] = useState([]);
 
-  useEffect(() => {
-    console.log("selected-vendor:_+______++", selectedVendor)
-    // Fetch messages for the selected vendor when it changes
-    if (selectedVendor) {
-      axiosInstance
-        .get(`/api/chat/messages/${selectedVendor.receiver_id}/`)
-        .then((response) => {
-          const vendorMessages = response.data.messages || [];
-          setMessages(vendorMessages);
-        })
-        .catch((error) => {
-          console.error("Error fetching messages:", error);
-          setMessages([]);
-        });
-    }
-  }, [selectedVendor]);
+  const handleVendorSelect = (vendor) => {
+    setSelectedVendor(vendor);
+  };
 
   return (
     <>
@@ -33,9 +19,6 @@ function UserChatPage() {
         <ChatSidebar
           setSelectedVendor={setSelectedVendor}
           selectedVendor={selectedVendor}
-          latestMessageTimestamp={
-            messages.length > 0 ? messages[0].timestamp : null
-          }
         />
         <ChatArea selectedVendor={selectedVendor} />
       </div>
