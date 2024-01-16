@@ -163,7 +163,7 @@ const BookingList = () => {
 
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <Link
-                        to={`/dashboard/${user.username}/booking-details/${booking.id}`}
+                        to={`/vendor/booking-details/${booking.id}`}
                         state={{ bookingId: booking.id }}
                         className="text-indigo-600 hover:text-indigo-900 px-2 py-1 rounded bg-gray-200 hover:bg-gray-300"
                       >

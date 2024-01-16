@@ -22,8 +22,6 @@ const VendorProfile = React.memo(() => {
     useContext(AuthContext);
   const navigate = useNavigate();
 
-  console.log("user:", user);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -78,7 +76,7 @@ const VendorProfile = React.memo(() => {
       }
 
       try {
-        console.log("Before API call");
+        // console.log("Before API call");
         // API endpoint for changing the password
         const response = await axiosInstance.post(
           `/api/vendor/change-password/${user.user_id}/`,
@@ -137,7 +135,7 @@ const VendorProfile = React.memo(() => {
     async (e) => {
       e.preventDefault();
 
-      console.log("Form Values:", formname, formmail, formphno);
+      // console.log("Form Values:", formname, formmail, formphno);
 
       const formData = new FormData();
 
@@ -153,7 +151,7 @@ const VendorProfile = React.memo(() => {
         formData.append("phone_no", formphno);
       }
 
-      console.log("FormData:", formData);
+      // console.log("FormData:", formData);
 
       try {
         let response = await fetch(
@@ -210,7 +208,7 @@ const VendorProfile = React.memo(() => {
     ]
   );
 
-  console.log("user", user);
+  // console.log("user", user);
 
   return (
     <>

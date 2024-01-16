@@ -50,33 +50,33 @@ export const AuthProvider = ({ children }) => {
   let [superuser, setSuperuser] = useState("False");
 
   const handlePartnerLogin = () => {
-    console.log("handlepartnerlogin");
+    // console.log("handlepartnerlogin");
     setItspartner("True");
   };
 
   const handleUserLogin = () => {
-    console.log("handlepartnerlogin");
+    // console.log("handlepartnerlogin");
     setItspartner("False");
   };
 
-  console.log("authToken in AuthProvider:", authToken);
+  // console.log("authToken in AuthProvider:", authToken);
 
   const loginWithGoogle = async (googleResponse) => {
-  console.log("Google Response:", googleResponse);
+  // console.log("Google Response:", googleResponse);
   try {
     const user = jwtDecode(googleResponse.credential);
-    console.log("Decoded User:", user.email);
+    // console.log("Decoded User:", user.email);
 
     const axiosRes = await axiosInstance.post("/api/user/google-login/", {
       email: user.email,
     });
 
-    console.log("Backend Response:", axiosRes);
+    // console.log("Backend Response:", axiosRes);
 
     if (axiosRes.status === 201) {
 
-      console.log("only:___",axiosRes?.data )
-      console.log("only:___",axiosRes?.data.access )
+      // console.log("only:___",axiosRes?.data )
+      // console.log("only:___",axiosRes?.data.access )
       // Update authToken state
       setAuthToken(axiosRes?.data);
 
@@ -84,18 +84,18 @@ export const AuthProvider = ({ children }) => {
       setUser(jwtDecode(axiosRes?.data?.access));
 
 
-      console.log("stringfy:__", "authToken",JSON.stringify(axiosRes?.data))
+      // console.log("stringfy:__", "authToken",JSON.stringify(axiosRes?.data))
       // Store auth token in localStorage
       localStorage.setItem("authToken", JSON.stringify(axiosRes?.data));
 
       toast.success(`Welcome ${axiosRes?.data?.username}`);
       navigate("/");
     } else {
-      console.error("Google login failed. Unexpected response:", axiosRes);
+      // console.error("Google login failed. Unexpected response:", axiosRes);
       toast.error("Google login failed. Please try again.");
     }
   } catch (error) {
-    console.error("Error during Google login:", error);
+    // console.error("Error during Google login:", error);
     toast.error("Google login failed. Please try again.");
   }
 };
@@ -148,20 +148,20 @@ export const AuthProvider = ({ children }) => {
 
         if (decodedToken.is_superuser) {
           // The user is a superuser
-          console.log("User is a superuser");
+          // console.log("User is a superuser");
         } else {
           // The user is not a superuser
-          console.log("User is not a superuser");
+          // console.log("User is not a superuser");
         }
 
         setAuthToken(data);
         setUser(jwtDecode(data.access));
 
-        console.log(
-          "data:.....username......partnername..",
-          jwtDecode(data.access)
-        );
-        console.log("local:____", JSON.stringify(data))
+        // console.log(
+        //   "data:.....username......partnername..",
+        //   jwtDecode(data.access)
+        // );
+        // console.log("local:____", JSON.stringify(data))
         localStorage.setItem("authTokens", JSON.stringify(data));
 
         toast.success("Login successful!");
@@ -180,7 +180,7 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       toast.error("Invalid Credentials. Please try again.");
-      console.error("Error during login:", error);
+      // console.error("Error during login:", error);
     }
   };
 

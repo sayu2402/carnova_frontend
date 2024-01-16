@@ -12,7 +12,7 @@ const Checkout = () => {
   const { user } = useContext(AuthContext);
   const [Razorpay] = useRazorpay();
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const pickupDate = location.state.pickupDate;
   const returnDate = location.state.returnDate;
@@ -38,7 +38,7 @@ const Checkout = () => {
 
   const closeConfirmation = () => {
     setShowConfirmation(false);
-    navigate("/dashboard/:username/booking-details")
+    navigate("/dashboard/:username/booking-details");
   };
 
   if (!car) {
@@ -120,13 +120,8 @@ const Checkout = () => {
         const rzp1 = new Razorpay(options);
 
         rzp1.on("payment.failed", function (response) {
-          alert(response.error.code);
-          alert(response.error.description);
-          alert(response.error.source);
-          alert(response.error.step);
-          alert(response.error.reason);
-          alert(response.error.metadata.order_id);
-          alert(response.error.metadata.payment_id);
+          const errorMessage = document.getElementById("error-message");
+          errorMessage.textContent = `Payment failed: ${response.error.description}`;
         });
 
         rzp1.open();

@@ -12,6 +12,10 @@ function NavBar() {
     setShowDropdown(!showDropdown);
   };
 
+  const inboxLink = itspartner
+    ? `/vendor/chat/inbox`
+    : `/chat/inbox/${user?.username}`;
+    
   return (
     <div className="navbar bg-black text-white">
       <div className="navbar-start">
@@ -47,6 +51,9 @@ function NavBar() {
             <li>
               <Link>Contact US</Link>
             </li>
+            <li>
+            <Link to={inboxLink}>Inbox</Link>
+          </li>
           </ul>
         </div>
         <Link to="/" className="btn btn-ghost text-xl">
@@ -64,6 +71,9 @@ function NavBar() {
           </li>
           <li>
             <Link>Contact US</Link>
+          </li>
+          <li>
+            <Link to={inboxLink}>Inbox</Link>
           </li>
         </ul>
       </div>

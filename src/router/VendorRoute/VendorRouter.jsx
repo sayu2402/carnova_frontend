@@ -10,6 +10,8 @@ import AddCarPage from '../../pages/vendorPages/AddCarPage'
 import VendorCarDeatilPage from '../../pages/vendorPages/VendorCarDeatilPage'
 import VendorCarEditPage from '../../pages/vendorPages/VendorCarEditPage'
 import BookingListPage from '../../pages/vendorPages/BookingListPage'
+import VendorChatPage from '../../pages/vendorPages/VendorChatPage'
+import BookingSingleViewVendorPage from '../../pages/vendorPages/BookingSingleViewVendorPage'
 
 function VendorRouter() {
   return (
@@ -23,6 +25,8 @@ function VendorRouter() {
         <Route path='/profile/:partnername/car-details' element={<VendorPrivate><VendorCarDeatilPage/></VendorPrivate> } />
         <Route path='/profile/:partnername/car-edit/:carId' element={<VendorPrivate><VendorCarEditPage/></VendorPrivate> } />
         <Route path='/profile/:partnername/booking-list' element={<VendorPrivate><BookingListPage/></VendorPrivate> } />
+        <Route path='/chat/inbox' element={<VendorPrivate><VendorChatPage/></VendorPrivate> } />
+        <Route path='/booking-details/:bookingId' element={<VendorPrivate><BookingSingleViewVendorPage/></VendorPrivate> } />
     </Routes>
   )
 }
