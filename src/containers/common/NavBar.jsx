@@ -15,7 +15,7 @@ function NavBar() {
   const inboxLink = itspartner
     ? `/vendor/chat/inbox`
     : `/chat/inbox/${user?.username}`;
-    
+
   return (
     <div className="navbar bg-black text-white">
       <div className="navbar-start">
@@ -52,8 +52,8 @@ function NavBar() {
               <Link>Contact US</Link>
             </li>
             <li>
-            <Link to={inboxLink}>Inbox</Link>
-          </li>
+              <Link to={inboxLink}>Inbox</Link>
+            </li>
           </ul>
         </div>
         <Link to="/" className="btn btn-ghost text-xl">
@@ -72,9 +72,10 @@ function NavBar() {
           <li>
             <Link>Contact US</Link>
           </li>
-          <li>
-            <Link to={inboxLink}>Inbox</Link>
-          </li>
+          <div className="indicator">
+            {/* <span className="indicator-item badge badge-secondary">1</span> */}
+            <Link to={inboxLink} className="text-white hover:text-gray-300 px-2 py-2">Inbox</Link>
+          </div>
         </ul>
       </div>
       <div className="navbar-end flex items-center space-x-4 ml-1">
