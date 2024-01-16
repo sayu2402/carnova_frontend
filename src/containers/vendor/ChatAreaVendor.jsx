@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-import Message from "./Message";
-import MessageInput from "./MessageInput";
 import AuthContext from "../../context/AuthContext";
-import axiosInstance from "../../axios/axios";
 import { v4 as uuidv4 } from "uuid";
+import Message from "../user/Message";
+import MessageInput from "../user/MessageInput";
 
-function ChatArea({ selectedVendor }) {
+function ChatAreaVendor({ selectedVendor }) {
   const [messages, setMessages] = useState([]);
   const { user } = useContext(AuthContext);
   const [socket, setSocket] = useState(null);
@@ -13,15 +12,11 @@ function ChatArea({ selectedVendor }) {
   const lastMessageRef = useRef(null);
 
   // Function to fetch messages from the API
-  const fetchMessagesFromAPI = async () => {
+  const fetchMessagesFromAPI = async (userId, receiverId) => {
     try {
-      const response = await axiosInstance.get(`/api/chat/messages/${user.user_id}/${selectedVendor.user.id}`);
-      const { data } = response;
-      const selectedVendorMessages = data.messages;
-      setMessages(selectedVendorMessages);
+      console.log("messages", messages);
     } catch (error) {
       console.error("Error fetching messages:", error);
-      setMessages([]);
     }
   };
 
@@ -30,14 +25,14 @@ function ChatArea({ selectedVendor }) {
 
     if (user && selectedVendor) {
       newSocket = new WebSocket(
-        `ws://localhost:8000/ws/chat/${user.user_id}/${selectedVendor.user.id}/`
+        `ws://localhost:8000/ws/chat/${user.user_id}/${selectedVendor.receiver_id}/`
       );
       setSocket(newSocket);
 
       newSocket.onopen = () => {
         console.log("WebSocket connected");
         // Fetch messages when the WebSocket connection is established
-        fetchMessagesFromAPI();
+        fetchMessagesFromAPI(user.user_id, selectedVendor.receiver_id);
       };
 
       newSocket.onclose = () => console.log("WebSocket disconnected");
@@ -66,16 +61,22 @@ function ChatArea({ selectedVendor }) {
     }
   }, [socket]);
 
+  // Responsible for initial rendering
   useEffect(() => {
-    // 👇️ scroll to the bottom every time messages change
+    setMessages(selectedVendor ? selectedVendor.messages : []);
+  }, [selectedVendor]);
+
+  useEffect(() => {
+    // 👇️ scroll to bottom every time messages change
     lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   const addMessage = (newMessageText) => {
+    console.log(newMessageText, "nre jgfj");
     const newMessage = {
       id: uuidv4(),
       sender: user.user_id,
-      receiver: selectedVendor.user.id,
+      receiver: selectedVendor.receiver_id,
       message: newMessageText,
       timestamp: new Date().toISOString(),
     };
@@ -86,7 +87,7 @@ function ChatArea({ selectedVendor }) {
   return (
     <div className="chat-area">
       <div className="chat-header">
-        {selectedVendor && <h2>{selectedVendor.user.username}</h2>}
+        {selectedVendor && <h2>{selectedVendor.vendorName}</h2>}
       </div>
       <div className="messages">
         {messages.map((message) => (
@@ -106,4 +107,4 @@ function ChatArea({ selectedVendor }) {
   );
 }
 
-export default ChatArea;
+export default ChatAreaVendor;
