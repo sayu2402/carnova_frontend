@@ -130,7 +130,6 @@ const Checkout = () => {
       })
       .catch(function (error) {
         console.error(error);
-        // Additional error handling if needed
       });
   };
 
