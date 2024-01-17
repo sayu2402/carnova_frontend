@@ -146,22 +146,17 @@ export const AuthProvider = ({ children }) => {
         const decodedToken = jwtDecode(data.access);
         setIsSuperuser(decodedToken.is_superuser);
 
-        if (decodedToken.is_superuser) {
-          // The user is a superuser
-          // console.log("User is a superuser");
-        } else {
-          // The user is not a superuser
-          // console.log("User is not a superuser");
-        }
+        // if (decodedToken.is_superuser) {
+        //   // The user is a superuser
+        //   // console.log("User is a superuser");
+        // } else {
+        //   // The user is not a superuser
+        //   // console.log("User is not a superuser");
+        // }
 
         setAuthToken(data);
         setUser(jwtDecode(data.access));
 
-        // console.log(
-        //   "data:.....username......partnername..",
-        //   jwtDecode(data.access)
-        // );
-        // console.log("local:____", JSON.stringify(data))
         localStorage.setItem("authTokens", JSON.stringify(data));
 
         toast.success("Login successful!");
@@ -222,6 +217,8 @@ export const AuthProvider = ({ children }) => {
       }
     });
   };
+
+  console.log("user:", user, "parrtner:", partner)
 
   let contextData = {
     loginUser: loginUser,
