@@ -1,16 +1,18 @@
-import React, { useState, useEffect, useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axiosInstance from "../../axios/axios";
 import AuthContext from "../../context/AuthContext";
+import OnlineStatusVendor from "../common/OnlineStatusVendor";
+import OnlineStatus from "../common/OnlineStatus";
 
 function ChatSidebarVendor({ setSelectedVendor, selectedVendor }) {
   const [chattedVendors, setChattedVendors] = useState([]);
   const { user } = useContext(AuthContext);
 
-
   useEffect(() => {
     axiosInstance
       .get(`/api/chat/booked-vendors/${user.user_id}/`)
       .then((response) => {
+        console.log("vendor_side_response", response)
         const vendorData = response.data.receiver_details || {};
         const avatarURL =
           "https://cdn.iconscout.com/icon/free/png-256/free-avatar-370-456322.png";
@@ -18,6 +20,7 @@ function ChatSidebarVendor({ setSelectedVendor, selectedVendor }) {
           ([vendorName, data]) => ({
             vendorName,
             receiver_id: data.receiver_id,
+            online_status : data.vendor_online_status,
             messages: data.messages?.reverse() || [],
             avatar: avatarURL,
           })
@@ -43,7 +46,8 @@ function ChatSidebarVendor({ setSelectedVendor, selectedVendor }) {
           <li
             key={vendor.receiver_id}
             className={`flex flex-col items-start mb-4 md:flex-row md:items-center md:mb-2 ${
-              selectedVendor && selectedVendor.receiver_id === vendor.receiver_id
+              selectedVendor &&
+              selectedVendor.receiver_id === vendor.receiver_id
                 ? "selected"
                 : ""
             }`}
@@ -56,10 +60,13 @@ function ChatSidebarVendor({ setSelectedVendor, selectedVendor }) {
             />
             <div className="md:ml-4">
               <strong>{vendor.vendorName}</strong>
-              <div className="text-gray-500 text-sm">
-                {vendor.messages.length > 0
-                  ? formatTime(vendor.messages[vendor.messages.length - 1].timestamp)
-                  : ""}
+              <OnlineStatusVendor username={vendor.vendorName}/>
+              <div
+                className={`${
+                  vendor.online_status ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                {vendor.online_status ? "Online" : "Offline"}
               </div>
             </div>
           </li>

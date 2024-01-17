@@ -11,11 +11,17 @@ function ChatArea({ selectedVendor }) {
   const [socket, setSocket] = useState(null);
   const MemoizedMessageInput = React.memo(MessageInput);
   const lastMessageRef = useRef(null);
+  const [onlineStatus, setOnlineStatus] = useState(false);
 
   // Function to fetch messages from the API
   const fetchMessagesFromAPI = async () => {
+    console.log("selected vendor in chat area", selectedVendor);
+
     try {
-      const response = await axiosInstance.get(`/api/chat/messages/${user.user_id}/${selectedVendor.user.id}`);
+      const response = await axiosInstance.get(
+        `/api/chat/messages/${user.user_id}/${selectedVendor.user.id}`
+        );
+        console.log("reposne in messagelist",response)
       const { data } = response;
       const selectedVendorMessages = data.messages;
       setMessages(selectedVendorMessages);
@@ -53,7 +59,6 @@ function ChatArea({ selectedVendor }) {
   useEffect(() => {
     if (socket) {
       const handleSocketMessage = (event) => {
-        console.log(event.data, "event tat");
         const data = JSON.parse(event.data);
         setMessages((prevMessages) => [...prevMessages, data]);
       };
@@ -86,7 +91,11 @@ function ChatArea({ selectedVendor }) {
   return (
     <div className="chat-area">
       <div className="chat-header">
-        {selectedVendor && <h2>{selectedVendor.user.username}</h2>}
+        {selectedVendor && (
+          <h2>
+            {selectedVendor.user.username}
+          </h2>
+        )}
       </div>
       <div className="messages">
         {messages.map((message) => (
