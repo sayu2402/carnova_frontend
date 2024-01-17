@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import NavBar from "../../containers/common/NavBar";
 import Footer from "../../containers/common/Footer";
 import ChatSidebar from "../../containers/user/ChatSidebar";
 import ChatArea from "../../containers/user/ChatArea";
-import axiosInstance from "../../axios/axios";
 
 function UserChatPage() {
   const [selectedVendor, setSelectedVendor] = useState(null);

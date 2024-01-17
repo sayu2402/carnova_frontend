@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import axiosInstance from "../../axios/axios";
 import AuthContext from "../../context/AuthContext";
+import OnlineStatusVendor from "../common/OnlineStatus";
+import OnlineStatus from "../common/OnlineStatus";
 
 function ChatSidebar({ setSelectedVendor, selectedVendor }) {
   const [bookedVendors, setBookedVendors] = useState([]);
   const { user } = useContext(AuthContext);
+  const [onlineStatus, setOnlineStatus] = useState(false);
 
   useEffect(() => {
     // Fetch booked vendors
@@ -49,9 +52,9 @@ function ChatSidebar({ setSelectedVendor, selectedVendor }) {
               alt={`${vendor.user.username}'s Avatar`}
               className="rounded-full w-16 h-16 md:w-12 md:h-12 mr-0 mb-2 md:mr-4 md:mb-0"
             />
-
-            <div className="md:ml-4">
+            <div>
               <strong>{vendor.user.username}</strong>
+              <OnlineStatus username={vendor.user.username}/>
             </div>
           </li>
         ))}
