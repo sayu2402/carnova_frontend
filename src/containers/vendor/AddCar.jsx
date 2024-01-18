@@ -55,15 +55,7 @@ function AddCar() {
     console.log("onSubmit called");
     console.log("is_blocked", values)
 
-    if (values.is_blocked) {
-      // Show SweetAlert for blocked vendor
-      Swal.fire({
-        icon: "error",
-        title: "Blocked Vendor",
-        text: "Blocked vendor can't add cars",
-      });
-      return;
-    }
+   
 
     const formData = new FormData();
 
@@ -91,6 +83,17 @@ function AddCar() {
           },
         }
       );
+
+       // Check if the vendor is blocked
+    if (response.data.is_blocked) {
+      // Show SweetAlert for blocked vendor
+      Swal.fire({
+        icon: "error",
+        title: "Blocked Vendor",
+        text: "Blocked vendor can't add cars",
+      });
+      return;
+    }
 
       if (response.status === 201) {
         toast.success("updated successfully", { theme: "dark" });

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import Swal from "sweetalert2";
 import axiosInstance from "../../axios/axios";
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
@@ -58,34 +58,56 @@ function VendorList() {
     );
   }
 
-  const blockFunction = async (vendor) => {
-    const newStatus = !vendor.user.is_blocked;
-
+  const handleBlockVendor = async (vendorId) => {
     try {
-      const response = await axios
-        .get(`${baseUrl}/api/userblock/${vendor.user.id}`)
-        .then((response) => {
-          const updatedVendors = vendorList.map((existingVendor) => {
-            if (existingVendor.user.id === vendor.user.id) {
-              return {
-                ...existingVendor,
-                user: {
-                  ...existingVendor.user,
-                  is_blocked: newStatus,
-                },
-              };
-            }
-            return existingVendor;
-          });
-          setVendorList(updatedVendors);
+      // Disable the button or show a loading spinner
+      setVendorList((prevVendorList) =>
+        prevVendorList.map((vendor) =>
+          vendor.user.id === vendorId
+            ? { ...vendor, is_blocked: !vendor.is_blocked, blocking: false }
+            : vendor
+        )
+      );
+
+      const vendorToUpdate = vendorList.find(
+        (vendor) => vendor.user.id === vendorId
+      );
+
+      const response = await axiosInstance.post(
+        `/api/admin/block-vendor/${vendorId}/`
+      );
+
+      if (response.status === 200) {
+        // Vendor blocked/unblocked successfully
+        Swal.fire({
+          icon: "success",
+          title: vendorToUpdate.is_blocked
+            ? "Vendor Unblocked"
+            : "Vendor Blocked",
+          text: vendorToUpdate.is_blocked
+            ? "The vendor has been unblocked successfully."
+            : "The vendor has been blocked successfully.",
         });
+      } else {
+        // Failed to block/unblock vendor
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Failed to block/unblock the vendor. Please try again.",
+        });
+      }
     } catch (error) {
-      console.error("Error fetching data:", error);
-      setLoading(false);
+      console.log("Error blocking/unblocking vendor:", error);
+    } finally {
+      // Re-enable the button and remove the loading state
+      setVendorList((prevVendorList) =>
+        prevVendorList.map((vendor) =>
+          vendor.user.id === vendorId ? { ...vendor, blocking: false } : vendor
+        )
+      );
     }
   };
 
-  
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -140,12 +162,12 @@ function VendorList() {
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <button
-                  className={`text-xs text-white ${
-                    vendor.user.is_blocked ? "bg-green-500" : "bg-red-500"
-                  } px-2 py-1`}
-                  onClick={() => blockFunction(vendor)}
+                  onClick={() => handleBlockVendor(vendor.user.id)}
+                  className={`bg-${
+                    vendor.is_blocked ? "red" : "green"
+                  }-500 text-white font-bold py-2 px-4 rounded`}
                 >
-                  {vendor.user.is_blocked ? "Unblock" : "Block"}
+                  {vendor.is_blocked ? "Unblock" : "Block"}
                 </button>
               </td>
             </tr>

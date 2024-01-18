@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import axiosInstance from "../../axios/axios";
+import Swal from "sweetalert2";
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 function UserList() {
@@ -56,33 +56,50 @@ function UserList() {
     );
   }
 
-  const blockfunction = async (user) => {
-    const newStatus = !user.user.is_blocked;
-
+  const handleBlockUser = async (userId) => {
     try {
-      const response = await axios
-        .get(`${baseUrl}/api/userblock/${user.user.id}`)
-        .then((response) => {
-          const updateduser = userList.map((customer) => {
-            if (customer.user.id === user.user.id) {
-              return {
-                ...customer,
-                user: {
-                  ...customer.user,
-                  is_blocked: newStatus,
-                },
-              };
-            }
-            return customer;
-          });
-          setUserList(updateduser);
+      // Disable the button or show a loading spinner
+      setUserList((prevUserList) =>
+        prevUserList.map((user) =>
+          user.user.id === userId
+            ? { ...user, is_blocked: !user.is_blocked, blocking: false }
+            : user
+        )
+      );
+  
+      const userToUpdate = userList.find((user) => user.user.id === userId);
+  
+      const response = await axiosInstance.post(`/api/admin/block-user/${userId}/`);
+  
+      if (response.status === 200) {
+        // User blocked/unblocked successfully
+        Swal.fire({
+          icon: "success",
+          title: userToUpdate.is_blocked ? "User Unblocked" : "User Blocked",
+          text: userToUpdate.is_blocked
+            ? "The user has been unblocked successfully."
+            : "The user has been blocked successfully.",
         });
+      } else {
+        // Failed to block/unblock user
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Failed to block/unblock the user. Please try again.",
+        });
+      }
     } catch (error) {
-      console.error("Error fetching data:", error);
-      setLoading(false);
+      console.log("Error blocking/unblocking user:", error);
+    } finally {
+      // Re-enable the button and remove the loading state
+      setUserList((prevUserList) =>
+        prevUserList.map((user) =>
+          user.user.id === userId ? { ...user, blocking: false } : user
+        )
+      );
     }
   };
-
+  
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -136,13 +153,11 @@ function UserList() {
                 </div>
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
-                <button
-                  className={`text-xs text-white ${
-                    user.user.is_blocked ? "bg-green-500" : "bg-red-500"
-                  } px-2 py-1`}
-                  onClick={() => blockfunction(user)}
+              <button
+                  onClick={() => handleBlockUser(user.user.id)}
+                  className={`bg-${user.is_blocked ? 'red' : 'green'}-500 text-white font-bold py-2 px-4 rounded`}
                 >
-                  {user.user.is_blocked ? "Unblock" : "Block"}
+                  {user.is_blocked ? "Unblock" : "Block"}
                 </button>
               </td>
             </tr>
