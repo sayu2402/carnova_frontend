@@ -61,7 +61,7 @@ function UserList() {
 
     try {
       const response = await axios
-        .get(`http://127.0.0.1:8000/api/userblock/${user.user.id}`)
+        .get(`${baseUrl}/api/userblock/${user.user.id}`)
         .then((response) => {
           const updateduser = userList.map((customer) => {
             if (customer.user.id === user.user.id) {

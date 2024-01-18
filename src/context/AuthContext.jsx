@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import axiosInstance from "../axios/axios";
+const baseUrl = process.env.REACT_APP_BASE_URL;
 
 const AuthContext = createContext();
 
@@ -15,7 +16,6 @@ export default AuthContext;
 // Authprovider
 export const AuthProvider = ({ children }) => {
   const [userdetails, setUserdetails] = useState();
-  // const [userProfile, setUserProfile] = useState("");
 
   const [partner, SetPartner] = useState(() =>
     localStorage.getItem("authTokens")
@@ -50,58 +50,40 @@ export const AuthProvider = ({ children }) => {
   let [superuser, setSuperuser] = useState("False");
 
   const handlePartnerLogin = () => {
-    // console.log("handlepartnerlogin");
     setItspartner("True");
   };
 
   const handleUserLogin = () => {
-    // console.log("handlepartnerlogin");
     setItspartner("False");
   };
 
-  // console.log("authToken in AuthProvider:", authToken);
-
   const loginWithGoogle = async (googleResponse) => {
-  // console.log("Google Response:", googleResponse);
-  try {
-    const user = jwtDecode(googleResponse.credential);
-    // console.log("Decoded User:", user.email);
+    try {
+      const user = jwtDecode(googleResponse.credential);
 
-    const axiosRes = await axiosInstance.post("/api/user/google-login/", {
-      email: user.email,
-    });
+      const axiosRes = await axiosInstance.post("/api/user/google-login/", {
+        email: user.email,
+      });
 
-    // console.log("Backend Response:", axiosRes);
+      if (axiosRes.status === 201) {
+        // Update authToken state
+        setAuthToken(axiosRes?.data);
 
-    if (axiosRes.status === 201) {
+        // Update user state with the decoded user from the Google response
+        setUser(jwtDecode(axiosRes?.data?.access));
 
-      // console.log("only:___",axiosRes?.data )
-      // console.log("only:___",axiosRes?.data.access )
-      // Update authToken state
-      setAuthToken(axiosRes?.data);
+        // Store auth token in localStorage
+        localStorage.setItem("authToken", JSON.stringify(axiosRes?.data));
 
-      // Update user state with the decoded user from the Google response
-      setUser(jwtDecode(axiosRes?.data?.access));
-
-
-      // console.log("stringfy:__", "authToken",JSON.stringify(axiosRes?.data))
-      // Store auth token in localStorage
-      localStorage.setItem("authToken", JSON.stringify(axiosRes?.data));
-
-      toast.success(`Welcome ${axiosRes?.data?.username}`);
-      navigate("/");
-    } else {
-      // console.error("Google login failed. Unexpected response:", axiosRes);
+        toast.success(`Welcome ${axiosRes?.data?.username}`);
+        navigate("/");
+      } else {
+        toast.error("Google login failed. Please try again.");
+      }
+    } catch (error) {
       toast.error("Google login failed. Please try again.");
     }
-  } catch (error) {
-    // console.error("Error during Google login:", error);
-    toast.error("Google login failed. Please try again.");
-  }
-};
-
-
-
+  };
 
   // login user function
   let loginUser = async (e) => {
@@ -112,13 +94,13 @@ export const AuthProvider = ({ children }) => {
 
     if (superuser === "True") {
       // If superuser is 'True', use this URL
-      url = "http://127.0.0.1:8000/api/adminlogin/";
+      url = `${baseUrl}/api/adminlogin/`;
     } else {
       // If not a superuser, check itspartner and choose the URL
       url =
         itspartner === "False"
-          ? "http://127.0.0.1:8000/api/token/"
-          : "http://127.0.0.1:8000/api/partnerlogin/";
+          ? `${baseUrl}/api/token/`
+          : `${baseUrl}/api/partnerlogin/`;
     }
 
     try {
@@ -145,15 +127,6 @@ export const AuthProvider = ({ children }) => {
         setUserdetails(response.data);
         const decodedToken = jwtDecode(data.access);
         setIsSuperuser(decodedToken.is_superuser);
-
-        // if (decodedToken.is_superuser) {
-        //   // The user is a superuser
-        //   // console.log("User is a superuser");
-        // } else {
-        //   // The user is not a superuser
-        //   // console.log("User is not a superuser");
-        // }
-
         setAuthToken(data);
         setUser(jwtDecode(data.access));
 
@@ -175,7 +148,6 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       toast.error("Invalid Credentials. Please try again.");
-      // console.error("Error during login:", error);
     }
   };
 
@@ -218,7 +190,7 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
-  console.log("user:", user, "parrtner:", partner)
+  console.log("user:", user, "parrtner:", partner);
 
   let contextData = {
     loginUser: loginUser,

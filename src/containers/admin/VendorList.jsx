@@ -63,7 +63,7 @@ function VendorList() {
 
     try {
       const response = await axios
-        .get(`http://127.0.0.1:8000/api/userblock/${vendor.user.id}`)
+        .get(`${baseUrl}/api/userblock/${vendor.user.id}`)
         .then((response) => {
           const updatedVendors = vendorList.map((existingVendor) => {
             if (existingVendor.user.id === vendor.user.id) {
@@ -85,20 +85,7 @@ function VendorList() {
     }
   };
 
-  // useEffect(() => {
-  //   const fetchVendorList = async () => {
-  //     try {
-  //       const response = await axios.get("http://127.0.0.1:8000/api/vendorlist/");
-  //       setVendorList(response.data);
-  //       setLoading(false);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //       setLoading(false);
-  //     }
-  //   };
-  //   fetchVendorList();
-  // }, []);
-
+  
   if (loading) {
     return <p>Loading...</p>;
   }
