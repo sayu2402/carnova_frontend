@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../axios/axios";
 import AuthContext from "../../context/AuthContext";
 import useRazorpay from "react-razorpay";
+import Swal from 'sweetalert2';
 
 const Checkout = () => {
   const location = useLocation();
@@ -16,6 +17,14 @@ const Checkout = () => {
 
   const pickupDate = location.state.pickupDate;
   const returnDate = location.state.returnDate;
+
+  const showSweetAlert = (title, text, icon) => {
+    Swal.fire({
+      title: title,
+      text: text,
+      icon: icon,
+    });
+  };
 
   useEffect(() => {
     const fetchCar = async () => {
@@ -88,50 +97,57 @@ const Checkout = () => {
         }
       )
       .then(function (response) {
-        const order_id = response.data.data.id;
+        if (response.data.is_blocked) {
+          // Show toast for blocked user
+          showSweetAlert("Blocked User", "Blocked user cannot book cars", "warning");
+          console.log("here am i")
+        } else {
+          const order_id = response.data.data.id;
 
-        const options = {
-          key: "rzp_test_dvzChbOoMOn0tH",
-          name: "Acme Corp",
-          description: "Test Transaction",
-          image: "https://example.com/your_logo",
-          order_id: order_id,
-          handler: function (response) {
-            complete_payment(
-              response.razorpay_payment_id,
-              response.razorpay_order_id,
-              response.razorpay_signature
-            );
-            displayConfirmation();
-          },
-          prefill: {
-            name: "Piyush Garg",
-            email: "youremail@example.com",
-            contact: "9999999999",
-          },
-          notes: {
-            address: "Razorpay Corporate Office",
-          },
-          theme: {
-            color: "#3399cc",
-          },
-        };
+          const options = {
+            key: "rzp_test_dvzChbOoMOn0tH",
+            name: "Acme Corp",
+            description: "Test Transaction",
+            image: "https://example.com/your_logo",
+            order_id: order_id,
+            handler: function (response) {
+              complete_payment(
+                response.razorpay_payment_id,
+                response.razorpay_order_id,
+                response.razorpay_signature
+              );
+              displayConfirmation();
+            },
+            prefill: {
+              name: "Piyush Garg",
+              email: "youremail@example.com",
+              contact: "9999999999",
+            },
+            notes: {
+              address: "Razorpay Corporate Office",
+            },
+            theme: {
+              color: "#3399cc",
+            },
+          };
 
-        const rzp1 = new Razorpay(options);
+          const rzp1 = new Razorpay(options);
 
-        rzp1.on("payment.failed", function (response) {
-          const errorMessage = document.getElementById("error-message");
-          errorMessage.textContent = `Payment failed: ${response.error.description}`;
-        });
+          rzp1.on("payment.failed", function (response) {
+            const errorMessage = document.getElementById("error-message");
+            errorMessage.textContent = `Payment failed: ${response.error.description}`;
+          });
 
-        rzp1.open();
+          rzp1.open();
 
-        console.log(response);
+          console.log(response);
+        }
       })
       .catch(function (error) {
         console.error(error);
       });
-  };
+};
+
 
   return (
     <section className="text-gray-700 body-font overflow-hidden bg-white">

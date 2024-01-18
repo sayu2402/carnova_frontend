@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 import { Autocomplete } from "@react-google-maps/api";
 import useGoogleMapApi from "../../CustomeHook/useGoogleMapAPI";
 
-
 function EditCar() {
   const { isLoaded } = useGoogleMapApi();
   const navigate = useNavigate();
@@ -138,7 +137,7 @@ function EditCar() {
         types: ["(cities)"],
       }
     );
-  
+
     autocomplete.addListener("place_changed", () => {
       const place = autocomplete.getPlace();
       if (place && place.formatted_address) {
@@ -150,7 +149,7 @@ function EditCar() {
       }
     });
   };
-  
+
   useEffect(() => {
     if (isLoaded) {
       handlePlaceSelect();
@@ -159,17 +158,17 @@ function EditCar() {
 
   return (
     <>
-      <section class="bg-slate-200 dark:bg-gray-900">
-        <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
-          <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
+      <section className="bg-slate-200 dark:bg-gray-900">
+        <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
+          <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
             Edit Car Details
           </h2>
           <form onSubmit={handleSubmit}>
-            <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-              <div class="sm:col-span-2">
+            <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
+              <div className="sm:col-span-2">
                 <label
-                  for="name"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  htmlFor="name"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Car Name
                 </label>
@@ -179,7 +178,7 @@ function EditCar() {
                   id="name"
                   {...getFieldProps("car_name")}
                   value={values.car_name || originalValues.car_name || ""}
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Type product name"
                   required=""
                 />
@@ -187,10 +186,10 @@ function EditCar() {
                   <p className="text-red-600">{errors.car_name}</p>
                 )}
               </div>
-              <div class="w-full">
+              <div className="w-full">
                 <label
-                  for="brand"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  htmlFor="brand"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Brand
                 </label>
@@ -200,7 +199,7 @@ function EditCar() {
                   id="brand"
                   {...getFieldProps("brand")}
                   value={values.brand || originalValues.brand || ""}
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Car brand"
                   required=""
                 />
@@ -208,10 +207,10 @@ function EditCar() {
                   <p className="text-red-600">{errors.brand}</p>
                 )}
               </div>
-              <div class="w-full">
+              <div className="w-full">
                 <label
-                  for="price"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  htmlFor="price"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Price
                 </label>
@@ -221,7 +220,7 @@ function EditCar() {
                   id="price"
                   {...getFieldProps("price")}
                   value={values.price || originalValues.price || ""}
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="₹2999"
                   required=""
                 />
@@ -231,8 +230,8 @@ function EditCar() {
               </div>
               <div>
                 <label
-                  for="category"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  htmlFor="category"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Category
                 </label>
@@ -242,17 +241,17 @@ function EditCar() {
                   value={
                     values.transmission || originalValues.transmission || ""
                   }
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
-                  <option selected="">Select transmission</option>
+                  <option defaultValue="">Select transmission</option>
                   <option value="Automatic">Automatic</option>
                   <option value="Manual">Manual</option>
                 </select>
               </div>
               <div>
                 <label
-                  for="fuel"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  htmlFor="fuel"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Fuel Type
                 </label>
@@ -260,30 +259,30 @@ function EditCar() {
                   id="fuel"
                   {...getFieldProps("fuel_type")}
                   value={values.fuel_type || originalValues.fuel_type || ""}
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
-                  <option selected="">Select Fuel Type</option>
+                  <option defaultValue="">Select Fuel Type</option>
                   <option value="Diesel">Diesel</option>
                   <option value="Petrol">Petrol</option>
                   <option value="Electric">Electric</option>
                 </select>
               </div>
-              <div class="w-full">
+              <div className="w-full">
                 <label
-                  for="brand"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  htmlFor="brand"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Location
                 </label>
                 {isLoaded && (
-                  <Autocomplete onLoad={handlePlaceSelect} >
+                  <Autocomplete onLoad={handlePlaceSelect}>
                     <input
                       type="text"
                       name="location"
                       id="location"
                       value={location}
                       {...getFieldProps("location")}
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                       placeholder="Search Location"
                       required=""
                     />
@@ -295,8 +294,8 @@ function EditCar() {
               </div>
               <div>
                 <label
-                  for="model"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  htmlFor="model"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Model
                 </label>
@@ -304,9 +303,9 @@ function EditCar() {
                   id="model"
                   {...getFieldProps("model")}
                   value={values.model || originalValues.model || ""}
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
-                  <option selected="">Select Model</option>
+                  <option defaultValue="">Select Model</option>
                   <option value="Premium">Premium</option>
                   <option value="Medium">Medium</option>
                   <option value="Normal">Normal</option>
@@ -386,10 +385,10 @@ function EditCar() {
                 </div>
               </div>
 
-              <div class="sm:col-span-2">
+              <div className="sm:col-span-2">
                 <label
-                  for="description"
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  htmlFor="description"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Description
                 </label>
@@ -397,7 +396,7 @@ function EditCar() {
                   id="description"
                   rows="8"
                   {...getFieldProps("description")}
-                  class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Your description here"
                 ></textarea>
                 {errors.description && touched.description && (
@@ -407,7 +406,7 @@ function EditCar() {
             </div>
             <button
               type="submit"
-              class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+              className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
             >
               Save product
             </button>
