@@ -60,41 +60,52 @@ function VendorList() {
 
   const handleBlockVendor = async (vendorId) => {
     try {
-      // Disable the button or show a loading spinner
-      setVendorList((prevVendorList) =>
-        prevVendorList.map((vendor) =>
-          vendor.user.id === vendorId
-            ? { ...vendor, is_blocked: !vendor.is_blocked, blocking: false }
-            : vendor
-        )
-      );
-
       const vendorToUpdate = vendorList.find(
         (vendor) => vendor.user.id === vendorId
       );
-
-      const response = await axiosInstance.post(
-        `/api/admin/block-vendor/${vendorId}/`
-      );
-
-      if (response.status === 200) {
-        // Vendor blocked/unblocked successfully
-        Swal.fire({
-          icon: "success",
-          title: vendorToUpdate.is_blocked
-            ? "Vendor Unblocked"
-            : "Vendor Blocked",
-          text: vendorToUpdate.is_blocked
-            ? "The vendor has been unblocked successfully."
-            : "The vendor has been blocked successfully.",
-        });
-      } else {
-        // Failed to block/unblock vendor
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Failed to block/unblock the vendor. Please try again.",
-        });
+  
+      // Show a confirmation dialog
+      const result = await Swal.fire({
+        title: `Are you sure you want to ${
+          vendorToUpdate.is_blocked ? "unblock" : "block"
+        } this vendor?`,
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
+      });
+  
+      if (result.isConfirmed) {
+        // User confirmed, proceed with blocking/unblocking
+        setVendorList((prevVendorList) =>
+          prevVendorList.map((vendor) =>
+            vendor.user.id === vendorId
+              ? { ...vendor, is_blocked: !vendor.is_blocked, blocking: false }
+              : vendor
+          )
+        );
+  
+        const response = await axiosInstance.post(
+          `/api/admin/block-vendor/${vendorId}/`
+        );
+  
+        if (response.status === 200) {
+          // Vendor blocked/unblocked successfully
+          Swal.fire({
+            icon: "success",
+            title: vendorToUpdate.is_blocked ? "Vendor Unblocked" : "Vendor Blocked",
+            text: vendorToUpdate.is_blocked
+              ? "The vendor has been unblocked successfully."
+              : "The vendor has been blocked successfully.",
+          });
+        } else {
+          // Failed to block/unblock vendor
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Failed to block/unblock the vendor. Please try again.",
+          });
+        }
       }
     } catch (error) {
       console.log("Error blocking/unblocking vendor:", error);
@@ -107,6 +118,7 @@ function VendorList() {
       );
     }
   };
+  
 
   if (loading) {
     return <p>Loading...</p>;

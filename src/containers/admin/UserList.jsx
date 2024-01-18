@@ -58,35 +58,48 @@ function UserList() {
 
   const handleBlockUser = async (userId) => {
     try {
-      // Disable the button or show a loading spinner
-      setUserList((prevUserList) =>
-        prevUserList.map((user) =>
-          user.user.id === userId
-            ? { ...user, is_blocked: !user.is_blocked, blocking: false }
-            : user
-        )
-      );
-  
       const userToUpdate = userList.find((user) => user.user.id === userId);
   
-      const response = await axiosInstance.post(`/api/admin/block-user/${userId}/`);
+      // Show a confirmation dialog
+      const result = await Swal.fire({
+        title: `Are you sure you want to ${
+          userToUpdate.is_blocked ? "unblock" : "block"
+        } this user?`,
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
+      });
   
-      if (response.status === 200) {
-        // User blocked/unblocked successfully
-        Swal.fire({
-          icon: "success",
-          title: userToUpdate.is_blocked ? "User Unblocked" : "User Blocked",
-          text: userToUpdate.is_blocked
-            ? "The user has been unblocked successfully."
-            : "The user has been blocked successfully.",
-        });
-      } else {
-        // Failed to block/unblock user
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Failed to block/unblock the user. Please try again.",
-        });
+      if (result.isConfirmed) {
+        // User confirmed, proceed with blocking/unblocking
+        setUserList((prevUserList) =>
+          prevUserList.map((user) =>
+            user.user.id === userId
+              ? { ...user, is_blocked: !user.is_blocked, blocking: false }
+              : user
+          )
+        );
+  
+        const response = await axiosInstance.post(`/api/admin/block-user/${userId}/`);
+  
+        if (response.status === 200) {
+          // User blocked/unblocked successfully
+          Swal.fire({
+            icon: "success",
+            title: userToUpdate.is_blocked ? "User Unblocked" : "User Blocked",
+            text: userToUpdate.is_blocked
+              ? "The user has been unblocked successfully."
+              : "The user has been blocked successfully.",
+          });
+        } else {
+          // Failed to block/unblock user
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Failed to block/unblock the user. Please try again.",
+          });
+        }
       }
     } catch (error) {
       console.log("Error blocking/unblocking user:", error);
@@ -99,6 +112,7 @@ function UserList() {
       );
     }
   };
+  
   
   if (loading) {
     return <p>Loading...</p>;
