@@ -3,13 +3,13 @@ import AuthContext from "../../context/AuthContext";
 
 const OnlineStatus = () => {
   const [onlineStatus, setOnlineStatus] = useState(false);
-  const { user, partner } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const socketRef = useRef(null);
   const isWebSocketOpen = useRef(false);
 
   useEffect(() => {
-    if (user && partner) {
-      const socket = new WebSocket("ws://localhost:8000/ws/online/");
+    if (user) {
+      const socket = new WebSocket(`ws://localhost:8000/ws/online/${user.user_id}/`);
       socketRef.current = socket;
 
       socket.onopen = () => {
@@ -18,7 +18,7 @@ const OnlineStatus = () => {
 
         socket.send(
           JSON.stringify({
-            username: user.username,
+            user_id: user.user_id,
             type: "open",
           })
         );
@@ -29,7 +29,7 @@ const OnlineStatus = () => {
 
         if (isWebSocketOpen.current) {
           await socketRef.current.send(JSON.stringify({
-            'username': user.username,
+            'user_id': user.user_id,
             'type': 'close'
           }));
           socketRef.current.close();
@@ -49,7 +49,7 @@ const OnlineStatus = () => {
       return () => {
         if (isWebSocketOpen.current) {
           socketRef.current.send(JSON.stringify({
-            'username': user.username,
+            'user_id': user.user_id,
             'type': 'close'
           }));
           socketRef.current.close();
@@ -61,7 +61,7 @@ const OnlineStatus = () => {
   return (
     <div>
       {onlineStatus !== null ? (
-        <p>User is {onlineStatus ? 'online' : 'offline'}</p>
+        <p>{onlineStatus ? 'online' : 'offline'}</p>
       ) : (
         <p>Loading online status...</p>
       )}

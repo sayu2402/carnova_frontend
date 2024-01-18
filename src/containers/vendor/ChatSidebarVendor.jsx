@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import axiosInstance from "../../axios/axios";
 import AuthContext from "../../context/AuthContext";
-import OnlineStatusVendor from "../common/OnlineStatusVendor";
 import OnlineStatus from "../common/OnlineStatus";
 
 function ChatSidebarVendor({ setSelectedVendor, selectedVendor }) {
@@ -60,14 +59,7 @@ function ChatSidebarVendor({ setSelectedVendor, selectedVendor }) {
             />
             <div className="md:ml-4">
               <strong>{vendor.vendorName}</strong>
-              <OnlineStatusVendor username={vendor.vendorName}/>
-              <div
-                className={`${
-                  vendor.online_status ? "text-green-500" : "text-red-500"
-                }`}
-              >
-                {vendor.online_status ? "Online" : "Offline"}
-              </div>
+              <OnlineStatus />
             </div>
           </li>
         ))}

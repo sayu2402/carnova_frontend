@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import axiosInstance from "../../axios/axios";
 import AuthContext from "../../context/AuthContext";
-import OnlineStatusVendor from "../common/OnlineStatus";
 import OnlineStatus from "../common/OnlineStatus";
 
 function ChatSidebar({ setSelectedVendor, selectedVendor }) {
   const [bookedVendors, setBookedVendors] = useState([]);
   const { user } = useContext(AuthContext);
-  const [onlineStatus, setOnlineStatus] = useState(false);
 
   useEffect(() => {
     // Fetch booked vendors
@@ -54,7 +52,7 @@ function ChatSidebar({ setSelectedVendor, selectedVendor }) {
             />
             <div>
               <strong>{vendor.user.username}</strong>
-              <OnlineStatus username={vendor.user.username}/>
+              <OnlineStatus/>
             </div>
           </li>
         ))}
