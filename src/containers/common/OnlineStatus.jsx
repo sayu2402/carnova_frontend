@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import AuthContext from "../../context/AuthContext";
+const baseURL = process.env.REACT_APP_BASE_URL
+
 
 const OnlineStatus = () => {
   const [onlineStatus, setOnlineStatus] = useState(false);
@@ -9,7 +11,7 @@ const OnlineStatus = () => {
 
   useEffect(() => {
     if (user) {
-      const socket = new WebSocket(`ws://localhost:8000/ws/online/${user.user_id}/`);
+      const socket = new WebSocket(`ws://${baseURL}/ws/online/${user.user_id}/`);
       socketRef.current = socket;
 
       socket.onopen = () => {

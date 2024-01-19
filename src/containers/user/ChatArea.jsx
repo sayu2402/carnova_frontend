@@ -4,6 +4,8 @@ import MessageInput from "./MessageInput";
 import AuthContext from "../../context/AuthContext";
 import axiosInstance from "../../axios/axios";
 import { v4 as uuidv4 } from "uuid";
+const baseURL = process.env.REACT_APP_BASE_URL
+
 
 function ChatArea({ selectedVendor }) {
   const [messages, setMessages] = useState([]);
@@ -36,7 +38,7 @@ function ChatArea({ selectedVendor }) {
 
     if (user && selectedVendor) {
       newSocket = new WebSocket(
-        `ws://localhost:8000/ws/chat/${user.user_id}/${selectedVendor.user.id}/`
+        `ws://${baseURL}/ws/chat/${user.user_id}/${selectedVendor.user.id}/`
       );
       setSocket(newSocket);
 
