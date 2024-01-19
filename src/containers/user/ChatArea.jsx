@@ -38,7 +38,7 @@ function ChatArea({ selectedVendor }) {
 
     if (user && selectedVendor) {
       newSocket = new WebSocket(
-        `wss://${baseURL}/ws/chat/${user.user_id}/${selectedVendor.user.id}/`
+        `wss://car.gotashoess.online/ws/chat/${user.user_id}/${selectedVendor.user.id}/`
       );
       setSocket(newSocket);
 
