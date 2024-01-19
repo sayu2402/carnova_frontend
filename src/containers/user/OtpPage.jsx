@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useLocation } from "react-router-dom";
+const baseURL = process.env.REACT_APP_BASE_URL
+
 
 
 function OtpPage() {
@@ -20,8 +22,8 @@ function OtpPage() {
       try {
         const response = await fetch(
           formData1.itsuser === "True"
-            ? "http://127.0.0.1:8000/api/signup/"
-            : "http://127.0.0.1:8000/api/Partnersignup/",
+            ? `http://${baseURL}/api/signup/`
+            : `http://${baseURL}/api/Partnersignup/`,
           {
             method: "POST",
             headers: {
