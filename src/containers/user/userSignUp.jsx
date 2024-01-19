@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+const baseURL = process.env.REACT_APP_BASE_URL
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
@@ -102,7 +102,7 @@ function Signup() {
       phone_no: formphno,
     };
 
-    let response = await fetch("http://127.0.0.1:8000/api/signup/otp/", {
+    let response = await fetch(`${baseURL}/api/signup/otp/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
