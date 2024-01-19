@@ -3,6 +3,8 @@ import AuthContext from "../../context/AuthContext";
 import { v4 as uuidv4 } from "uuid";
 import Message from "../user/Message";
 import MessageInput from "../user/MessageInput";
+const baseURL = process.env.REACT_APP_BASE_URL
+
 
 function ChatAreaVendor({ selectedVendor }) {
   const [messages, setMessages] = useState([]);
@@ -25,7 +27,7 @@ function ChatAreaVendor({ selectedVendor }) {
 
     if (user && selectedVendor) {
       newSocket = new WebSocket(
-        `ws://localhost:8000/ws/chat/${user.user_id}/${selectedVendor.receiver_id}/`
+        `ws://${baseURL}/ws/chat/${user.user_id}/${selectedVendor.receiver_id}/`
       );
       setSocket(newSocket);
 

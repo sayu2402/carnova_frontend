@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import AuthContext from "../../context/AuthContext";
+const baseURL = process.env.REACT_APP_BASE_URL
+
 
 const OnlineStatusVendor = () => {
   const [onlineStatus, setOnlineStatus] = useState(false);
@@ -9,7 +11,7 @@ const OnlineStatusVendor = () => {
 
   useEffect(() => {
     if (partner) {
-      const socket = new WebSocket("ws://localhost:8000/ws/online/");
+      const socket = new WebSocket(`ws://${baseURL}/ws/online/`);
       socketRef.current = socket;
 
       socket.onopen = () => {
