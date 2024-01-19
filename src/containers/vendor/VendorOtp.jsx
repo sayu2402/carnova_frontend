@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useLocation } from "react-router-dom";
+const baseURL = process.env.REACT_APP_BASE_URL
+
 
 
 function OtpPage() {
@@ -14,16 +16,6 @@ function OtpPage() {
 
   const otpverification = async (e) => {  
     e.preventDefault(); // Prevent the default form submission behavior
-
-    console.log("hhhhhhhhhhhhhhhhhh");
-    console.log("formdata,anotherData", formData1);
-    console.log(
-      "hhhhhhhhhhhhhhhhhh",
-      otp,
-      "ppppppppppppppppppppp",
-      formData1.otp
-    );
-
     
     if (otp === formData1.otp) {
       try {
@@ -31,8 +23,8 @@ function OtpPage() {
 
         const response = await fetch(
           formData1.itsuser === "True"
-            ? "http://127.0.0.1:8000/api/signup/"
-            : "http://127.0.0.1:8000/api/Partnersignup/",
+            ? `${baseURL}/api/signup/`
+            : `${baseURL}/api/Partnersignup/`,
           {
             method: "POST",
             headers: {

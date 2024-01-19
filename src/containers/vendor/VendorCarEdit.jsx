@@ -16,7 +16,6 @@ function EditCar() {
   const [location, setLocation] = useState("");
   const [errorLocation, setErrorLocation] = useState("");
 
-  console.log("Cardid:_________", carId);
   // Fetch car data based on carId and set initial form values
   useEffect(() => {
     async function fetchCarData() {

@@ -8,6 +8,8 @@ import "react-toastify/dist/ReactToastify.css";
 import EditProfileModal from "./EditProfileModal";
 import ChangePasswordModal from "./EditPasswordModal";
 import Loading from "../common/Loading";
+const baseURL = process.env.REACT_APP_BASE_URL
+
 
 const VendorProfile = React.memo(() => {
   const [formname, setFormname] = useState("");
@@ -155,7 +157,7 @@ const VendorProfile = React.memo(() => {
 
       try {
         let response = await fetch(
-          `http://127.0.0.1:8000/api/vendor/vendor-edit/${user.user_id}/`,
+          `${baseURL}/api/vendor/vendor-edit/${user.user_id}/`,
           {
             method: "POST",
             body: formData,
