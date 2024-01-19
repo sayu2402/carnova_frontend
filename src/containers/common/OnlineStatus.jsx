@@ -11,7 +11,7 @@ const OnlineStatus = () => {
 
   useEffect(() => {
     if (user) {
-      const socket = new WebSocket(`ws://${baseURL}/ws/online/${user.user_id}/`);
+      const socket = new WebSocket(`wss://${baseURL}/ws/online/${user.user_id}/`);
       socketRef.current = socket;
 
       socket.onopen = () => {
