@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-const baseURL = process.env.REACT_APP_BASE_URL
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+
+const baseURL = process.env.REACT_APP_BASE_URL
+
 
 function Signup() {
   const navigate = useNavigate();
