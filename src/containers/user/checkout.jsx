@@ -9,7 +9,7 @@ const Checkout = () => {
   const location = useLocation();
   const { carId } = useParams();
   const [car, setCar] = useState(null);
-  const [amount, setAmount] = useState(500);
+  const [amount, setAmount] = useState(500); 
   const { user } = useContext(AuthContext);
   const [Razorpay] = useRazorpay();
   const [showConfirmation, setShowConfirmation] = useState(false);
