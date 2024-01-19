@@ -22,8 +22,8 @@ function OtpPage() {
       try {
         const response = await fetch(
           formData1.itsuser === "True"
-            ? `http://${baseURL}/api/signup/`
-            : `http://${baseURL}/api/Partnersignup/`,
+            ? `${baseURL}/api/signup/`
+            : `${baseURL}/api/Partnersignup/`,
           {
             method: "POST",
             headers: {
