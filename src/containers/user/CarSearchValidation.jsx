@@ -3,7 +3,7 @@ import * as Yup from "yup";
 const SearchValidation = Yup.object().shape({
   location: Yup.string().required("Location is required"),
   pickupDate: Yup.date()
-    .min(new Date(), "Pickup date must be today or in the future")
+    .min(new Date(), "Pickup date must be in the future Date")
     .required("Pickup date is required"),
   returnDate: Yup.date()
     .min(Yup.ref("pickupDate"), "Return date must be greater than pickup date")
