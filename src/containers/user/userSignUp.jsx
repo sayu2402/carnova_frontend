@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
 
-const baseURL = process.env.REACT_APP_BASE_URL
-
+const baseURL = process.env.REACT_APP_BASE_URL;
 
 function Signup() {
   const navigate = useNavigate();
@@ -137,7 +136,7 @@ function Signup() {
           "url('https://images.pexels.com/photos/919073/pexels-photo-919073.jpeg')",
       }}
     >
-      <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+      <div className="w-full max-w-sm p-2 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
         <form className="space-y-2">
           <h5 className="text-xl font-medium text-gray-900 dark:text-white">
             Sign in to our platform
@@ -199,6 +198,44 @@ function Signup() {
 
           <div>
             <label
+              htmlFor="front-id"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              ID with Photo (front)
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              name="front-id"
+              id="front-id"
+              onChange={handleChange}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              placeholder="Upload your ID card front side"
+              required
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="front-id"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
+              ID with Photo (back)
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              name="back-id"
+              id="back-id"
+              onChange={handleChange}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              placeholder="Upload your ID card back side"
+              required
+            />
+          </div>
+
+          <div>
+            <label
               htmlFor="password1"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
@@ -238,7 +275,7 @@ function Signup() {
             className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             onClick={handleSubmit}
           >
-            Login to your account
+            Signup to your account
           </button>
 
           {/* <button
