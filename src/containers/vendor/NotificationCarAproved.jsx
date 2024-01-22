@@ -6,7 +6,7 @@ const NotificationCarApproved = () => {
   const [notification, setNotification] = useState(null);
 
   useEffect(() => {
-    const socket = new WebSocket('ws://localhost:8000/ws/notification/');
+    const socket = new WebSocket('wss://car.gotashoess.online/ws/notification/');
 
     socket.onopen = function (event) {
         console.log('WebSocket connection opened:', event);
