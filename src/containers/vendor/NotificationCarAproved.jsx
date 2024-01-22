@@ -13,10 +13,10 @@ const NotificationCarApproved = () => {
       };
       
       socket.onmessage = function (event) {
-        console.log('WebSocket message received:', event.data);
+        // console.log('WebSocket message received:', event.data);
         const data = JSON.parse(event.data);
-        console.log('Parsed data:', data);
-        console.log("notification_type", data.notification_type)
+        // console.log('Parsed data:', data);
+        // console.log("notification_type", data.notification_type)
         if (data.notification_type === 'car_approved') {
           console.log('Handling car_approved notification:', data.message);
           setNotification(data.message);
