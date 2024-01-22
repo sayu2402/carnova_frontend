@@ -12,9 +12,12 @@ import VendorCarEditPage from '../../pages/vendorPages/VendorCarEditPage'
 import BookingListPage from '../../pages/vendorPages/BookingListPage'
 import VendorChatPage from '../../pages/vendorPages/VendorChatPage'
 import BookingSingleViewVendorPage from '../../pages/vendorPages/BookingSingleViewVendorPage'
+import NotificationCarAproved from '../../containers/vendor/NotificationCarAproved'
 
 function VendorRouter() {
   return (
+    <>
+    <NotificationCarAproved/>
     <Routes>
         <Route path='/dashboard/' element={<VendorPrivate><VendorDashboardPage/></VendorPrivate>} />
         <Route path='/signup' element={<VendorSignUpPage/>}/>
@@ -28,6 +31,7 @@ function VendorRouter() {
         <Route path='/chat/inbox' element={<VendorPrivate><VendorChatPage/></VendorPrivate> } />
         <Route path='/booking-details/:bookingId' element={<VendorPrivate><BookingSingleViewVendorPage/></VendorPrivate> } />
     </Routes>
+    </>
   )
 }
 
