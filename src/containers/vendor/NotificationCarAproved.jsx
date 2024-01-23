@@ -6,7 +6,7 @@ const NotificationComponent = () => {
   const [notification, setNotification] = useState(null);
 
   useEffect(() => {
-    const socket = new WebSocket('ws://localhost:8000/ws/notification/');
+    const socket = new WebSocket('wss://car.gotashoess.online/ws/notification/');
 
     socket.onmessage = function (event) {
       const data = JSON.parse(event.data);
