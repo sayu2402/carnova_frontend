@@ -1,27 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const NotificationComponent = () => {
+const NotificationCarApproved = () => {
   const [notification, setNotification] = useState(null);
 
   useEffect(() => {
-    const socket = new WebSocket('wss://car.gotashoess.online/ws/notification/');
+    // const socket = new WebSocket("ws://localhost:8000/ws/notification/");
+
+    const socket = new WebSocket("wss://car.gotashoess.online/ws/notification/");
+
+
+    socket.onopen = function (event) {
+      console.log("WebSocket connection opened:", event);
+    };
 
     socket.onmessage = function (event) {
       const data = JSON.parse(event.data);
-      if (data.notification_type === 'car_approved' || data.notification_type === 'car_rejected') {
+      if (data.notification_type === "car_approved") {
         setNotification(data.message);
         toast.success(data.message);
+      } else if (data.notification_type === "car_rejected") {
+        setNotification(data.message);
+        toast.error(data.message);
       }
     };
 
-    socket.onerror = function (error) {
-      console.error('WebSocket Error:', error);
-    };
-
     socket.onclose = function (event) {
-      console.log('WebSocket disconnected');
+      console.log("WebSocket connection closed:", event);
     };
 
     return () => {
@@ -29,15 +35,7 @@ const NotificationComponent = () => {
     };
   }, []);
 
-  return (
-    <div>
-      {notification && (
-        <div className="notification">
-          {notification}
-        </div>
-      )}
-    </div>
-  );
+  return <div></div>;
 };
 
-export default NotificationComponent;
+export default NotificationCarApproved;
