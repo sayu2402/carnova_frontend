@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../axios/axios";
 import { useParams } from "react-router-dom";
+import Loading from "../common/Loading";
 
 const BookingSingleViewVendor = () => {
   const { bookingId } = useParams();
@@ -25,7 +26,7 @@ const BookingSingleViewVendor = () => {
   }, [bookingId]);
 
   if (!booking) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
 
   return (

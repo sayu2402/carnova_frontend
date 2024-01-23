@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../axios/axios";
 import { useNavigate } from "react-router-dom";
+import Loading from "../common/Loading";
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 const CarList = () => {
   const [carList, setCarList] = useState([]);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({
     count: 0,
     next: null,
@@ -15,16 +17,6 @@ const CarList = () => {
 
   const totalResult = pagination.count;
   console.log("total_results:", totalResult);
-
-  // useEffect(() => {
-  //   axiosInstance
-  //     .get("api/admin/cars-list")
-  //     .then((response) => {
-  //       console.log(response.data); // Log the response
-  //       setCarList(response.data);
-  //     })
-  //     .catch((error) => console.error("Error fetching car data:", error));
-  // }, []);
 
   useEffect(() => {
     fetchData(`${baseUrl}/api/admin/cars-list`);
@@ -41,6 +33,8 @@ const CarList = () => {
       });
     } catch (error) {
       console.log("error fetching car list:", error);
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -94,6 +88,8 @@ const CarList = () => {
   };
 
   return (
+    <>
+    {loading && <Loading />}
     <div className="p-4">
       <h2 className="text-3xl font-semibold mb-4">Car List</h2>
       <table className="min-w-full divide-y divide-gray-200">
@@ -301,6 +297,7 @@ const CarList = () => {
       </nav>
       {/* Pagination Area End */}
     </div>
+    </>
   );
 };
 

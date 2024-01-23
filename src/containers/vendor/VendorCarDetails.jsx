@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import axiosInstance from "../../axios/axios";
 import AuthContext from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import Loading from "../common/Loading";
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 const VendorCarDetails = () => {
@@ -66,7 +67,7 @@ const VendorCarDetails = () => {
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   const handleEdit = (carId) => {

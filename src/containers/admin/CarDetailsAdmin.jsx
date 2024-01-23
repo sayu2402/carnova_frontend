@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../axios/axios";
+import Loading from "../common/Loading";
 
 const CarDetailsAdmin = () => {
   const { id } = useParams();
@@ -20,7 +21,7 @@ const CarDetailsAdmin = () => {
   }, [id]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (

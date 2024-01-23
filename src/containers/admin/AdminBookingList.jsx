@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../axios/axios";
+import Loading from "../common/Loading";
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 const AdminBookingList = () => {
   const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({
     count: 0,
     next: null,
@@ -29,6 +31,8 @@ const AdminBookingList = () => {
       });
     } catch (error) {
       console.log("error fetching car data:", error);
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -55,6 +59,11 @@ const AdminBookingList = () => {
     );
   }
   return (
+    <>
+    {loading ? (
+        <Loading /> // Render the Loading component while data is being fetched
+      ) : (
+        
     <div className="p-4">
       <h2 className="text-3xl font-semibold mb-4">Bookings List</h2>
       <div className="overflow-x-auto">
@@ -150,6 +159,8 @@ const AdminBookingList = () => {
         {/* Pagination Area End */}
       </div>
     </div>
+    )}
+    </>
   );
 };
 

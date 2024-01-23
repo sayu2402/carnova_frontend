@@ -10,11 +10,13 @@ import {
 import axiosInstance from "../../axios/axios";
 import useGoogleMapApi from "../../CustomeHook/useGoogleMapAPI";
 import { useFormik } from "formik";
+import Loading from "../common/Loading";
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 const BrowseCar = () => {
   const { isLoaded } = useGoogleMapApi();
   const [location, setLocation] = useState("");
+  const [loading, setLoading] = useState(true);
   const [errorLocation, setErrorLocation] = useState("");
   const {
     values,
@@ -55,6 +57,8 @@ const BrowseCar = () => {
       });
     } catch (error) {
       console.error("Error fetching car data:", error);
+    }finally {
+      setLoading(false)
     }
   };
 
@@ -84,6 +88,8 @@ const BrowseCar = () => {
   }
 
   return (
+    <>
+    {loading && <Loading />}
     <div>
       <div className="bg-slate-200 py-20 pl-4">
         <h2 className="text-4xl font-bold text-black mb-4">Available Cars</h2>
@@ -164,6 +170,7 @@ const BrowseCar = () => {
         </nav>
       </div>
     </div>
+    </>
   );
 };
 

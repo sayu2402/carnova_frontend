@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../../axios/axios";
 import MonthlyChart from "./MonthlyLineChart";
 import PieChartAdmin from "./PieChartAdmin";
+import Loading from "../common/Loading";
 
 function AdminDashboard() {
   const [dashboardData, setDashboardData] = useState({
@@ -14,6 +15,7 @@ function AdminDashboard() {
   const [newUsersData, setNewUsersData] = useState([]);
   const [newVendorsData, setNewVendorsData] = useState([]);
   const [newBookingsData, setNewBookingsData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,6 +24,8 @@ function AdminDashboard() {
         setDashboardData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -31,6 +35,8 @@ function AdminDashboard() {
         setNewUsersData(response.data);
       } catch (error) {
         console.error("Error fetching new users data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -40,6 +46,8 @@ function AdminDashboard() {
         setNewVendorsData(response.data);
       } catch (error) {
         console.error("Error fetching new vendors data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -49,6 +57,8 @@ function AdminDashboard() {
         setNewBookingsData(response.data);
       } catch (error) {
         console.error("Error fetching new bookings data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -60,6 +70,7 @@ function AdminDashboard() {
 
   return (
     <>
+      {loading && <Loading />}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
         <div className="bg-blue-500 p-4 rounded-md text-white h-28 flex flex-col items-center justify-center">
           <p className="text-lg font-semibold">Total Revenue</p>

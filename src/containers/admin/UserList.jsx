@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../axios/axios";
 import Swal from "sweetalert2";
+import Loading from "../common/Loading";
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 function UserList() {
@@ -115,7 +116,7 @@ function UserList() {
   
   
   if (loading) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
 
   return (
