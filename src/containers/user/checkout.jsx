@@ -15,7 +15,6 @@ const Checkout = () => {
   const [Razorpay] = useRazorpay();
   const [showConfirmation, setShowConfirmation] = useState(false);
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
   const [walletBalance, setWalletBalance] = useState(100);
 
   const pickupDate = location.state.pickupDate;
@@ -36,7 +35,6 @@ const Checkout = () => {
           `/api/user/car-details/${carId}/`
         );
         setCar(response.data);
-        setLoading(false)
       } catch (error) {
         console.error("Error fetching car details:", error);
       }
@@ -211,7 +209,6 @@ const Checkout = () => {
 
   return (
     <>
-    {loading && <Loading />}
     <section className="text-gray-700 body-font overflow-hidden bg-white">
       <div className="container px-5 py-24 mx-auto">
         <div className="lg:w-4/5 mx-auto flex flex-wrap">
