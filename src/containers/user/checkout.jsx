@@ -38,8 +38,6 @@ const Checkout = () => {
         setCar(response.data);
       } catch (error) {
         console.error("Error fetching car details:", error);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -159,7 +157,6 @@ const Checkout = () => {
 
   const handleWalletPayment = async () => {
     try {
-      // Call the API to get the latest wallet balance
       const walletApiResponse = await axiosInstance.get(
         `/api/user/wallet/${user.user_id}/`
       );
@@ -168,10 +165,8 @@ const Checkout = () => {
 
       setWalletBalance(latestWalletBalance);
 
-      // Calculate total amount before displaying the confirmation dialog
       const totalAmount = calculateTotalAmount();
 
-      // Show SweetAlert confirmation dialog
       const result = await Swal.fire({
         title: "Confirm Wallet Payment",
         text: `Do you want to proceed with a wallet payment of ${totalAmount} credits?`,
@@ -182,7 +177,6 @@ const Checkout = () => {
       });
 
       if (result.isConfirmed) {
-        // User clicked "Yes, proceed"
         if (latestWalletBalance >= totalAmount) {
           const paymentResponse = await axiosInstance.post(
             `/api/user/wallet-payment/${carId}/${pickupDate}/${returnDate}/${user.user_id}/`,
@@ -198,7 +192,6 @@ const Checkout = () => {
           );
           displayConfirmation();
         } else {
-          // Show a message indicating insufficient funds
           showSweetAlert(
             "Insufficient Funds",
             "You don't have enough funds in your wallet",
@@ -206,19 +199,17 @@ const Checkout = () => {
           );
         }
       } else {
-        // User clicked "Cancel" or closed the dialog
         showSweetAlert("Payment Canceled", "Wallet payment canceled", "info");
       }
     } catch (error) {
-      // Handle error for wallet payment
       console.error("Error making wallet payment:", error);
 
-      // Optionally, you can show an error message
       showSweetAlert("Payment Failed", "Wallet payment failed", "error");
     }
   };
 
   return (
+    <>
     <section className="text-gray-700 body-font overflow-hidden bg-white">
       <div className="container px-5 py-24 mx-auto">
         <div className="lg:w-4/5 mx-auto flex flex-wrap">
@@ -366,6 +357,7 @@ const Checkout = () => {
         </div>
       )}
     </section>
+    </>
   );
 };
 
