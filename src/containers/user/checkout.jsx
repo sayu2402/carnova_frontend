@@ -36,10 +36,9 @@ const Checkout = () => {
           `/api/user/car-details/${carId}/`
         );
         setCar(response.data);
+        setLoading(false)
       } catch (error) {
         console.error("Error fetching car details:", error);
-      }finally{
-        setLoading(false)
       }
     };
 
