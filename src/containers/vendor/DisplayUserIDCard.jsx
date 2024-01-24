@@ -1,16 +1,21 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axiosInstance from "../../axios/axios";
-import AuthContext from "../../context/AuthContext";
 import Loading from "../common/Loading";
+import { useLocation } from "react-router-dom";
 
-const IDCardDisplay = () => {
-  const { user } = useContext(AuthContext);
+const DisplayUserIDCard = () => {
   const [idCardDetails, setIdCardDetails] = useState(null);
+  const location = useLocation();
+
+  const user = location.state?.user;
+  const user_id = user?.id;
 
   useEffect(() => {
     const fetchIDCardDetails = async () => {
       try {
-        const response = await axiosInstance.get(`/api/user/${user.user_id}/id-card/`);
+        const response = await axiosInstance.get(
+          `/api/user/${user_id}/id-card/`
+        );
         setIdCardDetails(response.data);
       } catch (error) {
         console.error("Error fetching ID card details:", error);
@@ -18,7 +23,7 @@ const IDCardDisplay = () => {
     };
 
     fetchIDCardDetails();
-  }, [user.user_id]);
+  }, [user.id]);
 
   if (!idCardDetails) {
     return <Loading />;
@@ -27,14 +32,26 @@ const IDCardDisplay = () => {
   return (
     <div style={styles.container}>
       <h2 style={styles.title}>ID Card</h2>
-      <div style={styles.photoContainer}>
-        <label style={styles.label}>Front Side:</label>
-        <img style={styles.photo} src={idCardDetails.front_photo} alt="Front Photo" />
-      </div>
-      <div style={styles.photoContainer}>
-        <label style={styles.label}>Back Side:</label>
-        <img style={styles.photo} src={idCardDetails.back_photo} alt="Back Photo" />
-      </div>
+      {idCardDetails && (
+        <>
+          <div style={styles.photoContainer}>
+            <label style={styles.label}>Front Side:</label>
+            <img
+              style={styles.photo}
+              src={idCardDetails.front_photo}
+              alt="Front Photo"
+            />
+          </div>
+          <div style={styles.photoContainer}>
+            <label style={styles.label}>Back Side:</label>
+            <img
+              style={styles.photo}
+              src={idCardDetails.back_photo}
+              alt="Back Photo"
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 };
@@ -66,10 +83,10 @@ const styles = {
     color: "#555",
   },
   photo: {
-    width: "100%", 
+    width: "100%",
     maxWidth: "300px",
     borderRadius: "8px",
   },
 };
 
-export default IDCardDisplay;
+export default DisplayUserIDCard;
