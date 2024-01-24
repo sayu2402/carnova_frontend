@@ -16,6 +16,7 @@ const Checkout = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [walletBalance, setWalletBalance] = useState(100);
 
   const pickupDate = location.state.pickupDate;
   const returnDate = location.state.returnDate;
@@ -156,6 +157,67 @@ const Checkout = () => {
       });
   };
 
+  const handleWalletPayment = async () => {
+    try {
+      // Call the API to get the latest wallet balance
+      const walletApiResponse = await axiosInstance.get(
+        `/api/user/wallet/${user.user_id}/`
+      );
+
+      const latestWalletBalance = walletApiResponse.data.balance;
+
+      setWalletBalance(latestWalletBalance);
+
+      // Calculate total amount before displaying the confirmation dialog
+      const totalAmount = calculateTotalAmount();
+
+      // Show SweetAlert confirmation dialog
+      const result = await Swal.fire({
+        title: "Confirm Wallet Payment",
+        text: `Do you want to proceed with a wallet payment of ${totalAmount} credits?`,
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Yes, proceed",
+        cancelButtonText: "Cancel",
+      });
+
+      if (result.isConfirmed) {
+        // User clicked "Yes, proceed"
+        if (latestWalletBalance >= totalAmount) {
+          const paymentResponse = await axiosInstance.post(
+            `/api/user/wallet-payment/${carId}/${pickupDate}/${returnDate}/${user.user_id}/`,
+            {
+              amount: totalAmount,
+            }
+          );
+
+          showSweetAlert(
+            "Payment Success",
+            "Wallet payment successful",
+            "success"
+          );
+          displayConfirmation();
+        } else {
+          // Show a message indicating insufficient funds
+          showSweetAlert(
+            "Insufficient Funds",
+            "You don't have enough funds in your wallet",
+            "error"
+          );
+        }
+      } else {
+        // User clicked "Cancel" or closed the dialog
+        showSweetAlert("Payment Canceled", "Wallet payment canceled", "info");
+      }
+    } catch (error) {
+      // Handle error for wallet payment
+      console.error("Error making wallet payment:", error);
+
+      // Optionally, you can show an error message
+      showSweetAlert("Payment Failed", "Wallet payment failed", "error");
+    }
+  };
+
   return (
     <section className="text-gray-700 body-font overflow-hidden bg-white">
       <div className="container px-5 py-24 mx-auto">
@@ -207,13 +269,37 @@ const Checkout = () => {
               <span className="title-font font-medium text-2xl text-gray-900">
                 {`Payment: $${calculateTotalAmount()}`}
               </span>
+
+              <button
+                onClick={handleWalletPayment}
+                type="button"
+                className="text-gray-900 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 me-2 mb-2"
+              >
+                <svg
+                  className="w-4 h-4 me-2 -ms-1 text-[#626890]"
+                  aria-hidden="true"
+                  focusable="false"
+                  data-prefix="fab"
+                  data-icon="ethereum"
+                  role="img"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 320 512"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M311.9 260.8L160 353.6 8 260.8 160 0l151.9 260.8zM160 383.4L8 290.6 160 512l152-221.4-152 92.8z"
+                  ></path>
+                </svg>
+                Pay From Wallet
+              </button>
+
               <button
                 onClick={razorpayPayment}
                 type="button"
                 className="flex ml-auto py-2 px-6  text-gray-900 bg-[#F7BE38] hover:bg-[#F7BE38]/90 focus:ring-4 focus:outline-none focus:ring-[#F7BE38]/50 font-medium rounded-lg text-sm  text-center  items-center dark:focus:ring-[#F7BE38]/50 me-2 mb-2"
               >
                 <svg
-                  class="w-4 h-4 me-2 -ms-1"
+                  className="w-4 h-4 me-2 -ms-1"
                   aria-hidden="true"
                   focusable="false"
                   data-prefix="fab"
