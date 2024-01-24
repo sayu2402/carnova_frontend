@@ -6,6 +6,7 @@ import axiosInstance from "../../axios/axios";
 import SearchResults from "./SearchResults";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Loading from "../common/Loading";
 import "react-toastify/dist/ReactToastify.css";
 
 function SearchArea() {
@@ -13,6 +14,7 @@ function SearchArea() {
   const [cars, setCars] = useState([]);
   const [errorLocation, setErrorLocation] = useState("");
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(true)
   const {
     values,
     errors,
@@ -43,6 +45,8 @@ function SearchArea() {
         } catch (error) {
           setCars([]);
           toast.error(error.response?.data.message || "An error occurred");
+        }finally {
+          setLoading(false)
         }
       },
   });
@@ -68,6 +72,8 @@ function SearchArea() {
   };
 
   return (
+    <>
+    {loading && <Loading />}
     <div>
       <div
         className="hero min-h-screen"
@@ -161,6 +167,7 @@ function SearchArea() {
       {/* Display search results */}
       {cars.length > 0 && <SearchResults cars={cars} />}
     </div>
+    </>
   );
 }
 

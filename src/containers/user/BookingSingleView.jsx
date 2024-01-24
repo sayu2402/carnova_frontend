@@ -3,6 +3,7 @@ import axiosInstance from "../../axios/axios";
 import { useNavigate, useParams } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
 import swal from "sweetalert2";
+import Loading from "../common/Loading";
 
 const BookingSingleView = () => {
   const { bookingId } = useParams();
@@ -10,8 +11,7 @@ const BookingSingleView = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [cancelling, setCancelling] = useState(false);
-
-  console.log("booking_id_______", bookingId);
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchBookingDetails = async () => {
@@ -23,6 +23,8 @@ const BookingSingleView = () => {
         setBooking(response.data);
       } catch (error) {
         console.error("Error fetching booking details:", error);
+      }finally{
+        setLoading(false)
       }
     };
 
@@ -63,7 +65,7 @@ const BookingSingleView = () => {
   };
 
   if (!booking) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
 
   return (

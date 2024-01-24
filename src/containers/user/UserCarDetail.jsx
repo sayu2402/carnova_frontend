@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../axios/axios";
 import BookingModal from "./BookingModal";
+import Loading from "../common/Loading";
 
 const UserCarDetail = () => {
   const { carId } = useParams();
   const [car, setCar] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [single, setSingle] = useState(null);
-  
-
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCar = async () => {
@@ -22,6 +22,8 @@ const UserCarDetail = () => {
         console.log("Car Data:", response.data);
       } catch (error) {
         console.error("Error fetching car details:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -32,14 +34,12 @@ const UserCarDetail = () => {
     setShowModal(true);
   };
 
-
   const closeModal = () => {
     setShowModal(false);
   };
 
-
   if (!car) {
-    return <div>Loading...</div>;
+    return <Loading/>;
   }
 
   return (
@@ -82,18 +82,21 @@ const UserCarDetail = () => {
             </div>
 
             <div className="flex">
-              <span className="title-font font-medium text-2xl text-gray-900">{`$${car.price}`} / Day</span>
-              <button onClick={openModal} className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">
+              <span className="title-font font-medium text-2xl text-gray-900">
+                {`$${car.price}`} / Day
+              </span>
+              <button
+                onClick={openModal}
+                className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded"
+              >
                 Reserve Now
               </button>
             </div>
-
           </div>
 
           {/* Modal */}
 
           {showModal && <BookingModal onClose={closeModal} carId={single} />}
-          
         </div>
       </div>
     </section>

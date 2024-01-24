@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import axiosInstance from "../../axios/axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loading from "../common/Loading";
 
 function UserDashboard() {
   const [formname, setFormname] = useState("");
@@ -16,6 +17,7 @@ function UserDashboard() {
   const [userProfile, setUserProfile] = useState("");
 
   const { user, setUser, setItspartner } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true)
 
   console.log("user", user);
 
@@ -41,6 +43,8 @@ function UserDashboard() {
         setUserProfile(response.data);
       } catch (error) {
         console.error("Error fetching user profile:", error);
+      }finally{
+        setLoading(false)
       }
     };
 
@@ -186,6 +190,7 @@ function UserDashboard() {
 
   return (
     <>
+    {loading && <Loading />}
       <div
         className="bg-cover h-screen flex items-center"
         style={{

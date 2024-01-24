@@ -4,16 +4,18 @@ import axiosInstance from "../../axios/axios";
 import AuthContext from "../../context/AuthContext";
 import useRazorpay from "react-razorpay";
 import Swal from "sweetalert2";
+import Loading from "../common/Loading";
 
 const Checkout = () => {
   const location = useLocation();
   const { carId } = useParams();
   const [car, setCar] = useState(null);
-  const [amount, setAmount] = useState(500); 
+  const [amount, setAmount] = useState(500);
   const { user } = useContext(AuthContext);
   const [Razorpay] = useRazorpay();
   const [showConfirmation, setShowConfirmation] = useState(false);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   const pickupDate = location.state.pickupDate;
   const returnDate = location.state.returnDate;
@@ -35,6 +37,8 @@ const Checkout = () => {
         setCar(response.data);
       } catch (error) {
         console.error("Error fetching car details:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -51,7 +55,7 @@ const Checkout = () => {
   };
 
   if (!car) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   const no_of_days = () => {
