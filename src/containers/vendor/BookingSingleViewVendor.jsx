@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../axios/axios";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Loading from "../common/Loading";
 
 const BookingSingleViewVendor = () => {
@@ -28,6 +28,8 @@ const BookingSingleViewVendor = () => {
   if (!booking) {
     return <Loading />;
   }
+
+  console.log("___________", booking.user.user)
 
   return (
     <section className="text-gray-700 body-font overflow-hidden bg-white">
@@ -110,6 +112,15 @@ const BookingSingleViewVendor = () => {
                   )}
                 </h1>
               </span>
+            </div>
+            <div className="flex items-center mt-6 mr-56">
+              <Link
+                to="/vendor/booking-details/user-id-card"
+                state={{ user: booking.user.user }}
+                className="bg-red-500 text-white px-4 py-2 rounded ml-auto"
+              >
+                Show ID
+              </Link>
             </div>
           </div>
         </div>
