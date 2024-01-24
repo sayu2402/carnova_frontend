@@ -32,7 +32,6 @@ const BookingSingleView = () => {
   }, [bookingId]);
 
   const handleCancelBooking = async () => {
-    // Display confirmation dialog
     const result = await swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -43,7 +42,6 @@ const BookingSingleView = () => {
       confirmButtonText: "Yes, cancel it!",
     });
 
-    // If the user clicks "Yes" in the confirmation dialog
     if (result.isConfirmed) {
       try {
         setCancelling(true);
@@ -58,9 +56,8 @@ const BookingSingleView = () => {
     }
   };
   const handleChatClick = () => {
-    // Redirect to the chat page with the corresponding vendor details
     navigate(`/chat/inbox/${booking.user.user.username}`, {
-      state: { vendorDetails: booking.vendor }, // Pass vendor details as state
+      state: { vendorDetails: booking.vendor },
     });
   };
 

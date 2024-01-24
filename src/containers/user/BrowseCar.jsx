@@ -8,15 +8,10 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import axiosInstance from "../../axios/axios";
-import useGoogleMapApi from "../../CustomeHook/useGoogleMapAPI";
 import { useFormik } from "formik";
-import Loading from "../common/Loading";
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 const BrowseCar = () => {
-  const { isLoaded } = useGoogleMapApi();
-  const [location, setLocation] = useState("");
-  const [errorLocation, setErrorLocation] = useState("");
   const {
     values,
     errors,
@@ -29,7 +24,6 @@ const BrowseCar = () => {
       location: "",
     },
   });
-
 
   const [cars, setCars] = useState([]);
   const [pagination, setPagination] = useState({
@@ -86,86 +80,86 @@ const BrowseCar = () => {
 
   return (
     <>
-    <div>
-      <div className="bg-slate-200 py-20 pl-4">
-        <h2 className="text-4xl font-bold text-black mb-4">Available Cars</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
-          {Array.isArray(cars) &&
-            cars.map((car) => (
-              <Card key={car.id} className="w-92 mb-4">
-                <CardHeader shadow={false} floated={false} className="h-96">
-                  <img
-                    src={car.car_photo}
-                    alt="car-image"
-                    className="h-full w-full object-full"
-                  />
-                </CardHeader>
-                <CardBody>
-                  <div className="mb-2 flex items-center justify-between">
-                    <Typography color="blue-gray" className="font-medium">
-                      {car.brand} {car.car_name}
+      <div>
+        <div className="bg-slate-200 py-20 pl-4">
+          <h2 className="text-4xl font-bold text-black mb-4">Available Cars</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4">
+            {Array.isArray(cars) &&
+              cars.map((car) => (
+                <Card key={car.id} className="w-92 mb-4">
+                  <CardHeader shadow={false} floated={false} className="h-96">
+                    <img
+                      src={car.car_photo}
+                      alt="car-image"
+                      className="h-full w-full object-full"
+                    />
+                  </CardHeader>
+                  <CardBody>
+                    <div className="mb-2 flex items-center justify-between">
+                      <Typography color="blue-gray" className="font-medium">
+                        {car.brand} {car.car_name}
+                      </Typography>
+                      <Typography color="blue-gray" className="font-medium">
+                        ${car.price} / day
+                      </Typography>
+                    </div>
+                    <Typography
+                      variant="small"
+                      color="gray"
+                      className="font-normal opacity-75"
+                    >
+                      {car.description}
                     </Typography>
-                    <Typography color="blue-gray" className="font-medium">
-                      ${car.price} / day
-                    </Typography>
-                  </div>
-                  <Typography
-                    variant="small"
-                    color="gray"
-                    className="font-normal opacity-75"
-                  >
-                    {car.description}
-                  </Typography>
-                </CardBody>
-                <CardFooter className="pt-0">
-                  <Link
-                    to={`/browse-car/${car.id}`}
-                    className="bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
-                  >
-                    View Details
-                  </Link>
-                </CardFooter>
-              </Card>
-            ))}
+                  </CardBody>
+                  <CardFooter className="pt-0">
+                    <Link
+                      to={`/browse-car/${car.id}`}
+                      className="bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:scale-105 hover:shadow-none focus:scale-105 focus:shadow-none active:scale-100"
+                    >
+                      View Details
+                    </Link>
+                  </CardFooter>
+                </Card>
+              ))}
+          </div>
+          <nav
+            aria-label="Page navigation example"
+            className="flex justify-center mt-4"
+          >
+            <ul className="flex items-center gap-4 list-none">
+              <li>
+                <button
+                  onClick={() =>
+                    pagination.previous && handlePageChange(pagination.previous)
+                  }
+                  disabled={!pagination.previous}
+                  className={`relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-white transition-all ${
+                    !pagination.previous ? "bg-gray-400" : "bg-blue-500"
+                  } hover:bg-blue-600 active:bg-blue-700 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none`}
+                >
+                  Prev
+                </button>
+              </li>
+              {links.map((link, index) => (
+                <li key={index}>{link}</li>
+              ))}
+              <li>
+                <button
+                  onClick={() =>
+                    pagination.next && handlePageChange(pagination.next)
+                  }
+                  disabled={!pagination.next}
+                  className={`relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-white transition-all ${
+                    !pagination.next ? "bg-gray-400" : "bg-blue-500"
+                  } hover:bg-blue-600 active:bg-blue-700 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none`}
+                >
+                  Next
+                </button>
+              </li>
+            </ul>
+          </nav>
         </div>
-        <nav
-          aria-label="Page navigation example"
-          className="flex justify-center mt-4"
-        >
-          <ul className="flex items-center gap-4 list-none">
-            <li>
-              <button
-                onClick={() =>
-                  pagination.previous && handlePageChange(pagination.previous)
-                }
-                disabled={!pagination.previous}
-                className={`relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-white transition-all ${
-                  !pagination.previous ? "bg-gray-400" : "bg-blue-500"
-                } hover:bg-blue-600 active:bg-blue-700 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none`}
-              >
-                Prev
-              </button>
-            </li>
-            {links.map((link, index) => (
-              <li key={index}>{link}</li>
-            ))}
-            <li>
-              <button
-                onClick={() =>
-                  pagination.next && handlePageChange(pagination.next)
-                }
-                disabled={!pagination.next}
-                className={`relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-lg text-center align-middle font-sans text-xs font-medium uppercase text-white transition-all ${
-                  !pagination.next ? "bg-gray-400" : "bg-blue-500"
-                } hover:bg-blue-600 active:bg-blue-700 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none`}
-              >
-                Next
-              </button>
-            </li>
-          </ul>
-        </nav>
       </div>
-    </div>
     </>
   );
 };

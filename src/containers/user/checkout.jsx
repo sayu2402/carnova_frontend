@@ -4,7 +4,7 @@ import axiosInstance from "../../axios/axios";
 import AuthContext from "../../context/AuthContext";
 import useRazorpay from "react-razorpay";
 import Swal from "sweetalert2";
-import Loading from "../common/Loading";
+
 
 const Checkout = () => {
   const location = useLocation();
