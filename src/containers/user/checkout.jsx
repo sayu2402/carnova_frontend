@@ -38,6 +38,8 @@ const Checkout = () => {
         setCar(response.data);
       } catch (error) {
         console.error("Error fetching car details:", error);
+      }finally{
+        setLoading(false)
       }
     };
 
@@ -54,7 +56,7 @@ const Checkout = () => {
   };
 
   if (!car) {
-    return <Loading />;
+    return <div>loading...</div>;
   }
 
   const no_of_days = () => {
@@ -210,6 +212,7 @@ const Checkout = () => {
 
   return (
     <>
+    {loading && <Loading />}
     <section className="text-gray-700 body-font overflow-hidden bg-white">
       <div className="container px-5 py-24 mx-auto">
         <div className="lg:w-4/5 mx-auto flex flex-wrap">
