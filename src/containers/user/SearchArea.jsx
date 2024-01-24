@@ -6,7 +6,6 @@ import axiosInstance from "../../axios/axios";
 import SearchResults from "./SearchResults";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Loading from "../common/Loading";
 import "react-toastify/dist/ReactToastify.css";
 
 function SearchArea() {
@@ -73,7 +72,6 @@ function SearchArea() {
 
   return (
     <>
-    {loading && <Loading />}
     <div>
       <div
         className="hero min-h-screen"

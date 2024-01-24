@@ -198,44 +198,6 @@ function Signup() {
 
           <div>
             <label
-              htmlFor="front-id"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              ID with Photo (front)
-            </label>
-            <input
-              type="file"
-              accept="image/*"
-              name="front-id"
-              id="front-id"
-              onChange={handleChange}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-              placeholder="Upload your ID card front side"
-              required
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="front-id"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              ID with Photo (back)
-            </label>
-            <input
-              type="file"
-              accept="image/*"
-              name="back-id"
-              id="back-id"
-              onChange={handleChange}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-              placeholder="Upload your ID card back side"
-              required
-            />
-          </div>
-
-          <div>
-            <label
               htmlFor="password1"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >

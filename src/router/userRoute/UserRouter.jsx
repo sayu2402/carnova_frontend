@@ -14,6 +14,7 @@ import UserPrivate from "./UserPrivate";
 import BookingSinglePage from "../../pages/userPages/BookingSinglePage";
 import UserChatPage from "../../pages/userPages/UserChatPage";
 import SearchResultPage from "../../pages/userPages/SearchResultPage";
+import IDCardUploadPage from "../../pages/userPages/IDCardUploadPage";
 
 function UserRouter() {
   return (
@@ -31,6 +32,7 @@ function UserRouter() {
       <Route path="/dashboard/:username/booking-details/:bookingId" element={<UserPrivate><BookingSinglePage/></UserPrivate> } />
       <Route path="/chat/inbox/:username" element={<UserPrivate><UserChatPage/></UserPrivate> } />
       <Route path="/search-results" element={<UserPrivate><SearchResultPage/></UserPrivate> } />
+      <Route path="/dashboard/:username/id-card-upload" element={<UserPrivate><IDCardUploadPage/></UserPrivate> } />
     </Routes>
   );
 }

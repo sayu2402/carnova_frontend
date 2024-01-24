@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Card,
     CardHeader,
@@ -7,13 +7,10 @@ import {
     Typography,
   } from "@material-tailwind/react";
 import { Link } from 'react-router-dom';
-import Loading from '../common/Loading';
 
 function SearchResults({ cars }) {
-  const [loading, setLoading] = useState(true)
   return (
     <>
-    {loading && <Loading />}
     <div>
       <div className="bg-slate-200 py-20 pl-4">
         <h2 className="text-4xl font-bold text-black mb-4">Search Results</h2>
