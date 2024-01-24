@@ -77,7 +77,6 @@ function UserDashboard() {
     }
 
     try {
-      console.log("Before API call");
       // API endpoint for changing the password
       const response = await axiosInstance.post(
         `/api/user/change-password/${user.user_id}/`,
@@ -135,7 +134,7 @@ function UserDashboard() {
 
     try {
       let response = await fetch(
-        `http://127.0.0.1:8000/api/user/user-edit/${user.user_id}/`,
+        `https://car.gotashoess.online/api/user/user-edit/${user.user_id}/`,
         {
           method: "POST",
           body: formData,
