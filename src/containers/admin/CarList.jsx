@@ -16,7 +16,6 @@ const CarList = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalResult = pagination.count;
-  console.log("total_results:", totalResult);
 
   useEffect(() => {
     fetchData(`${baseUrl}/api/admin/cars-list`);
