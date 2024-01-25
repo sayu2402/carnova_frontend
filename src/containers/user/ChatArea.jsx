@@ -17,13 +17,11 @@ function ChatArea({ selectedVendor }) {
 
   // Function to fetch messages from the API
   const fetchMessagesFromAPI = async () => {
-    console.log("selected vendor in chat area", selectedVendor);
 
     try {
       const response = await axiosInstance.get(
         `/api/chat/messages/${user.user_id}/${selectedVendor.user.id}`
         );
-        console.log("reposne in messagelist",response)
       const { data } = response;
       const selectedVendorMessages = data.messages;
       setMessages(selectedVendorMessages);

@@ -50,7 +50,6 @@ function ChatAreaVendor({ selectedVendor }) {
   useEffect(() => {
     if (socket) {
       const handleSocketMessage = (event) => {
-        console.log(event.data, "event tat");
         const data = JSON.parse(event.data);
         setMessages((prevMessages) => [...prevMessages, data]);
       };
@@ -74,7 +73,6 @@ function ChatAreaVendor({ selectedVendor }) {
   }, [messages]);
 
   const addMessage = (newMessageText) => {
-    console.log(newMessageText, "nre jgfj");
     const newMessage = {
       id: uuidv4(),
       sender: user.user_id,

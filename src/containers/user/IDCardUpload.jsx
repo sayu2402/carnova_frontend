@@ -40,7 +40,6 @@ const IDCardUpload = () => {
       });
       navigate(`/dashboard/${user.username}`);
 
-      console.log("ID card uploaded successfully");
     } catch (error) {
       Swal.fire({
         title: "Error!",

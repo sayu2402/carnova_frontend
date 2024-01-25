@@ -12,7 +12,6 @@ function ChatSidebar({ setSelectedVendor, selectedVendor }) {
     axiosInstance
       .get(`/api/chat/message/${user.user_id}/`)
       .then((response) => {
-        console.log("response in booked vendors:__", response);
         setBookedVendors(response.data.booked_vendors);
       })
       .catch((error) => {
@@ -22,7 +21,6 @@ function ChatSidebar({ setSelectedVendor, selectedVendor }) {
   }, [user.user_id]);
 
   const handleVendorSelect = (vendor) => {
-    console.log("Selected Vendor in ChatSidebar:", vendor);
     setSelectedVendor(vendor);
   };
 

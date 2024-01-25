@@ -11,7 +11,6 @@ function ChatSidebarVendor({ setSelectedVendor, selectedVendor }) {
     axiosInstance
       .get(`/api/chat/booked-vendors/${user.user_id}/`)
       .then((response) => {
-        console.log("vendor_side_response", response)
         const vendorData = response.data.receiver_details || {};
         const avatarURL =
           "https://cdn.iconscout.com/icon/free/png-256/free-avatar-370-456322.png";
@@ -33,7 +32,6 @@ function ChatSidebarVendor({ setSelectedVendor, selectedVendor }) {
   }, [user.user_id]);
 
   const handleVendorSelect = (vendor) => {
-    console.log("Selected Vendor in ChatSidebar:", vendor);
     setSelectedVendor(vendor);
   };
 
