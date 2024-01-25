@@ -19,7 +19,6 @@ const BookingSingleView = () => {
         const response = await axiosInstance.get(
           `/api/user/booking-detail/${bookingId}/`
         );
-        console.log("API Response:single", response.data);
         setBooking(response.data);
       } catch (error) {
         console.error("Error fetching booking details:", error);

@@ -19,8 +19,6 @@ function OtpPage() {
     
     if (otp === formData1.otp) {
       try {
-        console.log("fffffffffffffffffffffffff", formData1.itsuser);
-
         const response = await fetch(
           formData1.itsuser === "True"
             ? `${baseURL}/api/signup/`
@@ -35,7 +33,7 @@ function OtpPage() {
         );
 
         if (response.status === 201) {
-          console.log("data", response);
+          // console.log("data", response);
           Swal.fire({
             title: "Success",
             text: "Account created successfully!",

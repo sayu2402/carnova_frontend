@@ -17,7 +17,6 @@ const UserBookingDetails = ({ user_id }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalResult = pagination.count;
-  console.log("total_results:", totalResult);
 
   useEffect(() => {
     fetchData(`${baseUrl}/api/user/bookings/${user.user_id}/`);

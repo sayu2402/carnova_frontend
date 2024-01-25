@@ -21,7 +21,7 @@ function VendorDashboard() {
 
         // Axios will automatically throw an error for non-2xx responses
         const data = response.data;
-        console.log("Data:", data);
+        // console.log("Data:", data);
         setDashboardData(data);
       } catch (error) {
         console.error("Error fetching data:", error.message);

@@ -19,9 +19,6 @@ function UserDashboard() {
   const { user, setUser, setItspartner } = useContext(AuthContext);
   const [loading, setLoading] = useState(true)
 
-  console.log("user", user);
-
-
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -53,7 +50,6 @@ function UserDashboard() {
 
   // function for change the password
   const handlePasswordChange = async (e) => {
-    console.log("Handle password change function started.");
     e.preventDefault();
 
     const currentPassword = e.target.elements.currentPassword.value;
@@ -114,8 +110,6 @@ function UserDashboard() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Form Values:", formname, formmail, formphno);
-
     const formData = new FormData();
 
     if (formname.trim() !== "") {
@@ -129,8 +123,6 @@ function UserDashboard() {
     if (formphno.trim() !== "") {
       formData.append("phone_no", formphno);
     }
-
-    console.log("FormData:", formData);
 
     try {
       let response = await fetch(

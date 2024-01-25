@@ -15,7 +15,7 @@ const OnlineStatus = () => {
       socketRef.current = socket;
 
       socket.onopen = () => {
-        console.log("WebSocket connection opened");
+        // console.log("WebSocket connection opened");
         isWebSocketOpen.current = true;
 
         socket.send(

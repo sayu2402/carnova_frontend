@@ -20,7 +20,7 @@ const VendorCarDetails = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalResult = pagination.count;
-  console.log("total_results:", totalResult);
+  // console.log("total_results:", totalResult);
 
   useEffect(() => {
     fetchData(`${baseUrl}/api/vendor/car-details/${vendorId}/`);
@@ -72,7 +72,7 @@ const VendorCarDetails = () => {
 
   const handleEdit = (carId) => {
     navigate(`/vendor/profile/${user.username}/car-edit/${carId}`);
-    console.log(`Edit car with ID: ${carId}`);
+    // console.log(`Edit car with ID: ${carId}`);
   };
 
   return (

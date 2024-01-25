@@ -14,12 +14,10 @@ const UserCarDetail = () => {
   useEffect(() => {
     const fetchCar = async () => {
       try {
-        console.log("car__ID::", carId);
         const response = await axiosInstance.get(
           `/api/user/car-details/${carId}/`
         );
         setCar(response.data);
-        console.log("Car Data:", response.data);
       } catch (error) {
         console.error("Error fetching car details:", error);
       } finally {

@@ -112,7 +112,6 @@ function Signup() {
     });
 
     let data = await response.json();
-    console.log("hhhhhh", data);
     if (response.status === 200) {
       console.log("hhhhhh", data);
     }

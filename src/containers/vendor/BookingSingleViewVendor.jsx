@@ -7,15 +7,13 @@ const BookingSingleViewVendor = () => {
   const { bookingId } = useParams();
   const [booking, setBooking] = useState(null);
 
-  console.log("booking_id_______", bookingId);
-
   useEffect(() => {
     const fetchBookingDetails = async () => {
       try {
         const response = await axiosInstance.get(
           `/api/user/booking-detail/${bookingId}/`
         );
-        console.log("API Response:single", response.data);
+        // console.log("API Response:single", response.data);
         setBooking(response.data);
       } catch (error) {
         console.error("Error fetching booking details:", error);
@@ -29,7 +27,6 @@ const BookingSingleViewVendor = () => {
     return <Loading />;
   }
 
-  console.log("___________", booking.user.user)
 
   return (
     <section className="text-gray-700 body-font overflow-hidden bg-white">

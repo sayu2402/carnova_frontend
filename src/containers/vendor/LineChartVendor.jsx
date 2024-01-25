@@ -44,13 +44,10 @@ const LineChartVendor = () => {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get("api/vendor/chart/44");
-        console.log("response", response);
         const data = response.data;
 
         const monthlySeries = data.monthlyRevenue.map((item) => item.revenue);
         const categories = data.monthlyRevenue.map((item) => item.month);
-
-        console.log("monthly series", monthlySeries);
 
         setChartData({
           series: [{ name: "Monthly Revenue", data: monthlySeries }],

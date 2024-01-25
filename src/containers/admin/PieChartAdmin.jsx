@@ -10,7 +10,6 @@ function PieChartAdmin() {
       try {
         const response = await axiosInstance.get('/api/admin/pie-chart-data/');
         setChartData(response.data);
-        console.log("pie data:", chartData)
       } catch (error) {
         console.error('Error fetching data:', error);
       }

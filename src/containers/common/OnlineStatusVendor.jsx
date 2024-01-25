@@ -15,7 +15,7 @@ const OnlineStatusVendor = () => {
       socketRef.current = socket;
 
       socket.onopen = () => {
-        console.log("WebSocket connection opened");
+        // console.log("WebSocket connection opened");
         isWebSocketOpen.current = true;
 
         socket.send(
@@ -44,7 +44,7 @@ const OnlineStatusVendor = () => {
       };
 
       socket.onclose = () => {
-        console.log("WebSocket connection closed");
+        // console.log("WebSocket connection closed");
         isWebSocketOpen.current = false;
       };
 

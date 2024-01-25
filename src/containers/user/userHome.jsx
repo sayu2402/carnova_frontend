@@ -39,8 +39,6 @@ function Home() {
         const selectedPickupDate = new Date(pickupDate);
         const selectedReturnDate = new Date(returnDate);
 
-        console.log("today", today);
-
         if (selectedPickupDate <= today) {
           toast.error("Pickup date must be today or in the future");
           return;
@@ -128,7 +126,6 @@ function Home() {
     const fetchCars = async () => {
       try {
         const response = await axiosInstance.get("api/user/latest-cars");
-        console.log("responce in latest", response);
         setLatestCars(response.data.results);
       } catch (error) {
         console.error("Error fetching data:", error);

@@ -34,7 +34,6 @@ function OtpPage() {
         );
 
         if (response.status === 201) {
-          console.log("data", response);
           Swal.fire({
             title: "Success",
             text: "Account created successfully!",

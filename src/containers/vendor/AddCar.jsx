@@ -52,8 +52,8 @@ function AddCar() {
   };
 
   async function onSubmit() {
-    console.log("onSubmit called");
-    console.log("is_blocked", values)
+    // console.log("onSubmit called");
+    // console.log("is_blocked", values)
 
    
 

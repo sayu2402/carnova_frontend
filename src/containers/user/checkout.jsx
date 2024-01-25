@@ -117,7 +117,6 @@ const Checkout = () => {
             "Blocked user cannot book cars",
             "warning"
           );
-          console.log("here am i");
         } else if (response.data.id_card_exists === false) {
           showSweetAlertWithOkButton(
             "ID Card Required",
@@ -163,7 +162,7 @@ const Checkout = () => {
 
           rzp1.open();
 
-          console.log(response);
+          // console.log(response);
         }
       })
       .catch(function (error) {
@@ -214,8 +213,6 @@ const Checkout = () => {
               amount: totalAmount,
             }
           );
-
-          console.log("wallet reponse______", paymentResponse);
 
           showSweetAlert(
             "Payment Success",

@@ -190,7 +190,7 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
-  console.log("user:", user, "parrtner:", partner);
+  // console.log("user:", user, "parrtner:", partner);
 
   let contextData = {
     loginUser: loginUser,

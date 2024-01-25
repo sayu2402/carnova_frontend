@@ -12,7 +12,7 @@ function Adminlogin() {
     if (superuser === "False") {
       setSuperuser("True");
     }
-    console.log("superuser", superuser);
+    // console.log("superuser", superuser);
     loginUser(e);
   };
 

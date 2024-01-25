@@ -13,7 +13,7 @@ import Loading from "../common/Loading";
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 const BrowseCar = () => {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   const {
     values,
     errors,
@@ -35,8 +35,6 @@ const BrowseCar = () => {
   });
   const [currentPage, setCurrentPage] = useState(1);
 
-  console.log("baseUrl:", baseUrl);
-
   useEffect(() => {
     fetchData(`${baseUrl}/api/user/browse-cars/`);
   }, []);
@@ -52,8 +50,8 @@ const BrowseCar = () => {
       });
     } catch (error) {
       console.error("Error fetching car data:", error);
-    }finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -84,7 +82,7 @@ const BrowseCar = () => {
 
   return (
     <>
-    {loading && <Loading />}
+      {loading && <Loading />}
       <div>
         <div className="bg-slate-200 py-20 pl-4">
           <h2 className="text-4xl font-bold text-black mb-4">Available Cars</h2>
