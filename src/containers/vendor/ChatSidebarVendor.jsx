@@ -57,7 +57,7 @@ function ChatSidebarVendor({ setSelectedVendor, selectedVendor }) {
             />
             <div className="md:ml-4">
               <strong>{vendor.vendorName}</strong>
-              <OnlineStatus />
+              {/* <OnlineStatus /> */}
             </div>
           </li>
         ))}

@@ -50,7 +50,7 @@ function ChatSidebar({ setSelectedVendor, selectedVendor }) {
             />
             <div>
               <strong>{vendor.user.username}</strong>
-              <OnlineStatus/>
+              {/* <OnlineStatus/> */}
             </div>
           </li>
         ))}
