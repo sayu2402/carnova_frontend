@@ -10,7 +10,6 @@ const IDCardUpload = () => {
   const [backPhoto, setBackPhoto] = useState(null);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
 
   const handlePhotoChange = (event, setter) => {
     setter(event.target.files[0]);
@@ -39,7 +38,6 @@ const IDCardUpload = () => {
         showConfirmButton: false,
       });
       navigate(`/dashboard/${user.username}`);
-
     } catch (error) {
       Swal.fire({
         title: "Error!",
@@ -51,13 +49,11 @@ const IDCardUpload = () => {
 
       console.error("Error uploading ID card:", error);
     } finally {
-      setLoading(false);
     }
   };
 
   return (
     <>
-    {loading && <Loading />}
       <div className="bg-slate-200 py-12">
         <h1 className="text-xl font-bold font-serif mb-4 text-center text-gray-900">
           Upload Driving License Here
