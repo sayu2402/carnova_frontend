@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../axios/axios";
-
+import AuthContext from "../../context/AuthContext";
+import Swal from "sweetalert2";
 
 function BookingModal({ onClose }) {
   const { carId } = useParams();
@@ -11,6 +12,20 @@ function BookingModal({ onClose }) {
   const [returndate, setReturnDate] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
+
+  const showSweetAlertWithOkButton = (title, text, icon) => {
+    Swal.fire({
+      title: title,
+      text: text,
+      icon: icon,
+      showCancelButton: false,
+      confirmButtonText: "Upload",
+      allowOutsideClick: false,
+    }).then(() => {
+      navigate(`/dashboard/${user.username}/id-card-upload`);
+    });
+  };
 
   const handleBookingSubmit = async () => {
     try {
@@ -29,13 +44,28 @@ function BookingModal({ onClose }) {
         return;
       }
 
-      const response = await axiosInstance.post(`/api/user/car-availability/${carId}/${pickupdate}/${returndate}/`);
+      const response = await axiosInstance.post(
+        `/api/user/car-availability/${carId}/${pickupdate}/${returndate}/${user.user_id}/`
+      );
+
+      console.log("response in booking", response);
+
+      if (response.data.id_card_exists === false) {
+        showSweetAlertWithOkButton(
+          "ID Card Required",
+          "To complete the booking process, you need to upload your ID card. Please try again after uploading the ID card.",
+          "warning"
+        );
+        return;
+      }
 
       if (response.status === 200) {
         const data = response.data;
         if (data.message === "Car available for booking") {
           // Car is available, navigate to checkout page
-          navigate(`/checkout/${carId}`, { state : {pickupDate: pickupdate, returnDate: returndate} });;
+          navigate(`/checkout/${carId}`, {
+            state: { pickupDate: pickupdate, returnDate: returndate },
+          });
         } else {
           toast.error("Car is not available for the selected dates.");
         }
@@ -66,7 +96,7 @@ function BookingModal({ onClose }) {
             />
           </label>
           <label className="flex-1 font-bold">
-            Return Date: 
+            Return Date:
             <input
               type="date"
               value={returndate}
