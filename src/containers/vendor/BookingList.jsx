@@ -28,16 +28,13 @@ const BookingList = () => {
 
   const updateBookingStatus = async (bookingId, newStatus) => {
     try {
-      // Check if the booking has already been updated
       if (!updatedBookings.includes(bookingId)) {
         await axiosInstance.put(
           `/api/vendor/bookings/${bookingId}/update-status/`,
           { verification_status: newStatus }
         );
-        // Add the booking to the updated list
         setUpdatedBookings((prevState) => {
           const updatedList = [...prevState, bookingId];
-          // Update localStorage with the new list
           localStorage.setItem("updatedBookings", JSON.stringify(updatedList));
           return updatedList;
         });
@@ -47,6 +44,17 @@ const BookingList = () => {
       }
     } catch (error) {
       console.error("Error updating booking status:", error);
+    }
+  };
+
+  const cancelBooking = async (bookingId) => {
+    try {
+      await axiosInstance.post(
+        `/api/vendor/${user.user_id}/cancel-order/${bookingId}/`
+      );
+      fetchBookings();
+    } catch (error) {
+      console.error("Error cancelling booking:", error);
     }
   };
 
@@ -119,7 +127,7 @@ const BookingList = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {booking.is_cancelled ? (
-                        <span className="text-red-500">Cancelled by user</span>
+                        <span className="text-red-500">Cancelled</span>
                       ) : (
                         <span
                           className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
@@ -145,12 +153,12 @@ const BookingList = () => {
                           >
                             Approve
                           </button>
-                          {/* <button
-                            onClick={() => updateBookingStatus(booking.id, "Rejected")}
-                            className="text-white bg-red-500 hover:bg-red-700 px-4 py-2 rounded"
+                          <button
+                            onClick={() => cancelBooking(booking.id)}
+                            className="text-white bg-yellow-500 hover:bg-yellow-700 px-4 py-2 rounded"
                           >
-                            Reject
-                          </button> */}
+                            Cancel
+                          </button>
                         </>
                       ) : (
                         <span>
