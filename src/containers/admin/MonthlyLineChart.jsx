@@ -33,7 +33,10 @@ function MonthlyChart() {
     : [dashboardData.monthlyRevenue];
 
   return (
-    <div className="bg-slate-300 mt-10 p-4 rounded-md" style={{ display: "flex" }}>
+    <div
+      className="bg-slate-300 mt-10 p-4 rounded-md"
+      style={{ display: "flex" }}
+    >
       <div className="chart-container" style={{ flex: 1, marginRight: "10px" }}>
         <CChart
           type="bar"
@@ -89,7 +92,6 @@ function MonthlyChart() {
           }}
         />
       </div>
-      
     </div>
   );
 }

@@ -9,13 +9,14 @@ const CarDetailsAdmin = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axiosInstance.get(`api/admin/car-details/${id}/`)
-      .then(response => {
+    axiosInstance
+      .get(`api/admin/car-details/${id}/`)
+      .then((response) => {
         setCarDetails(response.data);
         setLoading(false);
       })
-      .catch(error => {
-        console.error('Error fetching car details:', error);
+      .catch((error) => {
+        console.error("Error fetching car details:", error);
         setLoading(false);
       });
   }, [id]);
@@ -37,7 +38,7 @@ const CarDetailsAdmin = () => {
                 src={carDetails.car_photo}
               />
             </div>
-            
+
             <div>
               <h2 className="text-xl font-semibold mb-2">Car Document</h2>
               <img
