@@ -8,10 +8,10 @@ function PieChartAdmin() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get('/api/admin/pie-chart-data/');
+        const response = await axiosInstance.get("/api/admin/pie-chart-data/");
         setChartData(response.data);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 

@@ -59,7 +59,7 @@ function UserList() {
   const handleBlockUser = async (userId) => {
     try {
       const userToUpdate = userList.find((user) => user.user.id === userId);
-  
+
       // Show a confirmation dialog
       const result = await Swal.fire({
         title: `Are you sure you want to ${
@@ -70,7 +70,7 @@ function UserList() {
         confirmButtonText: "Yes",
         cancelButtonText: "No",
       });
-  
+
       if (result.isConfirmed) {
         // User confirmed, proceed with blocking/unblocking
         setUserList((prevUserList) =>
@@ -80,9 +80,11 @@ function UserList() {
               : user
           )
         );
-  
-        const response = await axiosInstance.post(`/api/admin/block-user/${userId}/`);
-  
+
+        const response = await axiosInstance.post(
+          `/api/admin/block-user/${userId}/`
+        );
+
         if (response.status === 200) {
           // User blocked/unblocked successfully
           Swal.fire({
@@ -112,8 +114,7 @@ function UserList() {
       );
     }
   };
-  
-  
+
   if (loading) {
     return <Loading />;
   }
@@ -167,9 +168,11 @@ function UserList() {
                 </div>
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
-              <button
+                <button
                   onClick={() => handleBlockUser(user.user.id)}
-                  className={`bg-${user.is_blocked ? 'red' : 'green'}-500 text-white font-bold py-2 px-4 rounded`}
+                  className={`bg-${
+                    user.is_blocked ? "red" : "green"
+                  }-500 text-white font-bold py-2 px-4 rounded`}
                 >
                   {user.is_blocked ? "Unblock" : "Block"}
                 </button>

@@ -63,7 +63,7 @@ function VendorList() {
       const vendorToUpdate = vendorList.find(
         (vendor) => vendor.user.id === vendorId
       );
-  
+
       // Show a confirmation dialog
       const result = await Swal.fire({
         title: `Are you sure you want to ${
@@ -74,7 +74,7 @@ function VendorList() {
         confirmButtonText: "Yes",
         cancelButtonText: "No",
       });
-  
+
       if (result.isConfirmed) {
         // User confirmed, proceed with blocking/unblocking
         setVendorList((prevVendorList) =>
@@ -84,16 +84,18 @@ function VendorList() {
               : vendor
           )
         );
-  
+
         const response = await axiosInstance.post(
           `/api/admin/block-vendor/${vendorId}/`
         );
-  
+
         if (response.status === 200) {
           // Vendor blocked/unblocked successfully
           Swal.fire({
             icon: "success",
-            title: vendorToUpdate.is_blocked ? "Vendor Unblocked" : "Vendor Blocked",
+            title: vendorToUpdate.is_blocked
+              ? "Vendor Unblocked"
+              : "Vendor Blocked",
             text: vendorToUpdate.is_blocked
               ? "The vendor has been unblocked successfully."
               : "The vendor has been blocked successfully.",
@@ -118,7 +120,6 @@ function VendorList() {
       );
     }
   };
-  
 
   if (loading) {
     return <Loading />;
