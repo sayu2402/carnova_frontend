@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import AuthContext from "../../context/AuthContext";
-const baseURL = process.env.REACT_APP_BASE_URL
-
+const baseURL = process.env.REACT_APP_BASE_URL;
 
 const OnlineStatus = () => {
   const [onlineStatus, setOnlineStatus] = useState(false);
@@ -11,7 +10,9 @@ const OnlineStatus = () => {
 
   useEffect(() => {
     if (user) {
-      const socket = new WebSocket(`wss://car.gotashoess.online/ws/online/${user.user_id}/`);
+      const socket = new WebSocket(
+        `wss://car.gotashoess.online/ws/online/${user.user_id}/`
+      );
       socketRef.current = socket;
 
       socket.onopen = () => {
@@ -30,10 +31,12 @@ const OnlineStatus = () => {
         e.preventDefault();
 
         if (isWebSocketOpen.current) {
-          await socketRef.current.send(JSON.stringify({
-            'user_id': user.user_id,
-            'type': 'close'
-          }));
+          await socketRef.current.send(
+            JSON.stringify({
+              user_id: user.user_id,
+              type: "close",
+            })
+          );
           socketRef.current.close();
         }
       });
@@ -50,10 +53,12 @@ const OnlineStatus = () => {
 
       return () => {
         if (isWebSocketOpen.current) {
-          socketRef.current.send(JSON.stringify({
-            'user_id': user.user_id,
-            'type': 'close'
-          }));
+          socketRef.current.send(
+            JSON.stringify({
+              user_id: user.user_id,
+              type: "close",
+            })
+          );
           socketRef.current.close();
         }
       };
@@ -63,7 +68,7 @@ const OnlineStatus = () => {
   return (
     <div>
       {onlineStatus !== null ? (
-        <p>{onlineStatus ? 'online' : 'offline'}</p>
+        <p>{onlineStatus ? "online" : "offline"}</p>
       ) : (
         <p>Loading online status...</p>
       )}

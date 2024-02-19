@@ -74,7 +74,12 @@ function NavBar() {
           </li>
           <div className="indicator">
             {/* <span className="indicator-item badge badge-secondary">1</span> */}
-            <Link to={inboxLink} className="text-white hover:text-gray-300 px-2 py-2">Inbox</Link>
+            <Link
+              to={inboxLink}
+              className="text-white hover:text-gray-300 px-2 py-2"
+            >
+              Inbox
+            </Link>
           </div>
         </ul>
       </div>

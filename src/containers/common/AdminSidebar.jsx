@@ -18,7 +18,10 @@ function AdminSidebar() {
   const { logoutUser } = useContext(AuthContext);
   return (
     <div className="bg-black">
-      <Sidebar aria-label="Default sidebar example" style={{ position: "sticky", top: 0, height: "100vh" }}>
+      <Sidebar
+        aria-label="Default sidebar example"
+        style={{ position: "sticky", top: 0, height: "100vh" }}
+      >
         <Sidebar.Items>
           <Sidebar.ItemGroup>
             <Sidebar.Item icon={HiChartPie}>
